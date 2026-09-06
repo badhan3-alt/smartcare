@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 60" width="160" height="60">
+  <defs>
+    <linearGradient id="cashGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Pill -->
+  <rect x="2" y="2" width="156" height="56" rx="10" fill="#FFFFFF" stroke="#D1FAE5" stroke-width="1.5"/>
+  <!-- Cash Icon Box -->
+  <g transform="translate(14, 10)">
+    <rect x="0" y="0" width="40" height="40" rx="8" fill="url(#cashGrad)"/>
+    <!-- Banknote -->
+    <rect x="7" y="12" width="26" height="16" rx="2" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="20" cy="20" r="3.5" fill="#FFFFFF"/>
+    <line x1="10" y1="15" x2="10" y2="25" stroke="#FFFFFF" stroke-width="1"/>
+    <line x1="30" y1="15" x2="30" y2="25" stroke="#FFFFFF" stroke-width="1"/>
+  </g>
+  <!-- Text -->
+  <g transform="translate(62, 38)">
+    <text x="0" y="0" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="20" fill="#047857" letter-spacing="-0.3">Cash</text>
+  </g>
+</svg>

@@ -1,0 +1,217 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Create Account - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card card-custom p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <div class="navbar-brand-logo mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+                    <h3 class="fw-bold">Create SmartCare Account</h3>
+                    <p class="text-muted small">Select your role to register as a Patient, Doctor, or Administrator</p>
+                </div>
+
+                <form method="post" id="registrationForm">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger py-2 small">
+                            Please correct the highlighted errors below.
+                            <ul class="mb-0 mt-1">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li><strong>{{ field|title }}:</strong> {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <!-- Role Dropdown Selector -->
+                    <div class="mb-4 p-3 bg-light rounded-3 border">
+                        <label class="form-label small fw-bold text-dark d-flex align-items-center gap-1">
+                            <i class="bi bi-person-badge-fill text-teal" style="color: var(--sc-primary);"></i>
+                            <span>Register As (Account Role) *</span>
+                        </label>
+                        {{ form.role }}
+                        <div class="form-text small">Select whether you are registering as a Patient, Doctor/Specialist, or Administrator.</div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <h6 class="fw-bold border-bottom pb-2 mb-3 text-secondary">
+                        <i class="bi bi-person me-1"></i> Account Details
+                    </h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">First Name *</label>
+                            {{ form.first_name }}
+                            {{ form.first_name.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Last Name *</label>
+                            {{ form.last_name }}
+                            {{ form.last_name.errors }}
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Username *</label>
+                            {{ form.username }}
+                            {{ form.username.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Email Address *</label>
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Password *</label>
+                            {{ form.password }}
+                            {{ form.password.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Confirm Password *</label>
+                            {{ form.confirm_password }}
+                            {{ form.confirm_password.errors }}
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Phone Number *</label>
+                            {{ form.phone }}
+                            {{ form.phone.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Gender *</label>
+                            {{ form.gender }}
+                            {{ form.gender.errors }}
+                        </div>
+                    </div>
+
+                    <!-- Doctor Specific Fields (Visible only when role == 'doctor') -->
+                    <div id="doctorFieldsSection" class="p-3 mb-4 rounded-3 border" style="background-color: #f0fdfa; border-color: #99f6e4 !important; display: none;">
+                        <h6 class="fw-bold text-teal mb-3" style="color: var(--sc-primary);">
+                            <i class="bi bi-hospital me-1"></i> Doctor / Specialist Credentials
+                        </h6>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Department / Specialty *</label>
+                                {{ form.department }}
+                                {{ form.department.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Qualifications *</label>
+                                {{ form.qualification }}
+                                {{ form.qualification.errors }}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Specialization Area *</label>
+                                {{ form.specialization }}
+                                {{ form.specialization.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Years of Experience</label>
+                                {{ form.experience_years }}
+                                {{ form.experience_years.errors }}
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Consultation Fee (BDT)</label>
+                                {{ form.consultation_fee }}
+                                {{ form.consultation_fee.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Consultation Room / Office</label>
+                                {{ form.room_number }}
+                                {{ form.room_number.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Patient Specific Fields (Visible when role == 'patient') -->
+                    <div id="patientFieldsSection">
+                        <h6 class="fw-bold border-bottom pb-2 mt-3 mb-3 text-secondary">
+                            <i class="bi bi-card-checklist me-1"></i> Patient Clinical Demographics
+                        </h6>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Date of Birth</label>
+                                {{ form.date_of_birth }}
+                                {{ form.date_of_birth.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Blood Group</label>
+                                {{ form.blood_group }}
+                                {{ form.blood_group.errors }}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold">Residential Address</label>
+                            {{ form.address }}
+                            {{ form.address.errors }}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-sc w-100 py-2 fw-bold">
+                        <i class="bi bi-check2-circle me-1"></i> Complete Registration
+                    </button>
+                </form>
+
+                <div class="text-center small mt-4">
+                    Already have an account? <a href="{% url 'login' %}" class="fw-semibold text-teal" style="color: var(--sc-primary);">Sign In here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function handleRoleChange() {
+        const roleSelect = document.getElementById('id_role');
+        const doctorSection = document.getElementById('doctorFieldsSection');
+        const patientSection = document.getElementById('patientFieldsSection');
+
+        if (!roleSelect) return;
+
+        const role = roleSelect.value;
+        if (role === 'doctor') {
+            doctorSection.style.display = 'block';
+            patientSection.style.display = 'none';
+        } else if (role === 'patient') {
+            doctorSection.style.display = 'none';
+            patientSection.style.display = 'block';
+        } else {
+            // Admin
+            doctorSection.style.display = 'none';
+            patientSection.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleSelect = document.getElementById('id_role');
+        if (roleSelect) {
+            roleSelect.addEventListener('change', handleRoleChange);
+            handleRoleChange(); // Initial state
+        }
+    });
+</script>
+{% endblock %}
+

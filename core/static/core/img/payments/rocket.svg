@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 60" width="160" height="60">
+  <defs>
+    <linearGradient id="rocketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9C27B0"/>
+      <stop offset="100%" stop-color="#6A1B9A"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Pill -->
+  <rect x="2" y="2" width="156" height="56" rx="10" fill="#FFFFFF" stroke="#E1BEE7" stroke-width="1.5"/>
+  <!-- Paper Airplane Icon -->
+  <g transform="translate(14, 10)">
+    <rect x="0" y="0" width="40" height="40" rx="8" fill="url(#rocketGrad)"/>
+    <!-- Folded paper plane -->
+    <path d="M10,22 L30,12 L22,30 L19,23 Z" fill="#FFFFFF"/>
+    <path d="M19,23 L30,12 L17,21 Z" fill="#E1BEE7"/>
+    <path d="M19,23 L18,27 L21,24 Z" fill="#CE93D8"/>
+  </g>
+  <!-- Rocket Logotype -->
+  <g transform="translate(62, 39)">
+    <text x="0" y="0" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="22" fill="#6A1B9A" letter-spacing="-0.3">Rocket</text>
+  </g>
+</svg>

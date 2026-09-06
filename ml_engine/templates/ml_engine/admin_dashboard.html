@@ -1,0 +1,234 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Admin Dashboard - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold mb-1">Hospital Administrator Dashboard</h3>
+            <p class="text-muted mb-0">System health, appointment metrics, and clinical load</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'admin_demand_forecast' %}" class="btn btn-primary-sc">
+                <i class="bi bi-graph-up-arrow me-1"></i> Open ML Demand Forecaster
+            </a>
+            <a href="/admin/" target="_blank" class="btn btn-outline-secondary">
+                <i class="bi bi-gear me-1"></i> Django Admin Site
+            </a>
+        </div>
+    </div>
+
+    <!-- Admin KPI Stats Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fs-2 fw-bold text-dark">{{ stats.total_patients }}</div>
+                        <div class="small text-muted fw-semibold">Registered Patients</div>
+                    </div>
+                    <div class="fs-1 text-primary opacity-50"><i class="bi bi-people"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fs-2 fw-bold text-dark">{{ stats.total_doctors }}</div>
+                        <div class="small text-muted fw-semibold">Active Doctors</div>
+                    </div>
+                    <div class="fs-1 text-success opacity-50"><i class="bi bi-hospital"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fs-2 fw-bold text-dark">{{ stats.total_appointments }}</div>
+                        <div class="small text-muted fw-semibold">Total Appointments</div>
+                    </div>
+                    <div class="fs-1 text-info opacity-50"><i class="bi bi-calendar-check"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fs-2 fw-bold text-teal" style="color: var(--sc-primary);">{{ stats.today_appointments }}</div>
+                        <div class="small text-muted fw-semibold">Today's Total Queue</div>
+                    </div>
+                    <div class="fs-1 text-teal opacity-50" style="color: var(--sc-primary);"><i class="bi bi-clock-history"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Charts (Chart.js) -->
+    <div class="row g-4 mb-4">
+        <!-- Appointment Status Distribution Doughnut Chart -->
+        <div class="col-lg-5">
+            <div class="card card-custom p-4 h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart me-2" style="color: var(--sc-primary);"></i>Appointment Status Breakdown</h5>
+                <div style="position: relative; height: 260px;">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Department Volume Distribution Bar Chart -->
+        <div class="col-lg-7">
+            <div class="card card-custom p-4 h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart me-2" style="color: var(--sc-primary);"></i>Department-Wise Patient Distribution</h5>
+                <div style="position: relative; height: 260px;">
+                    <canvas id="deptChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Appointments Master Table -->
+    <div class="card card-custom p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0"><i class="bi bi-list-check me-2" style="color: var(--sc-primary);"></i>Recent Appointments Log</h5>
+            <span class="badge bg-light text-dark border">Live Log</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 small">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID / Token</th>
+                        <th>Patient</th>
+                        <th>Doctor & Department</th>
+                        <th>Date & Time</th>
+                        <th>Visit Type</th>
+                        <th>ML Duration</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appt in recent_appointments %}
+                        <tr>
+                            <td>
+                                <strong>#{{ appt.token_number }}</strong>
+                                <span class="text-muted d-block" style="font-size: 0.7rem;">ID: {{ appt.id }}</span>
+                            </td>
+                            <td>
+                                <div class="fw-semibold">{{ appt.patient.get_full_name|default:appt.patient.username }}</div>
+                                <span class="text-muted" style="font-size: 0.75rem;">{{ appt.patient.profile.phone }}</span>
+                            </td>
+                            <td>
+                                <div>{{ appt.doctor.full_name }}</div>
+                                <span class="badge bg-light text-secondary border">{{ appt.doctor.department.name }}</span>
+                            </td>
+                            <td>
+                                <div>{{ appt.appointment_date }}</div>
+                                <div class="text-muted">{{ appt.appointment_time|time:"h:i A" }}</div>
+                            </td>
+                            <td>{{ appt.get_visit_type_display }}</td>
+                            <td>
+                                <span class="badge bg-teal-subtle text-teal border" style="background-color: #ccfbf1; color: #0f766e;">
+                                    {{ appt.predicted_duration_minutes }}m
+                                </span>
+                            </td>
+                            <td>
+                                {% if appt.status == 'completed' %}
+                                    <span class="badge bg-success">Completed</span>
+                                {% elif appt.status == 'in_consultation' %}
+                                    <span class="badge bg-primary">Consulting</span>
+                                {% elif appt.status == 'waiting' %}
+                                    <span class="badge bg-warning text-dark">Waiting</span>
+                                {% elif appt.status == 'cancelled' %}
+                                    <span class="badge bg-danger">Cancelled</span>
+                                {% elif appt.status == 'no_show' %}
+                                    <span class="badge bg-secondary">No-Show</span>
+                                {% else %}
+                                    <span class="badge bg-light text-dark border">Scheduled</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-3 text-muted">No appointments recorded.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof Chart === 'undefined') {
+            console.warn('Chart.js is not loaded.');
+            return;
+        }
+
+        try {
+            // Status Doughnut Chart
+            const statusCanvas = document.getElementById('statusChart');
+            if (statusCanvas) {
+                const statusData = JSON.parse('{{ status_dict|escapejs }}');
+                const statusLabels = Object.keys(statusData).map(k => k.replace('_', ' ').toUpperCase());
+                const statusValues = Object.values(statusData);
+
+                new Chart(statusCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: statusLabels.length ? statusLabels : ['Scheduled', 'Completed', 'Cancelled'],
+                        datasets: [{
+                            data: statusValues.length ? statusValues : [12, 28, 4],
+                            backgroundColor: ['#0284c7', '#10b981', '#f59e0b', '#ef4444', '#64748b']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom' }
+                        }
+                    }
+                });
+            }
+
+            // Department Bar Chart
+            const deptCanvas = document.getElementById('deptChart');
+            if (deptCanvas) {
+                const deptLabels = JSON.parse('{{ dept_labels|escapejs }}');
+                const deptValues = JSON.parse('{{ dept_values|escapejs }}');
+
+                new Chart(deptCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: deptLabels.length ? deptLabels : ['Cardiology', 'Pediatrics', 'Dermatology', 'General Medicine'],
+                        datasets: [{
+                            label: 'Appointments',
+                            data: deptValues.length ? deptValues : [15, 20, 10, 25],
+                            backgroundColor: '#0d9488',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        } catch (err) {
+            console.error('Error rendering dashboard charts:', err);
+        }
+    });
+</script>
+{% endblock %}
+

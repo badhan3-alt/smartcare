@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 60" width="160" height="60">
+  <!-- Background Pill -->
+  <rect x="2" y="2" width="156" height="56" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  <!-- Visa Logo -->
+  <g transform="translate(14, 18)">
+    <text x="0" y="20" font-family="'Plus Jakarta Sans', Impact, sans-serif" font-weight="900" font-style="italic" font-size="22" fill="#1A1F71" letter-spacing="1">VISA</text>
+    <polygon points="0,5 3,5 1.5,1" fill="#F7B600"/>
+  </g>
+  <!-- Divider -->
+  <line x1="82" y1="14" x2="82" y2="46" stroke="#E2E8F0" stroke-width="1.5"/>
+  <!-- Mastercard Logo -->
+  <g transform="translate(94, 15)">
+    <!-- Red circle -->
+    <circle cx="16" cy="15" r="14" fill="#EB001B"/>
+    <!-- Yellow circle -->
+    <circle cx="34" cy="15" r="14" fill="#F79E1B"/>
+    <!-- Overlap intersection (orange) -->
+    <path d="M 25 3.3 A 14 14 0 0 1 25 26.7 A 14 14 0 0 1 25 3.3 Z" fill="#FF5F00"/>
+  </g>
+</svg>

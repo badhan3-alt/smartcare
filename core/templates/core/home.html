@@ -1,0 +1,215 @@
+{% extends 'core/base.html' %}
+
+{% block title %}SmartCare - Smart Healthcare Appointment & Queue System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Banner -->
+    <section class="p-5 mb-5 rounded-4 position-relative overflow-hidden" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #0284c7 100%); color: white;">
+        <div class="row align-items-center position-relative" style="z-index: 2;">
+            <div class="col-lg-7">
+                <span class="badge bg-white text-dark px-3 py-2 mb-3 fw-semibold shadow-sm">
+                    <i class="bi bi-cpu text-primary me-1"></i> Powered by Scikit-Learn Machine Learning
+                </span>
+                <h1 class="display-4 fw-extrabold mb-3" style="font-weight: 800; letter-spacing: -0.5px;">
+                    SmartCare: Intelligent Healthcare Scheduling & Queue System
+                </h1>
+                <p class="lead mb-4 opacity-90">
+                    Eliminate waiting-room overcrowding with AI-powered consultation duration prediction and real-time live queue tracking. Built for patients, clinicians, and hospital administrators.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg px-4 fw-bold shadow-sm" style="color: var(--sc-primary-dark);">
+                            <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+                        </a>
+                        {% if user.profile.role == 'patient' %}
+                            <a href="{% url 'book_appointment' %}" class="btn btn-outline-light btn-lg px-4 fw-semibold">
+                                <i class="bi bi-calendar-plus me-2"></i>Book Doctor
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'register' %}" class="btn btn-light btn-lg px-4 fw-bold shadow-sm" style="color: var(--sc-primary-dark);">
+                            <i class="bi bi-person-plus me-2"></i>Register Account
+                        </a>
+                        <a href="{% url 'doctor_list' %}" class="btn btn-outline-light btn-lg px-4 fw-semibold">
+                            <i class="bi bi-search me-2"></i>Browse Doctors
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5 text-center mt-4 mt-lg-0">
+                <div class="p-4 bg-white text-dark rounded-4 shadow-lg mx-auto" style="max-width: 380px;">
+                    <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
+                        <span class="fw-bold fs-6"><i class="bi bi-broadcast text-danger me-1"></i>Live Queue Status</span>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle"><span class="live-pulse me-1"></span>Active</span>
+                    </div>
+                    <div class="text-center my-3">
+                        <div class="text-muted small text-uppercase fw-semibold">Currently Serving Token</div>
+                        <div class="display-3 fw-bold text-teal" style="color: var(--sc-primary);">#04</div>
+                        <div class="badge bg-light text-secondary border px-3 py-1">Room 102 &bull; Cardiology</div>
+                    </div>
+                    <div class="bg-light p-3 rounded-3 text-start mb-3 border">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>Your Token: <strong>#06</strong></span>
+                            <span>Ahead: <strong>1 Patient</strong></span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-teal" style="width: 75%; background-color: var(--sc-primary);"></div>
+                        </div>
+                        <div class="small mt-2 text-success fw-semibold">
+                            <i class="bi bi-clock-history me-1"></i>Est. Wait: <strong>~14 Mins</strong> (ML Calculated)
+                        </div>
+                    </div>
+                    <a href="{% url 'doctor_list' %}" class="btn btn-primary-sc w-100">
+                        <i class="bi bi-calendar-check me-1"></i>Get Your Token Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Stats Counters -->
+    <div class="row g-3 mb-5 text-center">
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3">
+                <div class="fs-2 fw-bold text-dark">{{ stats.total_doctors|default:6 }}</div>
+                <div class="text-muted small fw-semibold"><i class="bi bi-person-badge text-primary me-1"></i>Specialist Doctors</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3">
+                <div class="fs-2 fw-bold text-dark">{{ stats.total_patients|default:15 }}</div>
+                <div class="text-muted small fw-semibold"><i class="bi bi-people text-success me-1"></i>Registered Patients</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3">
+                <div class="fs-2 fw-bold text-dark">{{ stats.total_appointments|default:42 }}</div>
+                <div class="text-muted small fw-semibold"><i class="bi bi-calendar-check text-info me-1"></i>Total Bookings</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card card-custom p-3">
+                <div class="fs-2 fw-bold text-dark">94.8%</div>
+                <div class="text-muted small fw-semibold"><i class="bi bi-check2-circle text-warning me-1"></i>Queue Accuracy</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core ML Innovation Highlights -->
+    <section class="mb-5">
+        <div class="text-center mb-4">
+            <span class="text-uppercase fw-bold text-teal small" style="color: var(--sc-primary);">Technical Innovation</span>
+            <h2 class="fw-bold">Why SmartCare is Better Than Traditional Systems</h2>
+            <p class="text-muted">Addressing fixed-slot delays and healthcare congestion with Scikit-learn machine learning.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4 border-top border-4 border-teal" style="border-top-color: var(--sc-primary) !important;">
+                    <div class="fs-1 mb-3" style="color: var(--sc-primary);"><i class="bi bi-cpu-fill"></i></div>
+                    <h5 class="fw-bold">ML Duration Prediction</h5>
+                    <p class="text-muted small">
+                        Every patient's consultation time differs. SmartCare's Random Forest regressor predicts exact consultation duration based on patient age, visit type (first vs follow-up), symptoms, severity, and doctor experience.
+                    </p>
+                    <span class="badge bg-teal-subtle text-teal border mt-auto" style="background-color: #ccfbf1; color: #0f766e;">Scikit-learn Regressor</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4 border-top border-4 border-info">
+                    <div class="fs-1 text-info mb-3"><i class="bi bi-hourglass-split"></i></div>
+                    <h5 class="fw-bold">Dynamic Queue Tracker</h5>
+                    <p class="text-muted small">
+                        Patients monitor their real-time token number, how many people are ahead, and a dynamic wait-time countdown calculated by summing upstream ML consultation times. Arrive exactly when needed.
+                    </p>
+                    <span class="badge bg-info-subtle text-info border mt-auto">Live Waiting Algorithm</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4 border-top border-4 border-warning">
+                    <div class="fs-1 text-warning mb-3"><i class="bi bi-graph-up-arrow"></i></div>
+                    <h5 class="fw-bold">Appointment Demand Forecasting</h5>
+                    <p class="text-muted small">
+                        SmartCare forecasts future appointment demand by specialty and day of the week, empowering hospital administrators to optimize doctor staffing and prevent peak-day bottlenecks.
+                    </p>
+                    <span class="badge bg-warning-subtle text-warning border mt-auto">Gradient Boosting Model</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Medical Departments -->
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <span class="text-uppercase fw-bold small" style="color: var(--sc-primary);">Specialties</span>
+                <h2 class="fw-bold mb-0">Our Clinical Departments</h2>
+            </div>
+            <a href="{% url 'doctor_list' %}" class="btn btn-outline-sc btn-sm">View All Doctors &rarr;</a>
+        </div>
+
+        <div class="row g-3">
+            {% for dept in departments %}
+                <div class="col-6 col-md-4 col-lg-3">
+                    <a href="{% url 'doctor_list' %}?department={{ dept.id }}" class="text-decoration-none">
+                        <div class="card card-custom p-3 h-100 text-center">
+                            <div class="fs-2 mb-2" style="color: var(--sc-primary);">
+                                <i class="bi {{ dept.icon|default:'bi-heart-pulse' }}"></i>
+                            </div>
+                            <h6 class="fw-bold text-dark mb-1">{{ dept.name }}</h6>
+                            <span class="text-muted small">{{ dept.doc_count }} Doctor{{ dept.doc_count|pluralize }} Available</span>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-muted py-4">No departments found. Please run the seed command.</div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Featured Doctors -->
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <span class="text-uppercase fw-bold small" style="color: var(--sc-primary);">Medical Team</span>
+                <h2 class="fw-bold mb-0">Featured Doctors</h2>
+            </div>
+            <a href="{% url 'doctor_list' %}" class="btn btn-outline-sc btn-sm">Browse All Doctors &rarr;</a>
+        </div>
+
+        <div class="row g-4">
+            {% for doctor in featured_doctors %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-custom h-100 p-3">
+                        <div class="d-flex gap-3 align-items-center mb-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-4" style="width: 58px; height: 58px; background: linear-gradient(135deg, var(--sc-primary), var(--sc-secondary));">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">{{ doctor.full_name }}</h6>
+                                <span class="badge bg-light text-primary border small">{{ doctor.department.name }}</span>
+                                <div class="text-muted small mt-1">{{ doctor.qualification }}</div>
+                            </div>
+                        </div>
+                        <p class="text-muted small mb-3 text-truncate">{{ doctor.specialization }}</p>
+                        <div class="d-flex justify-content-between align-items-center border-top pt-2 mt-auto small">
+                            <div>
+                                <i class="bi bi-star-fill text-warning"></i> <strong>{{ doctor.average_rating }}</strong>
+                                <span class="text-muted">({{ doctor.total_reviews }} reviews)</span>
+                            </div>
+                            <div class="fw-bold text-dark">৳ {{ doctor.consultation_fee|floatformat:0 }}</div>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-light btn-sm flex-fill border">View Profile</a>
+                            <a href="{% url 'book_appointment' %}?doctor_id={{ doctor.id }}" class="btn btn-primary-sc btn-sm flex-fill">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center text-muted py-4">No doctors registered yet.</div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+

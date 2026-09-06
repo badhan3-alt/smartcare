@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 60" width="160" height="60">
+  <defs>
+    <linearGradient id="bkashGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2136E"/>
+      <stop offset="100%" stop-color="#C20D5D"/>
+    </linearGradient>
+    <linearGradient id="bkashGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2D8A"/>
+      <stop offset="100%" stop-color="#E2136E"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Pill -->
+  <rect x="2" y="2" width="156" height="56" rx="10" fill="#FFFFFF" stroke="#F1D0E0" stroke-width="1.5"/>
+  <!-- Origami Bird -->
+  <g transform="translate(14, 11)">
+    <!-- Bird facets -->
+    <polygon points="0,22 14,8 24,18" fill="#E2136E"/>
+    <polygon points="14,8 30,2 24,18" fill="#FF338F"/>
+    <polygon points="24,18 36,12 34,26" fill="#C20D5D"/>
+    <polygon points="24,18 34,26 20,32" fill="#9F0B4C"/>
+    <polygon points="0,22 24,18 20,32" fill="#E2136E"/>
+    <polygon points="30,2 38,0 36,12" fill="#FF529F"/>
+  </g>
+  <!-- bKash Logotype -->
+  <g transform="translate(60, 39)">
+    <!-- 'b' in bKash pink -->
+    <text x="0" y="0" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="24" fill="#E2136E">b</text>
+    <!-- 'Kash' in dark slate -->
+    <text x="15" y="0" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="24" fill="#2D3142">Kash</text>
+  </g>
+</svg>

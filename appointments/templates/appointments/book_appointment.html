@@ -1,0 +1,160 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Book Appointment - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom p-4 p-md-5">
+                <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
+                    <div>
+                        <h3 class="fw-bold mb-1">Book Healthcare Appointment</h3>
+                        <p class="text-muted small mb-0">Select your doctor and input symptoms for intelligent queue slotting</p>
+                    </div>
+                    <span class="badge bg-teal-subtle text-teal border px-3 py-2" style="background-color: #ccfbf1; color: #0f766e;">
+                        <i class="bi bi-cpu me-1"></i> ML-Assisted
+                    </span>
+                </div>
+
+                <form method="post" id="bookingForm">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger py-2 small">
+                            Please check the highlighted fields below.
+                        </div>
+                    {% endif %}
+
+                    <!-- Doctor Selection -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Select Specialist / Doctor *</label>
+                        {{ form.doctor }}
+                        {{ form.doctor.errors }}
+                    </div>
+
+                    <!-- Date & Time -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Appointment Date *</label>
+                            {{ form.appointment_date }}
+                            {{ form.appointment_date.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Preferred Time *</label>
+                            {{ form.appointment_time }}
+                            {{ form.appointment_time.errors }}
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold border-bottom pb-2 mt-4 mb-3 text-secondary">
+                        <i class="bi bi-heart-pulse me-1"></i> Clinical Factors for Machine Learning Duration Estimation
+                    </h6>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Visit Type *</label>
+                            {{ form.visit_type }}
+                            <div class="form-text small">First visits usually require more comprehensive review.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Symptom Severity *</label>
+                            {{ form.symptom_severity }}
+                            <div class="form-text small">Helps queue estimator allocate appropriate buffer.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            {{ form.has_chronic_condition }}
+                            <label class="form-check-label fw-bold small" for="id_has_chronic_condition">
+                                Patient has pre-existing chronic conditions (e.g. Diabetes, Hypertension, Asthma)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Primary Symptom / Chief Complaint</label>
+                        {{ form.primary_symptom }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold">Additional Patient Notes</label>
+                        {{ form.patient_notes }}
+                    </div>
+
+                    <!-- Live ML Duration Predictor Card -->
+                    <div class="p-3 rounded-3 mb-4 border" style="background-color: #f0fdfa; border-color: #99f6e4 !important;">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <span class="badge bg-white text-teal border fw-semibold mb-1" style="color: var(--sc-primary);">
+                                    <i class="bi bi-robot me-1"></i> SmartCare ML Engine
+                                </span>
+                                <div class="fw-bold text-dark">Estimated Consultation Duration:</div>
+                                <div class="small text-muted">Dynamically calculated by RandomForestRegressor model</div>
+                            </div>
+                            <div class="text-end">
+                                <span id="mlDurationBadge" class="display-6 fw-bold" style="color: var(--sc-primary);">20.0</span>
+                                <span class="fw-bold text-dark">mins</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3">
+                        <a href="{% url 'patient_dashboard' %}" class="btn btn-light border flex-fill py-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary-sc flex-fill py-2 fw-bold">
+                            <i class="bi bi-check2-circle me-1"></i> Confirm & Generate Queue Token
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const patientAge = {{ user_age|default:30 }};
+    const patientGender = "{{ user_gender|default:'M' }}";
+
+    function updateEstimatedDuration() {
+        const doctorSelect = document.getElementById('id_doctor');
+        const visitType = document.getElementById('id_visit_type').value;
+        const severity = document.getElementById('id_symptom_severity').value;
+        const hasChronic = document.getElementById('id_has_chronic_condition').checked ? '1' : '0';
+
+        let department = "General Medicine";
+        if (doctorSelect.selectedIndex > 0) {
+            const selectedText = doctorSelect.options[doctorSelect.selectedIndex].text;
+            if (selectedText.includes('Cardiology')) department = 'Cardiology';
+            else if (selectedText.includes('Pediatrics')) department = 'Pediatrics';
+            else if (selectedText.includes('Dermatology')) department = 'Dermatology';
+            else if (selectedText.includes('Orthopedics')) department = 'Orthopedics';
+            else if (selectedText.includes('Neurology')) department = 'Neurology';
+            else if (selectedText.includes('ENT')) department = 'ENT';
+            else if (selectedText.includes('Gynecology')) department = 'Gynecology';
+        }
+
+        const url = `/api/predict-duration/?age=${patientAge}&gender=${patientGender}&department=${encodeURIComponent(department)}&visit_type=${visitType}&severity=${severity}&chronic=${hasChronic}&doctor_experience=8`;
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if (data.predicted_duration) {
+                    document.getElementById('mlDurationBadge').innerText = data.predicted_duration.toFixed(1);
+                }
+            })
+            .catch(err => console.error("Error predicting duration:", err));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        ['id_doctor', 'id_visit_type', 'id_symptom_severity', 'id_has_chronic_condition'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('change', updateEstimatedDuration);
+            }
+        });
+        updateEstimatedDuration();
+    });
+</script>
+{% endblock %}
+

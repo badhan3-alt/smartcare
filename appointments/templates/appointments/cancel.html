@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Cancel Appointment - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-custom p-4">
+                <div class="text-danger mb-3 fs-2"><i class="bi bi-exclamation-octagon"></i></div>
+                <h4 class="fw-bold mb-1">Cancel Appointment</h4>
+                <p class="text-muted small">Are you sure you want to cancel your appointment with <strong>{{ appointment.doctor.full_name }}</strong> on <strong>{{ appointment.appointment_date }}</strong>?</p>
+
+                <div class="bg-light p-3 rounded-3 mb-3 small border">
+                    <div>Token Number: <strong>#{{ appointment.token_number }}</strong></div>
+                    <div>Department: <strong>{{ appointment.doctor.department.name }}</strong></div>
+                    <div>Time: <strong>{{ appointment.appointment_time|time:"h:i A" }}</strong></div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Reason for Cancellation *</label>
+                        {{ form.cancellation_reason }}
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'patient_dashboard' %}" class="btn btn-light border flex-fill">Keep Appointment</a>
+                        <button type="submit" class="btn btn-danger flex-fill">Confirm Cancellation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,118 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ doctor.full_name }} - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row g-4">
+        <!-- Doctor Info Sidebar -->
+        <div class="col-lg-4">
+            <div class="card card-custom p-4 text-center sticky-top" style="top: 90px;">
+                <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-1 mx-auto mb-3" style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--sc-primary), var(--sc-secondary));">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <h4 class="fw-bold mb-1">{{ doctor.full_name }}</h4>
+                <span class="badge bg-teal-subtle text-teal border mb-2" style="background-color: #ccfbf1; color: #0f766e;">
+                    {{ doctor.department.name }}
+                </span>
+                <p class="text-muted small mb-3">{{ doctor.qualification }}</p>
+
+                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                    <span class="text-warning fs-5"><i class="bi bi-star-fill"></i></span>
+                    <strong class="fs-5">{{ doctor.average_rating }}</strong>
+                    <span class="text-muted small">({{ doctor.total_reviews }} Patient Reviews)</span>
+                </div>
+
+                <div class="bg-light p-3 rounded-3 text-start mb-4 small border">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Specialization:</span>
+                        <span class="fw-semibold text-dark">{{ doctor.specialization }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Experience:</span>
+                        <span class="fw-semibold text-dark">{{ doctor.experience_years }} Years</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Consultation Fee:</span>
+                        <span class="fw-bold text-teal" style="color: var(--sc-primary);">৳ {{ doctor.consultation_fee|floatformat:0 }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Consultation Room:</span>
+                        <span class="fw-semibold text-dark">{{ doctor.room_number }}</span>
+                    </div>
+                </div>
+
+                <a href="{% url 'book_appointment' %}?doctor_id={{ doctor.id }}" class="btn btn-primary-sc w-100 py-2">
+                    <i class="bi bi-calendar-plus me-1"></i> Book Appointment
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Details and Schedules -->
+        <div class="col-lg-8">
+            <!-- Doctor Biography -->
+            <div class="card card-custom p-4 mb-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-file-earmark-person me-2" style="color: var(--sc-primary);"></i>Doctor Biography</h5>
+                <p class="text-muted mb-0" style="line-height: 1.6;">
+                    {{ doctor.bio|default:"Experienced healthcare practitioner committed to providing high-quality, patient-centric consultations using intelligent queue scheduling to reduce unnecessary wait times." }}
+                </p>
+            </div>
+
+            <!-- Weekly Schedule Table -->
+            <div class="card card-custom p-4 mb-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-calendar-week me-2" style="color: var(--sc-primary);"></i>Weekly Consultation Hours</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Day</th>
+                                <th>Working Hours</th>
+                                <th>Slot Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for schedule in schedules %}
+                                <tr>
+                                    <td class="fw-semibold">{{ schedule.get_day_of_week_display }}</td>
+                                    <td>{{ schedule.start_time|time:"h:i A" }} - {{ schedule.end_time|time:"h:i A" }}</td>
+                                    <td><span class="badge bg-light text-dark border">{{ schedule.slot_duration_minutes }} Mins</span></td>
+                                    <td><span class="badge bg-success-subtle text-success border">Active</span></td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-muted text-center py-3">No custom schedules published. Standard weekday slots apply (9:00 AM - 5:00 PM).</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Patient Reviews -->
+            <div class="card card-custom p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-chat-quote me-2" style="color: var(--sc-primary);"></i>Verified Patient Feedback</h5>
+                    <span class="badge bg-light text-dark border">{{ doctor.total_reviews }} Total Reviews</span>
+                </div>
+
+                {% for feedback in feedbacks %}
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>{{ feedback.appointment.patient.first_name }} {{ feedback.appointment.patient.last_name|slice:":1" }}.</strong>
+                            <div class="text-warning small">
+                                {% for _ in "x"|rjust:feedback.rating %}<i class="bi bi-star-fill"></i>{% endfor %}
+                            </div>
+                        </div>
+                        <p class="text-muted small mb-1">{{ feedback.comment|default:"Good consultation and punctual queue service." }}</p>
+                        <span class="text-muted" style="font-size: 0.75rem;">{{ feedback.created_at|date:"M d, Y" }}</span>
+                    </div>
+                {% empty %}
+                    <div class="text-muted text-center py-4 small">No patient reviews yet for this doctor.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

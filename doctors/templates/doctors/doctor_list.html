@@ -1,0 +1,102 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Find Doctors - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-1">Our Doctors & Specialists</h2>
+            <p class="text-muted">Choose your specialist and book with intelligent queue management</p>
+        </div>
+        <div class="col-md-6">
+            <form method="get" class="d-flex gap-2">
+                <input type="text" name="q" value="{{ search_query }}" class="form-control" placeholder="Search doctor name, specialty, qualification...">
+                <button type="submit" class="btn btn-primary-sc"><i class="bi bi-search"></i></button>
+                {% if search_query or selected_dept %}
+                    <a href="{% url 'doctor_list' %}" class="btn btn-outline-secondary">Reset</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Department Filter Pills -->
+    <div class="d-flex flex-wrap gap-2 mb-4 pb-2 border-bottom">
+        <a href="{% url 'doctor_list' %}" class="btn btn-sm {% if not selected_dept %}btn-dark{% else %}btn-light border{% endif %}">
+            All Specialties
+        </a>
+        {% for dept in departments %}
+            <a href="{% url 'doctor_list' %}?department={{ dept.id }}" class="btn btn-sm {% if selected_dept == dept.id %}btn-dark{% else %}btn-light border{% endif %}">
+                <i class="bi {{ dept.icon|default:'bi-heart-pulse' }} me-1"></i>{{ dept.name }}
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- Doctor Cards Grid -->
+    <div class="row g-4">
+        {% for doctor in doctors %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-custom h-100 p-3 d-flex flex-column">
+                    <div class="d-flex gap-3 align-items-start mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-4 flex-shrink-0" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--sc-primary), var(--sc-secondary));">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-dark">{{ doctor.full_name }}</h5>
+                            <span class="badge bg-teal-subtle text-teal border my-1" style="background-color: #ccfbf1; color: #0f766e;">
+                                {{ doctor.department.name }}
+                            </span>
+                            <div class="small text-muted fw-semibold">{{ doctor.qualification }}</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-light p-2 rounded-3 mb-3 small">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted"><i class="bi bi-geo-alt me-1"></i>Room:</span>
+                            <span class="fw-semibold text-dark">{{ doctor.room_number }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted"><i class="bi bi-award me-1"></i>Experience:</span>
+                            <span class="fw-semibold text-dark">{{ doctor.experience_years }} Years</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted"><i class="bi bi-cash-stack me-1"></i>Consultation Fee:</span>
+                            <span class="fw-bold text-teal" style="color: var(--sc-primary);">৳ {{ doctor.consultation_fee|floatformat:0 }}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-muted small mb-3 flex-grow-1" style="line-height: 1.4;">
+                        {{ doctor.specialization }}
+                    </p>
+
+                    <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-auto">
+                        <div>
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <strong>{{ doctor.average_rating }}</strong>
+                            <span class="text-muted small">({{ doctor.total_reviews }} reviews)</span>
+                        </div>
+                        <span class="badge bg-success-subtle text-success border">Available Today</span>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-light btn-sm flex-fill border">
+                            <i class="bi bi-info-circle me-1"></i>Profile
+                        </a>
+                        <a href="{% url 'book_appointment' %}?doctor_id={{ doctor.id }}" class="btn btn-primary-sc btn-sm flex-fill">
+                            <i class="bi bi-calendar-check me-1"></i>Book Visit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 py-5 text-center">
+                <i class="bi bi-search text-muted fs-1 mb-3"></i>
+                <h5>No doctors matched your criteria</h5>
+                <p class="text-muted">Try selecting a different specialty or clearing your search filters.</p>
+                <a href="{% url 'doctor_list' %}" class="btn btn-outline-sc btn-sm">Clear All Filters</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

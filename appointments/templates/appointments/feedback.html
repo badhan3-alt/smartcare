@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Patient Feedback - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-custom p-4">
+                <div class="text-warning mb-3 fs-2"><i class="bi bi-star-fill"></i></div>
+                <h4 class="fw-bold mb-1">Rate Your Consultation</h4>
+                <p class="text-muted small">Your feedback helps improve doctor queue accuracy and healthcare service</p>
+
+                <div class="bg-light p-3 rounded-3 mb-4 small border">
+                    <div>Doctor: <strong>{{ appointment.doctor.full_name }}</strong></div>
+                    <div>Department: <strong>{{ appointment.doctor.department.name }}</strong></div>
+                    <div>Date: <strong>{{ appointment.appointment_date }}</strong></div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Overall Rating (1 to 5 Stars) *</label>
+                        {{ form.rating }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold">Review & Experience Comments</label>
+                        {{ form.comment }}
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'patient_dashboard' %}" class="btn btn-light border flex-fill">Skip</a>
+                        <button type="submit" class="btn btn-primary-sc flex-fill">Submit Feedback</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

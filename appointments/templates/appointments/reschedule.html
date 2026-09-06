@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Reschedule Appointment - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-custom p-4">
+                <div class="mb-3 fs-2" style="color: var(--sc-primary);"><i class="bi bi-calendar2-range"></i></div>
+                <h4 class="fw-bold mb-1">Reschedule Appointment</h4>
+                <p class="text-muted small">Select a new date and time for consultation with <strong>{{ appointment.doctor.full_name }}</strong></p>
+
+                <div class="bg-light p-3 rounded-3 mb-4 small border">
+                    <div>Current Token: <strong>#{{ appointment.token_number }}</strong></div>
+                    <div>Current Date: <strong>{{ appointment.appointment_date }} ({{ appointment.appointment_time|time:"h:i A" }})</strong></div>
+                    <div class="text-muted mt-1 small">A new daily queue token will be allocated automatically for the new date.</div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">New Date *</label>
+                        {{ form.appointment_date }}
+                        {{ form.appointment_date.errors }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold">New Preferred Time *</label>
+                        {{ form.appointment_time }}
+                        {{ form.appointment_time.errors }}
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'patient_dashboard' %}" class="btn btn-light border flex-fill">Cancel</a>
+                        <button type="submit" class="btn btn-primary-sc flex-fill">Update Schedule</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

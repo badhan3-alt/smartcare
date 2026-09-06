@@ -1,0 +1,3001 @@
+patient_age,patient_gender,department,visit_type,symptom_severity,has_chronic_condition,doctor_experience_years,consultation_duration_minutes
+16,F,Dermatology,follow_up,mild,0,11,8.0
+4,M,Cardiology,urgent,moderate,0,28,37.1
+77,F,Pediatrics,first_visit,mild,0,10,28.9
+56,O,General Medicine,follow_up,moderate,1,9,20.7
+5,F,Cardiology,follow_up,mild,0,2,20.2
+9,M,Cardiology,urgent,mild,1,2,43.3
+55,F,Dermatology,first_visit,severe,1,2,38.9
+16,M,Orthopedics,first_visit,mild,0,16,26.7
+54,F,Orthopedics,urgent,moderate,0,29,32.6
+34,F,Orthopedics,urgent,moderate,1,9,40.4
+35,M,General Medicine,follow_up,moderate,1,12,22.8
+48,F,General Medicine,routine_checkup,moderate,1,7,23.2
+80,M,Cardiology,first_visit,mild,0,7,42.5
+24,F,Orthopedics,follow_up,mild,1,7,18.4
+29,F,Pediatrics,routine_checkup,moderate,1,28,20.3
+63,M,ENT,first_visit,mild,1,9,22.7
+71,F,Pediatrics,follow_up,mild,0,12,16.0
+53,M,Pediatrics,urgent,severe,0,2,38.4
+57,M,Orthopedics,follow_up,mild,0,5,20.3
+54,F,Orthopedics,urgent,mild,1,11,29.8
+18,F,Dermatology,follow_up,moderate,0,11,15.1
+60,M,Cardiology,first_visit,moderate,1,19,40.5
+20,M,Orthopedics,first_visit,severe,0,7,37.5
+43,M,ENT,follow_up,moderate,0,28,11.5
+2,M,Pediatrics,routine_checkup,severe,0,9,32.1
+21,F,Neurology,routine_checkup,moderate,0,8,25.6
+26,M,Orthopedics,first_visit,mild,1,16,31.1
+9,F,Cardiology,follow_up,moderate,0,19,22.7
+23,M,General Medicine,urgent,mild,1,27,22.1
+65,F,General Medicine,first_visit,mild,0,17,20.8
+45,F,Cardiology,urgent,severe,0,9,44.3
+61,F,General Medicine,first_visit,mild,1,3,29.9
+26,M,Cardiology,routine_checkup,severe,0,18,31.4
+18,F,Neurology,first_visit,moderate,0,10,35.6
+51,F,Neurology,urgent,mild,0,13,33.7
+16,M,ENT,first_visit,moderate,0,25,23.9
+63,M,Cardiology,follow_up,mild,0,6,22.0
+9,F,Pediatrics,first_visit,moderate,0,13,25.3
+48,F,Pediatrics,first_visit,mild,1,10,32.6
+59,M,Pediatrics,first_visit,severe,1,9,39.6
+2,M,Orthopedics,first_visit,mild,0,16,30.8
+70,F,General Medicine,follow_up,mild,0,5,22.4
+30,M,Cardiology,first_visit,mild,1,20,36.2
+24,M,Dermatology,urgent,severe,0,10,35.0
+59,F,General Medicine,follow_up,moderate,0,16,15.6
+25,F,General Medicine,follow_up,mild,1,11,16.5
+68,F,Gynecology,follow_up,mild,0,12,22.4
+9,M,Cardiology,follow_up,mild,0,7,19.4
+76,F,Cardiology,routine_checkup,moderate,0,10,33.7
+37,M,General Medicine,routine_checkup,mild,1,5,13.6
+56,F,Pediatrics,routine_checkup,mild,1,20,16.7
+50,M,ENT,urgent,moderate,0,28,27.7
+53,F,Gynecology,follow_up,mild,0,25,12.6
+17,F,Gynecology,first_visit,mild,0,26,28.3
+76,M,Dermatology,first_visit,moderate,0,29,25.5
+10,F,Pediatrics,routine_checkup,mild,0,19,17.1
+66,F,General Medicine,first_visit,severe,0,4,37.6
+55,F,Orthopedics,first_visit,mild,0,13,27.0
+59,F,Cardiology,routine_checkup,moderate,1,3,32.3
+26,F,Dermatology,first_visit,severe,0,13,31.8
+22,M,Cardiology,urgent,severe,0,19,43.2
+15,M,General Medicine,urgent,moderate,0,23,29.3
+13,F,Cardiology,first_visit,mild,0,21,28.3
+59,M,General Medicine,first_visit,mild,0,27,20.0
+18,M,Orthopedics,follow_up,moderate,0,13,17.2
+6,M,ENT,follow_up,moderate,1,17,22.5
+27,M,Dermatology,urgent,moderate,1,2,33.1
+4,F,Orthopedics,routine_checkup,severe,1,17,39.2
+74,M,Pediatrics,urgent,moderate,0,17,25.8
+51,F,Neurology,follow_up,moderate,1,25,28.1
+48,M,General Medicine,routine_checkup,moderate,1,7,25.1
+52,F,Dermatology,first_visit,mild,1,28,17.9
+52,F,Pediatrics,routine_checkup,mild,1,17,17.7
+54,M,Gynecology,first_visit,moderate,0,15,29.6
+56,F,Cardiology,follow_up,moderate,0,4,27.8
+33,M,General Medicine,first_visit,mild,0,28,20.6
+23,M,Dermatology,first_visit,mild,0,2,21.3
+27,F,Pediatrics,follow_up,mild,1,16,15.6
+27,F,Cardiology,first_visit,moderate,1,15,39.1
+79,M,General Medicine,routine_checkup,mild,0,7,11.7
+24,F,Orthopedics,follow_up,mild,0,3,15.4
+29,M,Orthopedics,first_visit,mild,0,12,27.1
+14,F,Pediatrics,follow_up,moderate,0,15,22.2
+41,M,General Medicine,first_visit,mild,0,26,23.0
+60,M,General Medicine,urgent,moderate,0,22,26.7
+76,M,General Medicine,routine_checkup,mild,1,3,18.9
+41,F,General Medicine,urgent,severe,0,11,36.9
+52,F,Pediatrics,routine_checkup,mild,0,13,15.7
+71,O,Orthopedics,routine_checkup,mild,1,12,25.3
+38,F,Pediatrics,urgent,mild,0,6,25.8
+11,F,Dermatology,follow_up,mild,1,20,14.1
+76,M,Orthopedics,follow_up,moderate,0,5,22.4
+51,M,Neurology,routine_checkup,severe,0,3,36.0
+73,F,Cardiology,routine_checkup,moderate,1,5,35.1
+79,F,Neurology,follow_up,severe,0,8,41.7
+39,F,ENT,follow_up,moderate,0,15,13.3
+79,M,Dermatology,first_visit,mild,0,3,21.9
+16,F,Cardiology,follow_up,moderate,0,29,25.0
+28,F,Cardiology,first_visit,moderate,1,27,36.9
+48,F,General Medicine,first_visit,mild,1,5,29.4
+69,F,General Medicine,routine_checkup,moderate,1,4,28.2
+75,M,Neurology,first_visit,mild,0,11,41.3
+14,M,Cardiology,first_visit,mild,1,11,36.1
+38,F,Orthopedics,first_visit,moderate,0,22,32.5
+79,F,Cardiology,urgent,mild,0,21,34.3
+2,F,Neurology,follow_up,moderate,0,9,29.1
+75,F,Orthopedics,first_visit,mild,0,25,25.4
+44,M,ENT,urgent,mild,0,20,15.0
+34,M,Dermatology,follow_up,moderate,0,21,13.5
+21,M,General Medicine,first_visit,severe,0,1,36.4
+52,M,Pediatrics,routine_checkup,mild,0,13,17.8
+2,F,General Medicine,follow_up,mild,0,18,13.3
+52,M,General Medicine,first_visit,moderate,1,10,34.6
+56,M,Dermatology,routine_checkup,moderate,0,23,9.7
+60,F,Pediatrics,follow_up,mild,0,19,10.1
+79,F,Cardiology,routine_checkup,severe,1,22,40.0
+56,F,Pediatrics,first_visit,mild,0,19,28.1
+70,M,ENT,first_visit,mild,0,12,27.6
+38,M,Neurology,follow_up,mild,0,20,21.4
+82,F,Gynecology,follow_up,moderate,1,25,25.8
+23,F,Pediatrics,urgent,mild,0,23,27.9
+43,F,General Medicine,first_visit,moderate,1,26,31.4
+28,F,Orthopedics,routine_checkup,moderate,0,25,26.7
+63,F,Neurology,first_visit,mild,1,19,36.1
+27,M,Cardiology,routine_checkup,mild,1,27,24.4
+25,F,General Medicine,routine_checkup,mild,0,20,8.0
+82,F,Cardiology,follow_up,mild,1,21,23.2
+62,F,Dermatology,follow_up,mild,1,5,10.9
+52,M,Cardiology,follow_up,mild,0,27,18.5
+81,F,Cardiology,routine_checkup,moderate,1,22,36.6
+73,M,General Medicine,follow_up,mild,1,13,18.8
+18,M,General Medicine,follow_up,severe,0,21,22.1
+49,M,Orthopedics,follow_up,moderate,1,20,22.3
+18,F,Neurology,follow_up,moderate,0,3,30.3
+41,M,Orthopedics,follow_up,moderate,1,4,24.3
+17,M,General Medicine,routine_checkup,mild,0,2,17.3
+14,F,Cardiology,urgent,moderate,1,20,40.4
+11,M,General Medicine,first_visit,mild,1,17,25.6
+15,M,Cardiology,routine_checkup,moderate,0,16,20.3
+13,F,Orthopedics,routine_checkup,mild,0,7,14.9
+47,F,Neurology,urgent,severe,1,4,54.3
+75,M,General Medicine,follow_up,mild,1,24,22.0
+6,F,Dermatology,first_visit,mild,0,17,19.0
+63,O,Orthopedics,routine_checkup,mild,0,29,11.7
+74,F,General Medicine,routine_checkup,mild,0,27,15.8
+60,M,General Medicine,first_visit,mild,1,16,29.8
+71,O,General Medicine,first_visit,severe,1,18,32.6
+59,F,General Medicine,follow_up,mild,1,1,15.7
+20,F,Neurology,first_visit,mild,0,13,34.8
+64,F,Orthopedics,first_visit,severe,1,25,42.9
+24,M,Cardiology,routine_checkup,mild,1,18,25.3
+40,M,General Medicine,first_visit,mild,0,8,25.3
+61,M,Pediatrics,routine_checkup,mild,0,7,17.3
+61,M,Dermatology,routine_checkup,moderate,0,4,16.0
+65,F,Cardiology,first_visit,moderate,0,26,39.2
+77,M,General Medicine,first_visit,mild,0,19,24.3
+27,M,Pediatrics,follow_up,severe,0,9,26.8
+33,M,Orthopedics,follow_up,moderate,0,17,18.7
+57,M,Gynecology,urgent,mild,0,6,31.2
+59,F,Pediatrics,first_visit,mild,0,25,27.6
+19,F,Orthopedics,follow_up,severe,0,17,30.5
+65,M,Cardiology,urgent,severe,0,15,37.5
+79,F,General Medicine,follow_up,mild,0,16,13.2
+3,F,General Medicine,first_visit,mild,0,18,25.8
+83,M,Orthopedics,follow_up,mild,1,1,27.7
+77,O,Cardiology,first_visit,mild,0,20,36.1
+41,M,Dermatology,first_visit,mild,0,13,17.1
+47,F,Gynecology,routine_checkup,mild,1,8,21.0
+68,F,General Medicine,follow_up,moderate,0,9,22.4
+63,F,Orthopedics,follow_up,mild,1,16,20.6
+59,F,General Medicine,follow_up,mild,0,14,10.3
+20,O,Neurology,first_visit,mild,1,23,34.8
+45,F,Cardiology,routine_checkup,mild,1,9,23.5
+62,M,Dermatology,first_visit,mild,0,21,19.3
+62,F,Orthopedics,follow_up,moderate,1,28,18.4
+67,F,Orthopedics,routine_checkup,moderate,1,26,32.1
+13,M,ENT,follow_up,moderate,0,26,13.8
+45,M,Cardiology,follow_up,mild,0,9,21.3
+61,M,Pediatrics,follow_up,moderate,1,7,22.5
+67,F,Gynecology,first_visit,moderate,0,4,36.1
+48,M,Gynecology,routine_checkup,mild,0,29,19.1
+21,F,Dermatology,urgent,mild,0,28,18.6
+38,M,Cardiology,follow_up,moderate,1,24,29.5
+62,M,Pediatrics,urgent,mild,0,26,25.7
+36,M,Cardiology,urgent,mild,0,14,30.7
+44,M,General Medicine,first_visit,severe,0,24,36.9
+51,M,General Medicine,follow_up,mild,0,20,8.7
+2,F,Orthopedics,first_visit,mild,1,15,35.9
+56,O,Orthopedics,follow_up,mild,0,26,14.6
+73,F,Cardiology,urgent,moderate,1,14,47.5
+70,F,Dermatology,first_visit,mild,0,9,23.8
+76,F,Pediatrics,follow_up,mild,1,6,23.1
+14,F,ENT,follow_up,moderate,0,22,9.8
+72,F,General Medicine,follow_up,mild,0,17,17.9
+12,F,Dermatology,follow_up,moderate,0,3,16.6
+29,M,Neurology,first_visit,mild,0,5,34.9
+16,M,Pediatrics,follow_up,moderate,1,11,22.2
+16,M,ENT,follow_up,mild,0,4,12.4
+53,F,Pediatrics,urgent,mild,0,10,31.3
+5,F,Pediatrics,follow_up,mild,1,7,20.9
+72,M,General Medicine,routine_checkup,mild,1,20,23.0
+46,F,General Medicine,urgent,moderate,1,22,32.0
+27,M,General Medicine,follow_up,mild,1,8,17.6
+69,M,Pediatrics,routine_checkup,mild,1,18,25.6
+75,M,Orthopedics,follow_up,mild,1,2,31.4
+38,F,Cardiology,follow_up,mild,0,14,15.2
+58,F,General Medicine,urgent,mild,1,3,25.9
+76,O,Orthopedics,first_visit,mild,1,10,30.6
+37,M,ENT,routine_checkup,mild,0,27,11.9
+61,M,Dermatology,routine_checkup,mild,0,6,8.0
+68,F,General Medicine,first_visit,mild,1,23,25.8
+31,M,Gynecology,follow_up,mild,1,29,16.3
+56,F,Orthopedics,first_visit,mild,1,17,25.1
+6,F,Cardiology,routine_checkup,mild,1,20,22.8
+83,F,General Medicine,routine_checkup,moderate,0,20,17.3
+3,F,Dermatology,follow_up,mild,0,23,8.3
+83,F,Gynecology,urgent,mild,1,5,39.8
+39,F,Dermatology,follow_up,severe,1,6,18.9
+8,M,Cardiology,first_visit,mild,0,2,35.0
+55,M,General Medicine,follow_up,mild,1,14,16.2
+4,F,Cardiology,routine_checkup,moderate,0,21,27.5
+14,F,Gynecology,routine_checkup,mild,1,29,22.0
+3,F,Cardiology,first_visit,mild,1,10,38.8
+32,F,Orthopedics,urgent,mild,0,9,25.9
+8,F,Orthopedics,first_visit,mild,1,17,29.1
+37,F,Cardiology,follow_up,mild,1,29,19.9
+28,M,Dermatology,routine_checkup,moderate,1,23,15.6
+80,F,Cardiology,follow_up,mild,0,13,17.1
+54,F,Cardiology,urgent,mild,0,28,30.8
+27,M,Pediatrics,routine_checkup,mild,1,3,26.1
+53,F,Dermatology,follow_up,severe,0,17,20.6
+49,M,Neurology,routine_checkup,mild,1,21,26.3
+35,M,Neurology,follow_up,mild,1,23,21.6
+66,M,Orthopedics,first_visit,mild,1,1,37.0
+25,M,Cardiology,first_visit,mild,0,14,28.7
+9,M,General Medicine,first_visit,mild,1,8,23.9
+26,O,Orthopedics,follow_up,mild,0,4,19.0
+63,F,General Medicine,first_visit,mild,0,2,28.3
+54,F,General Medicine,follow_up,moderate,0,10,18.4
+26,M,Pediatrics,follow_up,mild,0,20,12.5
+45,M,Pediatrics,routine_checkup,moderate,0,23,17.2
+22,F,General Medicine,follow_up,moderate,1,7,22.8
+76,M,Pediatrics,routine_checkup,mild,0,13,18.3
+28,O,Orthopedics,follow_up,mild,0,22,14.5
+62,F,General Medicine,follow_up,mild,0,7,15.5
+9,M,Dermatology,first_visit,mild,1,1,26.9
+65,F,Pediatrics,first_visit,moderate,1,7,38.8
+10,F,Dermatology,first_visit,moderate,0,17,26.8
+35,F,Cardiology,follow_up,moderate,1,6,27.6
+25,M,Orthopedics,first_visit,moderate,0,7,27.7
+39,M,Cardiology,first_visit,mild,0,7,38.0
+81,M,Cardiology,routine_checkup,mild,0,18,23.1
+61,F,General Medicine,follow_up,mild,0,13,13.4
+46,M,General Medicine,first_visit,mild,0,20,21.3
+48,O,Cardiology,urgent,moderate,0,4,35.6
+48,F,Orthopedics,follow_up,moderate,0,25,18.7
+11,M,General Medicine,first_visit,mild,1,13,28.6
+20,M,Orthopedics,follow_up,severe,1,5,32.7
+22,M,General Medicine,follow_up,mild,0,7,12.3
+37,M,ENT,first_visit,mild,0,7,20.0
+15,M,Pediatrics,first_visit,moderate,0,13,28.3
+83,F,Neurology,first_visit,mild,0,7,36.7
+16,M,Cardiology,follow_up,severe,0,7,34.8
+15,F,Orthopedics,urgent,mild,1,26,30.2
+50,M,Pediatrics,urgent,moderate,0,9,30.1
+34,F,Orthopedics,first_visit,moderate,1,9,36.2
+50,F,Orthopedics,first_visit,mild,0,21,27.4
+75,M,Pediatrics,follow_up,moderate,0,24,18.2
+39,F,Orthopedics,follow_up,mild,1,7,21.3
+16,M,Orthopedics,routine_checkup,severe,1,27,32.6
+41,O,Gynecology,routine_checkup,mild,0,3,20.8
+7,M,General Medicine,follow_up,mild,0,5,15.5
+13,F,Gynecology,first_visit,moderate,0,21,35.5
+83,M,Pediatrics,follow_up,moderate,0,3,20.1
+28,M,Dermatology,urgent,mild,0,8,23.5
+5,F,Cardiology,urgent,moderate,0,11,39.8
+17,O,General Medicine,follow_up,mild,1,2,14.7
+26,M,Cardiology,first_visit,moderate,0,5,36.6
+10,F,Gynecology,follow_up,moderate,0,11,23.5
+4,F,Pediatrics,follow_up,mild,0,26,16.9
+36,M,Cardiology,first_visit,mild,1,25,38.6
+12,F,Orthopedics,first_visit,mild,1,2,29.1
+41,M,Pediatrics,follow_up,mild,1,1,18.6
+5,F,General Medicine,first_visit,mild,0,25,23.7
+47,F,Pediatrics,urgent,mild,1,28,25.8
+24,M,ENT,follow_up,mild,0,21,10.9
+36,M,General Medicine,routine_checkup,mild,0,8,14.6
+49,F,Pediatrics,urgent,moderate,1,28,33.8
+72,F,Cardiology,follow_up,moderate,0,19,28.1
+31,M,Cardiology,follow_up,mild,1,21,27.4
+60,F,Pediatrics,follow_up,mild,1,2,22.1
+56,F,ENT,routine_checkup,mild,0,11,15.6
+51,F,Gynecology,follow_up,mild,0,12,18.9
+66,M,Neurology,follow_up,mild,1,14,31.0
+20,F,Orthopedics,follow_up,moderate,0,20,20.9
+29,M,Orthopedics,routine_checkup,severe,0,24,29.4
+56,O,General Medicine,first_visit,mild,1,18,25.7
+9,M,Cardiology,follow_up,mild,0,3,16.0
+36,M,Pediatrics,follow_up,moderate,0,17,20.7
+63,M,General Medicine,first_visit,mild,1,17,25.5
+22,M,General Medicine,follow_up,severe,0,11,23.2
+46,M,ENT,follow_up,mild,1,21,11.4
+62,M,Pediatrics,routine_checkup,severe,1,8,32.8
+83,M,Cardiology,follow_up,moderate,1,5,34.6
+29,F,Cardiology,urgent,mild,0,9,34.1
+67,F,Orthopedics,follow_up,mild,0,9,21.3
+29,M,General Medicine,follow_up,moderate,0,3,15.2
+13,M,Cardiology,follow_up,moderate,0,21,23.6
+26,F,Neurology,follow_up,moderate,1,18,28.0
+31,M,General Medicine,routine_checkup,moderate,1,15,20.8
+24,M,Orthopedics,follow_up,mild,0,4,18.8
+29,M,General Medicine,first_visit,severe,0,20,27.5
+75,F,Dermatology,follow_up,mild,0,11,15.6
+35,F,General Medicine,follow_up,moderate,0,17,13.0
+70,M,Cardiology,urgent,mild,0,26,31.9
+60,M,Cardiology,follow_up,mild,1,5,24.3
+36,F,Gynecology,follow_up,moderate,1,13,23.9
+23,F,Cardiology,first_visit,moderate,0,22,35.5
+52,M,Pediatrics,routine_checkup,moderate,0,21,15.2
+69,M,Gynecology,follow_up,mild,0,15,19.1
+52,F,Neurology,routine_checkup,mild,0,24,18.3
+29,F,Dermatology,routine_checkup,severe,0,27,20.2
+12,M,ENT,follow_up,mild,1,7,15.6
+47,M,Pediatrics,urgent,severe,0,12,37.3
+71,F,General Medicine,follow_up,mild,0,24,19.1
+82,F,ENT,urgent,mild,1,15,27.4
+36,M,General Medicine,first_visit,moderate,0,17,24.9
+68,M,Pediatrics,follow_up,moderate,1,16,23.6
+23,F,Orthopedics,routine_checkup,moderate,0,21,23.2
+57,F,Pediatrics,routine_checkup,severe,0,26,22.8
+72,M,Neurology,first_visit,mild,0,15,37.8
+74,F,Orthopedics,routine_checkup,moderate,0,9,24.2
+79,M,Orthopedics,follow_up,mild,0,3,23.8
+46,F,Orthopedics,follow_up,mild,0,23,19.3
+17,M,Neurology,first_visit,moderate,1,28,39.1
+56,F,Pediatrics,first_visit,mild,0,9,28.7
+14,F,Pediatrics,follow_up,moderate,0,17,19.6
+73,F,General Medicine,follow_up,mild,0,14,16.4
+25,M,Neurology,follow_up,mild,1,8,26.7
+83,F,Pediatrics,routine_checkup,mild,0,25,12.3
+27,F,Cardiology,follow_up,severe,0,8,29.7
+66,M,Cardiology,follow_up,moderate,0,18,30.1
+14,M,ENT,follow_up,severe,1,17,24.3
+56,M,Dermatology,first_visit,moderate,1,1,35.8
+12,F,Pediatrics,routine_checkup,mild,0,19,14.1
+42,M,Dermatology,first_visit,moderate,1,9,27.2
+14,M,Cardiology,routine_checkup,moderate,0,9,27.1
+46,M,General Medicine,follow_up,severe,0,3,26.1
+45,M,Pediatrics,routine_checkup,mild,1,28,17.1
+55,F,Neurology,first_visit,moderate,0,5,38.5
+3,M,ENT,first_visit,mild,0,15,25.9
+30,M,Pediatrics,urgent,mild,1,20,29.3
+17,F,General Medicine,follow_up,severe,0,21,21.4
+38,M,Dermatology,first_visit,mild,1,26,20.9
+58,M,Pediatrics,first_visit,mild,0,7,27.3
+9,F,General Medicine,routine_checkup,mild,0,4,16.3
+30,M,ENT,first_visit,mild,1,23,26.2
+6,F,Gynecology,follow_up,moderate,0,22,25.6
+60,F,Dermatology,follow_up,severe,1,27,19.2
+69,M,Neurology,follow_up,mild,0,20,25.1
+55,M,Dermatology,routine_checkup,moderate,0,17,13.9
+55,M,Pediatrics,first_visit,moderate,0,26,30.0
+70,F,Orthopedics,urgent,moderate,0,14,35.5
+9,M,Cardiology,first_visit,moderate,1,13,39.8
+29,F,General Medicine,first_visit,moderate,0,24,22.4
+20,M,Dermatology,first_visit,mild,0,12,21.9
+60,M,Orthopedics,follow_up,mild,1,2,20.1
+66,M,General Medicine,routine_checkup,severe,1,29,30.4
+10,F,General Medicine,routine_checkup,mild,0,11,13.5
+23,M,Neurology,first_visit,mild,1,10,34.7
+55,M,ENT,urgent,severe,0,29,37.3
+36,M,Cardiology,follow_up,mild,0,13,19.3
+54,M,Pediatrics,follow_up,mild,0,13,15.3
+66,M,Pediatrics,routine_checkup,mild,1,5,25.4
+57,F,Orthopedics,follow_up,moderate,0,28,20.5
+6,M,Neurology,routine_checkup,mild,0,20,21.6
+9,M,Pediatrics,first_visit,moderate,0,25,24.7
+2,M,Neurology,routine_checkup,moderate,0,2,29.9
+25,F,Orthopedics,first_visit,severe,0,24,37.8
+54,F,Dermatology,first_visit,mild,0,5,21.3
+41,M,Orthopedics,first_visit,mild,0,19,29.4
+42,F,General Medicine,follow_up,mild,0,25,8.0
+52,M,Pediatrics,follow_up,severe,1,7,31.7
+73,F,General Medicine,first_visit,mild,1,27,27.1
+10,M,Pediatrics,follow_up,mild,0,16,16.2
+66,F,Orthopedics,first_visit,severe,0,2,41.2
+40,M,Orthopedics,urgent,moderate,1,25,37.8
+14,M,Pediatrics,follow_up,mild,0,17,11.9
+48,M,Orthopedics,follow_up,mild,0,4,19.1
+84,F,Dermatology,first_visit,moderate,0,2,32.3
+5,F,Dermatology,follow_up,moderate,0,8,14.3
+7,M,Orthopedics,urgent,moderate,1,16,35.4
+75,F,Cardiology,follow_up,moderate,0,22,29.3
+57,F,Pediatrics,routine_checkup,severe,0,20,26.5
+13,M,Orthopedics,first_visit,mild,0,1,31.9
+60,M,General Medicine,first_visit,mild,1,27,25.0
+48,M,Cardiology,urgent,moderate,1,23,39.2
+21,M,Orthopedics,first_visit,mild,1,26,26.3
+75,M,General Medicine,urgent,mild,0,5,30.6
+50,M,Pediatrics,first_visit,mild,0,16,21.9
+25,F,General Medicine,urgent,moderate,0,29,31.6
+67,M,General Medicine,first_visit,severe,0,10,36.9
+49,F,General Medicine,follow_up,mild,0,4,14.8
+23,F,Pediatrics,follow_up,mild,0,13,14.9
+50,F,General Medicine,urgent,mild,1,14,30.3
+18,F,Gynecology,routine_checkup,mild,1,21,19.3
+29,F,ENT,routine_checkup,mild,0,19,14.5
+43,F,General Medicine,first_visit,moderate,1,15,35.2
+48,M,Orthopedics,follow_up,mild,0,2,17.5
+59,F,Orthopedics,follow_up,mild,0,18,13.5
+20,F,Neurology,first_visit,moderate,0,6,41.3
+52,F,General Medicine,follow_up,mild,1,7,19.2
+29,F,Pediatrics,routine_checkup,mild,1,2,17.4
+41,M,Orthopedics,follow_up,severe,0,2,30.4
+12,F,General Medicine,first_visit,moderate,0,11,30.3
+56,F,Cardiology,first_visit,mild,1,21,34.3
+6,F,Cardiology,urgent,moderate,1,15,39.5
+69,F,Pediatrics,follow_up,moderate,0,29,20.5
+53,F,Dermatology,routine_checkup,mild,1,5,12.4
+40,M,General Medicine,first_visit,severe,0,13,31.1
+23,F,General Medicine,routine_checkup,severe,0,16,22.6
+30,M,General Medicine,follow_up,moderate,0,16,20.1
+18,F,Cardiology,routine_checkup,mild,1,22,18.5
+33,F,Dermatology,first_visit,mild,0,4,23.3
+29,M,Cardiology,first_visit,mild,0,22,32.8
+63,F,Dermatology,follow_up,mild,1,29,15.9
+14,F,General Medicine,follow_up,mild,0,17,13.3
+27,F,Dermatology,first_visit,moderate,1,26,27.1
+54,F,General Medicine,follow_up,moderate,1,3,27.1
+17,M,Orthopedics,routine_checkup,mild,1,25,21.6
+42,F,Neurology,first_visit,moderate,0,19,36.2
+12,M,General Medicine,follow_up,moderate,1,16,23.1
+9,F,Pediatrics,follow_up,mild,1,28,16.7
+78,F,General Medicine,follow_up,severe,0,29,24.2
+4,M,Dermatology,follow_up,mild,0,27,8.8
+31,M,Dermatology,follow_up,mild,0,28,8.0
+80,M,Cardiology,follow_up,mild,0,16,25.0
+82,M,General Medicine,first_visit,moderate,0,28,30.9
+7,F,Pediatrics,urgent,moderate,0,26,30.1
+43,M,General Medicine,follow_up,moderate,0,8,19.7
+41,F,Pediatrics,routine_checkup,moderate,1,11,21.6
+19,F,Neurology,follow_up,mild,0,3,27.3
+62,M,ENT,first_visit,mild,1,13,28.1
+54,F,Cardiology,routine_checkup,moderate,0,20,25.7
+77,M,Orthopedics,first_visit,mild,0,29,27.8
+47,F,General Medicine,first_visit,severe,1,8,40.5
+72,O,Orthopedics,routine_checkup,moderate,0,22,29.8
+14,M,Pediatrics,first_visit,mild,1,11,26.9
+49,M,Cardiology,first_visit,mild,1,17,35.9
+81,M,General Medicine,follow_up,mild,0,29,15.9
+44,F,Orthopedics,first_visit,moderate,0,23,31.5
+52,M,Pediatrics,follow_up,moderate,0,6,14.3
+76,F,General Medicine,routine_checkup,mild,1,24,23.8
+55,M,Orthopedics,first_visit,moderate,0,15,31.8
+23,M,Pediatrics,follow_up,moderate,0,20,17.1
+21,O,General Medicine,follow_up,mild,0,13,8.9
+50,M,General Medicine,urgent,moderate,0,8,34.4
+31,F,Cardiology,follow_up,mild,1,11,26.2
+46,O,Pediatrics,follow_up,mild,1,9,19.3
+9,F,Gynecology,routine_checkup,mild,0,21,19.9
+50,F,Gynecology,routine_checkup,mild,0,2,20.3
+11,M,Pediatrics,follow_up,mild,1,25,12.4
+41,M,Gynecology,first_visit,mild,0,29,25.9
+50,M,Pediatrics,first_visit,severe,0,4,37.0
+65,M,Cardiology,urgent,mild,0,23,33.7
+65,F,Cardiology,follow_up,mild,0,16,23.4
+18,M,Cardiology,urgent,mild,1,21,32.9
+49,F,Orthopedics,urgent,moderate,0,15,27.4
+40,F,General Medicine,routine_checkup,severe,0,21,27.1
+45,F,General Medicine,follow_up,mild,1,16,15.4
+69,M,Pediatrics,follow_up,severe,1,17,32.6
+15,F,General Medicine,first_visit,moderate,0,27,22.8
+39,F,Cardiology,first_visit,moderate,0,22,33.3
+73,F,ENT,follow_up,moderate,0,10,20.6
+60,M,Dermatology,routine_checkup,moderate,0,20,10.7
+23,F,Pediatrics,follow_up,moderate,0,20,19.2
+55,M,Orthopedics,follow_up,mild,0,8,14.5
+60,F,Pediatrics,first_visit,moderate,1,23,30.9
+83,F,General Medicine,routine_checkup,severe,0,14,26.4
+22,M,Cardiology,follow_up,mild,1,20,24.0
+54,M,General Medicine,first_visit,moderate,0,22,24.8
+13,F,Dermatology,first_visit,moderate,0,12,26.9
+43,M,Dermatology,routine_checkup,mild,1,26,13.8
+7,M,ENT,first_visit,moderate,0,8,31.4
+12,M,Orthopedics,first_visit,mild,0,7,30.2
+29,F,Orthopedics,urgent,severe,1,26,38.4
+37,O,ENT,first_visit,moderate,1,23,32.0
+57,M,Pediatrics,first_visit,mild,1,12,28.9
+81,M,Pediatrics,first_visit,mild,0,24,24.7
+26,F,Gynecology,first_visit,mild,0,9,30.9
+65,M,Orthopedics,first_visit,mild,0,27,27.0
+35,F,Dermatology,follow_up,moderate,0,16,10.3
+2,M,Orthopedics,routine_checkup,severe,0,20,30.6
+16,F,Pediatrics,first_visit,moderate,0,24,32.7
+6,M,Cardiology,first_visit,mild,0,27,34.2
+11,M,ENT,first_visit,moderate,1,5,33.3
+54,M,Cardiology,first_visit,severe,0,9,43.6
+52,F,Orthopedics,follow_up,mild,0,27,14.6
+65,F,Orthopedics,routine_checkup,severe,0,26,21.3
+53,M,Cardiology,follow_up,mild,1,1,23.7
+64,F,Pediatrics,routine_checkup,moderate,0,3,17.8
+18,F,Neurology,first_visit,moderate,0,13,34.6
+15,M,Neurology,routine_checkup,moderate,0,17,24.8
+70,F,Cardiology,follow_up,mild,0,5,23.1
+7,M,Pediatrics,follow_up,severe,0,14,23.8
+16,F,Pediatrics,urgent,moderate,0,19,32.0
+36,M,Pediatrics,routine_checkup,moderate,0,17,22.9
+15,M,General Medicine,first_visit,mild,0,16,22.2
+63,M,Neurology,first_visit,mild,1,3,39.1
+74,M,Orthopedics,routine_checkup,mild,0,7,17.5
+58,M,General Medicine,first_visit,mild,0,21,26.4
+46,F,Neurology,first_visit,severe,0,12,43.4
+24,F,Dermatology,follow_up,mild,0,9,11.3
+64,M,Pediatrics,first_visit,severe,1,4,37.5
+84,M,Pediatrics,follow_up,moderate,1,20,28.7
+4,O,General Medicine,first_visit,mild,0,27,20.8
+24,M,ENT,routine_checkup,mild,0,23,8.0
+26,F,Cardiology,routine_checkup,moderate,0,9,25.4
+49,M,Cardiology,first_visit,mild,1,13,32.9
+3,F,Pediatrics,follow_up,mild,0,17,14.2
+60,F,Cardiology,first_visit,moderate,0,16,33.2
+3,M,General Medicine,follow_up,moderate,1,15,26.8
+64,M,General Medicine,follow_up,moderate,1,29,15.3
+81,M,Cardiology,first_visit,moderate,0,23,35.9
+75,F,Pediatrics,routine_checkup,moderate,1,15,28.4
+22,F,Cardiology,routine_checkup,mild,0,6,16.2
+3,M,Dermatology,follow_up,mild,0,13,14.7
+23,M,Pediatrics,first_visit,mild,0,6,25.2
+80,F,Pediatrics,follow_up,moderate,0,20,22.2
+69,M,Cardiology,first_visit,severe,0,7,52.2
+32,F,Cardiology,follow_up,moderate,0,21,22.4
+67,M,Dermatology,follow_up,moderate,0,21,19.6
+2,M,Dermatology,first_visit,moderate,0,12,29.9
+25,F,Pediatrics,first_visit,mild,0,11,24.0
+13,M,Neurology,routine_checkup,severe,1,2,35.4
+26,M,Pediatrics,follow_up,severe,0,24,28.0
+43,M,Orthopedics,follow_up,mild,0,18,14.6
+41,M,ENT,first_visit,moderate,1,16,24.3
+61,F,Cardiology,follow_up,moderate,0,2,26.7
+13,F,Cardiology,first_visit,mild,0,14,31.6
+19,M,Cardiology,routine_checkup,moderate,0,6,24.1
+81,O,General Medicine,follow_up,mild,1,20,21.1
+68,M,Gynecology,routine_checkup,mild,1,21,28.4
+71,F,Cardiology,urgent,moderate,0,14,45.2
+45,F,Cardiology,follow_up,mild,0,27,21.8
+80,F,Orthopedics,first_visit,mild,0,14,29.3
+33,F,Cardiology,urgent,moderate,0,6,37.5
+70,M,General Medicine,first_visit,mild,0,23,28.5
+40,O,Cardiology,follow_up,mild,1,3,25.3
+54,M,Pediatrics,follow_up,moderate,1,29,22.6
+34,F,Orthopedics,first_visit,moderate,1,13,38.0
+20,F,Dermatology,follow_up,mild,0,22,8.0
+54,F,Pediatrics,first_visit,mild,0,26,23.5
+29,F,General Medicine,follow_up,moderate,1,15,17.8
+79,M,General Medicine,first_visit,severe,0,19,34.4
+43,M,Pediatrics,urgent,mild,0,15,28.8
+12,F,Dermatology,urgent,moderate,1,12,32.5
+81,M,Cardiology,routine_checkup,moderate,0,22,27.1
+50,F,General Medicine,first_visit,mild,0,13,24.1
+27,F,Gynecology,follow_up,mild,0,3,17.1
+18,M,General Medicine,first_visit,severe,1,14,37.9
+48,F,Dermatology,follow_up,mild,0,25,9.6
+23,M,Gynecology,first_visit,mild,0,16,24.6
+2,M,Dermatology,follow_up,mild,0,22,14.4
+2,M,Cardiology,follow_up,mild,0,24,21.9
+28,F,Cardiology,first_visit,mild,1,3,40.5
+60,M,Cardiology,follow_up,mild,0,16,22.6
+76,F,Cardiology,urgent,mild,0,7,38.2
+59,O,Orthopedics,first_visit,mild,0,24,27.0
+31,F,General Medicine,follow_up,moderate,1,27,12.1
+22,M,Dermatology,first_visit,moderate,0,2,23.5
+4,M,Cardiology,follow_up,moderate,1,12,35.5
+12,F,Cardiology,follow_up,mild,1,22,16.6
+17,F,Cardiology,first_visit,mild,0,17,27.2
+46,F,General Medicine,routine_checkup,moderate,0,27,17.2
+30,M,Cardiology,first_visit,moderate,0,3,34.7
+39,F,Cardiology,follow_up,mild,1,20,22.4
+9,F,Cardiology,follow_up,severe,0,13,31.0
+72,M,Cardiology,first_visit,mild,0,5,31.3
+73,M,General Medicine,first_visit,mild,0,26,23.7
+79,M,Orthopedics,follow_up,severe,1,11,34.2
+64,F,Orthopedics,follow_up,mild,0,8,15.5
+69,M,General Medicine,first_visit,severe,0,16,34.4
+83,F,Cardiology,follow_up,mild,0,12,23.6
+56,F,Cardiology,urgent,mild,1,22,35.5
+44,O,General Medicine,first_visit,moderate,0,23,30.9
+61,F,Pediatrics,routine_checkup,moderate,1,17,21.6
+55,M,Orthopedics,follow_up,moderate,1,8,30.5
+27,F,Cardiology,urgent,mild,0,23,25.0
+19,F,Dermatology,first_visit,mild,0,13,19.2
+48,M,Pediatrics,follow_up,moderate,0,6,22.6
+22,F,Dermatology,follow_up,mild,0,5,8.2
+18,F,ENT,first_visit,mild,0,11,24.3
+15,M,Cardiology,first_visit,moderate,0,19,32.9
+36,F,General Medicine,first_visit,mild,1,11,23.6
+24,M,General Medicine,routine_checkup,severe,0,19,25.2
+81,M,Cardiology,first_visit,mild,0,6,34.4
+40,F,Neurology,routine_checkup,moderate,0,24,26.3
+74,F,Dermatology,follow_up,moderate,0,26,20.9
+3,F,General Medicine,first_visit,moderate,0,9,28.0
+64,M,Neurology,routine_checkup,mild,0,29,16.1
+74,F,ENT,first_visit,mild,0,8,23.2
+24,M,Neurology,follow_up,severe,0,18,31.3
+26,F,Pediatrics,follow_up,mild,0,26,11.7
+76,F,Cardiology,routine_checkup,mild,0,19,25.7
+69,F,Neurology,first_visit,moderate,0,19,40.8
+8,M,Gynecology,routine_checkup,severe,0,19,27.1
+43,F,Neurology,urgent,severe,1,4,48.6
+25,M,Cardiology,routine_checkup,mild,0,14,21.3
+29,F,Cardiology,routine_checkup,mild,1,21,29.4
+60,F,Orthopedics,urgent,mild,1,9,33.7
+69,F,Cardiology,follow_up,mild,1,1,29.8
+72,M,General Medicine,first_visit,moderate,0,18,34.5
+82,M,Pediatrics,routine_checkup,moderate,1,3,23.9
+64,F,Neurology,urgent,mild,0,20,33.4
+80,M,ENT,first_visit,moderate,0,15,26.9
+48,F,Pediatrics,first_visit,severe,0,20,36.6
+79,M,Dermatology,follow_up,mild,1,29,14.2
+15,O,Dermatology,first_visit,mild,1,24,17.2
+23,M,Dermatology,routine_checkup,moderate,0,17,19.3
+3,F,Pediatrics,follow_up,moderate,0,25,21.7
+38,M,Dermatology,follow_up,mild,0,4,10.1
+23,F,General Medicine,routine_checkup,moderate,1,7,22.2
+5,M,Cardiology,first_visit,moderate,1,10,42.4
+61,O,Cardiology,first_visit,mild,0,24,28.1
+44,F,General Medicine,follow_up,moderate,1,19,20.2
+59,M,Cardiology,routine_checkup,mild,0,6,22.7
+53,F,Gynecology,first_visit,mild,1,15,29.2
+52,M,Dermatology,first_visit,severe,0,8,29.6
+48,M,Pediatrics,follow_up,mild,0,29,9.7
+30,F,Neurology,follow_up,moderate,0,18,23.2
+80,F,Pediatrics,first_visit,moderate,0,12,31.1
+2,F,Cardiology,follow_up,mild,1,27,23.4
+55,M,Dermatology,follow_up,moderate,1,11,18.9
+60,F,Cardiology,first_visit,mild,0,14,36.7
+51,M,Orthopedics,follow_up,moderate,1,20,20.3
+59,M,General Medicine,follow_up,mild,0,26,8.4
+80,F,Gynecology,routine_checkup,mild,1,2,26.1
+81,O,Orthopedics,follow_up,moderate,0,15,27.3
+42,F,General Medicine,routine_checkup,moderate,1,7,25.9
+62,M,Neurology,follow_up,mild,0,2,25.0
+75,O,Pediatrics,follow_up,moderate,1,16,30.3
+16,F,Orthopedics,routine_checkup,mild,0,26,14.3
+23,M,Orthopedics,follow_up,moderate,1,16,26.1
+39,M,Pediatrics,follow_up,mild,0,24,9.7
+82,M,Pediatrics,follow_up,moderate,1,21,24.7
+56,M,General Medicine,first_visit,severe,1,20,36.9
+50,M,Dermatology,first_visit,mild,0,15,21.7
+10,M,ENT,follow_up,mild,1,26,11.7
+50,M,Dermatology,follow_up,mild,1,17,14.4
+77,F,Pediatrics,first_visit,mild,1,3,30.4
+25,F,General Medicine,follow_up,mild,0,16,14.2
+73,F,Dermatology,follow_up,moderate,0,9,16.8
+34,F,General Medicine,follow_up,mild,1,29,13.0
+3,M,Dermatology,follow_up,severe,0,13,26.9
+22,M,General Medicine,first_visit,mild,1,15,29.8
+82,F,Dermatology,follow_up,mild,1,3,22.8
+79,F,Neurology,first_visit,moderate,0,4,42.7
+13,F,Cardiology,follow_up,mild,0,16,16.2
+49,M,Neurology,follow_up,mild,1,5,28.2
+38,M,Orthopedics,first_visit,mild,0,8,29.9
+36,M,Neurology,first_visit,moderate,0,23,31.9
+42,F,Pediatrics,first_visit,moderate,1,1,40.9
+5,F,Cardiology,first_visit,mild,1,6,39.8
+52,F,Pediatrics,first_visit,mild,0,26,24.2
+9,F,Pediatrics,follow_up,mild,1,18,12.1
+22,M,Pediatrics,first_visit,severe,0,9,40.1
+45,M,Cardiology,routine_checkup,mild,0,19,18.0
+25,M,Orthopedics,follow_up,mild,0,25,14.0
+57,F,Dermatology,follow_up,moderate,0,10,10.0
+53,M,General Medicine,urgent,mild,1,25,30.2
+34,M,Pediatrics,follow_up,moderate,0,18,17.3
+73,M,Dermatology,follow_up,mild,1,11,17.3
+14,F,General Medicine,first_visit,moderate,0,19,29.8
+55,M,Pediatrics,first_visit,mild,0,18,25.3
+14,M,General Medicine,first_visit,mild,0,12,25.6
+29,F,ENT,routine_checkup,moderate,0,7,16.8
+41,F,Cardiology,routine_checkup,mild,0,11,23.1
+78,M,ENT,first_visit,moderate,0,7,32.4
+71,M,Pediatrics,first_visit,moderate,0,29,34.0
+41,M,General Medicine,urgent,mild,1,8,28.9
+13,M,Cardiology,first_visit,mild,0,5,32.9
+55,F,ENT,first_visit,severe,0,7,33.9
+43,M,Dermatology,follow_up,mild,0,5,11.3
+75,M,ENT,first_visit,mild,0,22,21.2
+19,M,Gynecology,first_visit,mild,0,5,28.0
+62,F,Dermatology,routine_checkup,mild,1,2,14.2
+46,M,General Medicine,first_visit,severe,0,2,39.7
+40,F,General Medicine,first_visit,severe,1,14,42.6
+50,M,Dermatology,follow_up,mild,1,8,16.3
+32,F,General Medicine,first_visit,mild,1,17,28.5
+16,M,Orthopedics,urgent,mild,0,3,34.6
+50,M,Orthopedics,first_visit,moderate,1,26,34.7
+29,M,Cardiology,follow_up,mild,1,19,26.3
+19,M,Pediatrics,follow_up,moderate,1,12,21.2
+35,F,Dermatology,first_visit,mild,0,7,20.2
+11,M,ENT,follow_up,moderate,0,1,13.9
+50,M,Pediatrics,routine_checkup,mild,0,29,15.1
+44,M,ENT,routine_checkup,mild,1,1,20.3
+11,F,Gynecology,urgent,moderate,0,28,34.1
+57,F,ENT,first_visit,mild,1,5,27.4
+20,M,Pediatrics,urgent,mild,0,9,24.9
+26,M,Dermatology,follow_up,mild,0,13,8.8
+71,M,Orthopedics,follow_up,severe,0,2,34.9
+8,F,ENT,follow_up,severe,1,27,22.1
+18,M,Orthopedics,routine_checkup,severe,0,7,24.8
+46,M,Dermatology,first_visit,mild,1,29,22.8
+19,M,Orthopedics,follow_up,mild,1,11,16.5
+82,F,Cardiology,first_visit,mild,0,28,33.7
+77,F,Dermatology,first_visit,moderate,0,27,29.9
+63,M,Cardiology,follow_up,moderate,0,28,24.9
+35,M,General Medicine,first_visit,mild,0,27,21.9
+73,O,Orthopedics,urgent,mild,0,4,32.7
+67,F,ENT,follow_up,mild,1,6,20.9
+80,M,Cardiology,follow_up,mild,0,5,25.0
+80,F,Orthopedics,urgent,mild,1,19,39.6
+35,M,General Medicine,follow_up,moderate,0,12,19.1
+33,M,Dermatology,first_visit,severe,0,12,33.1
+18,F,General Medicine,follow_up,mild,0,17,13.7
+10,M,Orthopedics,follow_up,mild,1,27,16.0
+69,M,Dermatology,first_visit,mild,0,12,22.1
+14,M,Orthopedics,follow_up,mild,0,9,16.3
+78,M,Gynecology,first_visit,moderate,1,15,44.1
+58,F,General Medicine,follow_up,mild,0,5,19.5
+72,M,General Medicine,follow_up,moderate,0,11,15.8
+64,F,ENT,first_visit,mild,0,7,21.3
+46,F,Pediatrics,routine_checkup,mild,1,2,21.3
+73,F,Dermatology,follow_up,mild,0,7,15.4
+38,M,Neurology,first_visit,mild,0,16,33.6
+3,F,General Medicine,follow_up,mild,0,21,11.6
+21,F,Cardiology,first_visit,mild,0,7,31.4
+54,F,Dermatology,routine_checkup,mild,1,29,10.1
+52,M,Neurology,follow_up,moderate,0,11,28.8
+47,M,Gynecology,first_visit,moderate,1,3,40.8
+29,O,General Medicine,urgent,mild,0,19,27.2
+35,M,Neurology,urgent,moderate,0,22,39.1
+71,F,ENT,urgent,moderate,1,21,37.0
+73,M,Pediatrics,follow_up,mild,0,3,21.4
+14,M,Neurology,follow_up,mild,1,6,34.0
+12,M,Cardiology,follow_up,moderate,0,8,25.4
+64,M,ENT,routine_checkup,mild,0,18,11.8
+27,F,Cardiology,routine_checkup,moderate,0,5,21.7
+24,M,Cardiology,first_visit,mild,0,14,31.2
+73,F,Pediatrics,follow_up,mild,0,27,16.7
+67,F,Orthopedics,routine_checkup,severe,0,20,27.3
+59,F,General Medicine,routine_checkup,moderate,1,12,18.7
+21,F,Orthopedics,first_visit,moderate,0,1,35.4
+65,F,Orthopedics,urgent,mild,0,3,29.0
+81,M,Gynecology,routine_checkup,mild,1,15,28.4
+69,M,Orthopedics,follow_up,severe,0,7,35.6
+51,F,ENT,first_visit,severe,0,26,31.8
+21,M,Pediatrics,urgent,moderate,0,24,26.7
+31,M,Cardiology,first_visit,mild,0,1,32.9
+54,F,General Medicine,first_visit,mild,0,16,20.8
+23,M,General Medicine,first_visit,mild,0,29,21.0
+32,M,ENT,follow_up,mild,0,16,8.2
+60,F,Orthopedics,first_visit,mild,1,2,33.7
+17,M,ENT,follow_up,mild,0,5,10.5
+33,F,Orthopedics,first_visit,severe,1,1,47.0
+30,F,Pediatrics,routine_checkup,mild,1,29,16.5
+5,F,Orthopedics,first_visit,moderate,0,14,33.9
+58,M,Cardiology,first_visit,moderate,1,5,41.6
+6,M,Cardiology,urgent,severe,0,3,44.8
+58,M,Neurology,first_visit,mild,0,4,33.7
+14,F,Dermatology,first_visit,mild,0,22,21.0
+70,M,General Medicine,routine_checkup,moderate,0,25,19.6
+31,M,Orthopedics,follow_up,mild,1,26,20.5
+61,F,Dermatology,routine_checkup,mild,0,7,11.9
+19,M,ENT,first_visit,mild,1,27,18.4
+31,F,Cardiology,first_visit,severe,1,25,43.1
+76,F,General Medicine,first_visit,mild,0,26,27.6
+30,M,Pediatrics,routine_checkup,mild,1,15,12.2
+8,F,Gynecology,first_visit,mild,0,5,35.3
+29,F,Orthopedics,follow_up,mild,0,26,17.8
+40,F,Dermatology,follow_up,mild,0,6,9.5
+28,F,Orthopedics,follow_up,mild,0,26,17.6
+23,M,ENT,follow_up,severe,0,19,19.4
+14,M,Cardiology,first_visit,mild,0,20,28.1
+14,F,Dermatology,urgent,mild,0,10,24.1
+74,M,Cardiology,follow_up,mild,1,5,24.7
+64,M,Gynecology,first_visit,mild,0,16,31.3
+36,F,Pediatrics,first_visit,mild,1,16,31.9
+65,F,Neurology,first_visit,mild,1,19,37.4
+26,M,General Medicine,first_visit,moderate,1,6,33.0
+66,M,Orthopedics,urgent,mild,1,4,38.5
+4,F,Orthopedics,routine_checkup,mild,1,5,23.8
+12,M,Pediatrics,follow_up,mild,1,7,20.8
+22,M,General Medicine,urgent,severe,1,29,37.9
+26,F,Cardiology,routine_checkup,mild,0,1,25.7
+49,M,Pediatrics,urgent,mild,0,22,26.0
+58,F,Pediatrics,routine_checkup,severe,0,24,26.0
+17,M,General Medicine,follow_up,moderate,1,14,21.4
+48,M,ENT,first_visit,mild,0,28,22.3
+64,M,Pediatrics,first_visit,moderate,1,18,31.8
+70,M,Neurology,follow_up,mild,1,23,28.7
+22,F,Cardiology,follow_up,severe,0,20,32.8
+54,F,General Medicine,follow_up,mild,1,7,22.3
+55,F,ENT,first_visit,moderate,0,20,28.3
+75,M,General Medicine,urgent,mild,0,29,22.6
+17,F,Orthopedics,follow_up,mild,1,4,20.7
+33,M,Pediatrics,follow_up,moderate,0,28,13.4
+56,F,General Medicine,first_visit,moderate,0,26,27.9
+55,M,Neurology,routine_checkup,mild,0,29,20.3
+59,M,General Medicine,urgent,severe,0,20,34.5
+19,F,General Medicine,follow_up,mild,0,22,9.8
+64,F,Cardiology,routine_checkup,moderate,1,19,29.0
+32,F,Cardiology,first_visit,severe,0,12,44.4
+76,M,General Medicine,urgent,moderate,0,18,31.9
+51,M,Cardiology,follow_up,severe,0,12,29.6
+29,F,Cardiology,first_visit,moderate,1,16,39.7
+61,F,Neurology,first_visit,moderate,1,28,33.4
+22,M,Gynecology,first_visit,moderate,0,11,33.6
+7,F,Cardiology,follow_up,mild,0,2,21.9
+29,M,General Medicine,first_visit,mild,0,24,26.4
+83,M,Cardiology,first_visit,mild,1,15,36.6
+45,M,Pediatrics,urgent,moderate,0,21,31.5
+36,F,ENT,urgent,mild,0,28,20.8
+73,M,Cardiology,urgent,mild,0,8,35.7
+48,M,Dermatology,routine_checkup,mild,0,7,8.9
+5,M,General Medicine,follow_up,mild,0,5,12.6
+21,M,General Medicine,follow_up,mild,0,23,14.7
+83,M,Orthopedics,first_visit,mild,0,25,30.0
+80,M,General Medicine,first_visit,mild,0,28,27.2
+11,M,Pediatrics,follow_up,mild,0,16,14.8
+55,F,General Medicine,first_visit,severe,1,2,45.7
+61,F,General Medicine,routine_checkup,mild,1,27,17.9
+34,M,Cardiology,first_visit,mild,0,10,29.2
+72,F,Dermatology,urgent,moderate,0,23,28.2
+47,M,Orthopedics,routine_checkup,mild,0,14,14.4
+41,M,Dermatology,follow_up,moderate,1,14,12.2
+81,M,Orthopedics,first_visit,mild,0,26,28.5
+14,F,General Medicine,follow_up,mild,0,17,11.6
+12,M,Pediatrics,first_visit,mild,1,22,26.9
+57,M,Cardiology,first_visit,mild,0,24,25.9
+53,F,Cardiology,routine_checkup,mild,0,22,23.9
+65,M,Pediatrics,follow_up,mild,0,10,12.7
+74,M,Dermatology,urgent,moderate,0,24,28.6
+29,F,General Medicine,follow_up,mild,0,10,14.7
+74,M,General Medicine,follow_up,moderate,0,23,20.4
+55,F,Gynecology,follow_up,mild,0,7,20.3
+68,O,Orthopedics,first_visit,moderate,0,8,40.1
+43,M,Orthopedics,follow_up,moderate,0,28,17.0
+65,F,Neurology,first_visit,severe,0,19,42.6
+32,M,Dermatology,routine_checkup,mild,0,10,10.6
+19,F,ENT,first_visit,severe,0,2,33.1
+83,M,Cardiology,routine_checkup,mild,0,11,20.8
+77,M,Pediatrics,follow_up,moderate,0,26,20.3
+65,M,Pediatrics,follow_up,mild,0,2,13.0
+34,M,Gynecology,follow_up,moderate,1,17,25.9
+62,M,General Medicine,first_visit,mild,0,12,22.4
+60,M,ENT,routine_checkup,mild,0,27,8.0
+71,O,Dermatology,routine_checkup,severe,0,8,27.1
+77,M,General Medicine,follow_up,mild,0,19,14.5
+50,M,Neurology,first_visit,moderate,0,17,33.1
+38,F,Gynecology,follow_up,mild,0,29,15.0
+64,M,Cardiology,follow_up,mild,0,5,21.2
+81,F,Cardiology,first_visit,mild,1,13,37.1
+35,M,General Medicine,first_visit,moderate,0,13,29.7
+22,M,ENT,routine_checkup,mild,1,2,15.7
+27,M,Pediatrics,first_visit,moderate,1,7,34.2
+69,M,Orthopedics,routine_checkup,severe,0,7,29.6
+12,M,Orthopedics,follow_up,moderate,0,18,21.7
+32,M,Cardiology,first_visit,moderate,1,21,43.1
+6,M,Dermatology,routine_checkup,mild,1,23,16.2
+56,F,Dermatology,follow_up,mild,0,14,10.1
+9,F,Pediatrics,routine_checkup,severe,1,28,28.4
+23,M,General Medicine,follow_up,mild,0,27,8.0
+64,F,Orthopedics,follow_up,severe,0,12,26.0
+18,M,ENT,follow_up,severe,0,25,16.7
+71,F,Cardiology,routine_checkup,mild,0,25,22.9
+7,F,Pediatrics,follow_up,moderate,0,15,22.7
+71,F,Cardiology,follow_up,moderate,0,12,28.2
+13,F,Cardiology,follow_up,mild,0,1,21.7
+11,M,General Medicine,routine_checkup,moderate,0,3,17.2
+76,M,Cardiology,routine_checkup,severe,1,18,35.4
+3,M,Dermatology,follow_up,mild,0,10,11.7
+66,F,Orthopedics,follow_up,mild,1,23,20.9
+21,M,ENT,first_visit,mild,1,5,26.2
+61,M,Cardiology,routine_checkup,moderate,0,26,24.5
+30,F,Cardiology,first_visit,mild,0,11,33.2
+11,F,Pediatrics,first_visit,moderate,1,10,36.6
+3,M,Dermatology,first_visit,mild,0,22,25.3
+50,F,General Medicine,first_visit,mild,0,13,23.0
+77,M,Orthopedics,first_visit,mild,1,15,34.0
+70,F,Pediatrics,routine_checkup,severe,1,29,29.1
+62,F,Dermatology,routine_checkup,mild,0,11,10.8
+25,M,ENT,follow_up,moderate,0,29,14.9
+66,F,General Medicine,follow_up,moderate,1,5,25.8
+23,F,Pediatrics,follow_up,mild,1,27,16.6
+61,M,Gynecology,follow_up,moderate,0,2,27.2
+59,O,Orthopedics,first_visit,severe,0,16,41.6
+77,M,Cardiology,first_visit,moderate,0,18,38.9
+40,M,General Medicine,follow_up,mild,0,29,13.1
+49,F,Gynecology,follow_up,mild,0,13,16.8
+81,M,Pediatrics,first_visit,severe,0,17,37.7
+43,M,Cardiology,follow_up,moderate,1,9,29.3
+22,F,Dermatology,first_visit,mild,0,11,20.6
+5,F,Cardiology,urgent,moderate,1,12,45.3
+44,F,General Medicine,routine_checkup,mild,0,10,15.4
+45,F,Dermatology,urgent,mild,0,27,18.8
+44,O,Orthopedics,urgent,mild,0,26,21.9
+69,F,Neurology,follow_up,moderate,0,7,31.4
+52,M,ENT,first_visit,moderate,0,8,23.2
+20,F,Pediatrics,first_visit,mild,1,25,31.3
+17,M,Cardiology,first_visit,mild,1,22,31.2
+55,F,General Medicine,first_visit,moderate,0,23,24.1
+11,M,General Medicine,urgent,mild,1,3,22.9
+19,F,ENT,routine_checkup,mild,0,8,13.7
+83,M,Cardiology,first_visit,mild,0,3,38.3
+63,F,Neurology,first_visit,mild,1,21,34.8
+76,F,Pediatrics,follow_up,mild,0,12,17.3
+69,F,Neurology,follow_up,mild,0,16,25.6
+78,F,General Medicine,first_visit,mild,0,13,29.8
+78,F,General Medicine,routine_checkup,moderate,0,1,21.0
+31,M,Orthopedics,routine_checkup,severe,1,17,24.9
+13,F,Cardiology,follow_up,mild,0,11,17.1
+34,O,General Medicine,urgent,severe,0,23,33.5
+72,M,General Medicine,first_visit,moderate,0,25,32.3
+76,M,General Medicine,follow_up,mild,0,19,15.1
+47,M,ENT,follow_up,severe,0,8,18.3
+49,F,Cardiology,routine_checkup,mild,1,22,24.0
+68,F,General Medicine,routine_checkup,mild,1,11,22.7
+72,F,Neurology,follow_up,mild,1,23,26.2
+42,M,Pediatrics,first_visit,mild,1,9,28.5
+28,M,ENT,routine_checkup,moderate,1,19,19.8
+44,F,General Medicine,follow_up,mild,0,9,15.9
+21,F,Pediatrics,follow_up,moderate,1,12,24.2
+74,M,General Medicine,urgent,mild,1,17,28.1
+82,F,Orthopedics,routine_checkup,mild,1,23,22.4
+3,M,ENT,routine_checkup,severe,1,26,22.8
+81,F,Pediatrics,first_visit,moderate,0,2,35.6
+73,M,General Medicine,follow_up,mild,0,1,17.1
+64,F,Cardiology,follow_up,moderate,0,20,21.9
+25,F,General Medicine,follow_up,mild,0,27,8.0
+53,F,Cardiology,follow_up,mild,0,5,22.3
+54,O,Cardiology,urgent,mild,0,7,33.3
+11,F,Cardiology,urgent,moderate,0,3,35.9
+57,M,General Medicine,first_visit,mild,1,23,25.1
+62,F,ENT,routine_checkup,moderate,0,1,16.9
+83,M,Pediatrics,follow_up,moderate,0,22,19.9
+58,M,Orthopedics,urgent,moderate,1,3,39.9
+36,F,Pediatrics,routine_checkup,mild,0,20,12.8
+29,O,General Medicine,routine_checkup,mild,1,11,20.2
+39,M,Pediatrics,follow_up,moderate,1,27,18.2
+60,M,General Medicine,first_visit,mild,0,12,26.4
+25,M,Dermatology,urgent,moderate,0,10,25.6
+69,M,Pediatrics,routine_checkup,moderate,0,3,20.2
+27,F,General Medicine,first_visit,moderate,1,16,34.9
+69,M,Neurology,routine_checkup,severe,1,24,42.1
+50,F,Cardiology,first_visit,mild,0,20,31.3
+24,M,Orthopedics,follow_up,mild,0,11,16.4
+14,M,Gynecology,first_visit,severe,1,9,44.5
+47,M,General Medicine,follow_up,mild,1,10,11.5
+4,F,General Medicine,first_visit,moderate,1,14,36.3
+72,F,ENT,follow_up,moderate,0,7,18.6
+30,M,Neurology,routine_checkup,severe,0,27,32.3
+37,O,General Medicine,urgent,severe,1,11,41.8
+57,F,Cardiology,first_visit,mild,0,15,28.7
+59,O,ENT,follow_up,mild,0,18,8.0
+66,F,Orthopedics,follow_up,mild,0,1,26.1
+42,F,General Medicine,follow_up,mild,1,1,18.6
+66,F,General Medicine,first_visit,severe,0,28,35.6
+51,F,Dermatology,first_visit,mild,0,17,18.6
+44,M,Pediatrics,routine_checkup,mild,1,15,19.3
+12,M,Orthopedics,first_visit,severe,0,2,41.8
+18,F,Pediatrics,follow_up,mild,1,22,16.5
+59,M,Pediatrics,first_visit,moderate,0,27,28.0
+75,F,Dermatology,urgent,mild,1,11,31.6
+37,F,Gynecology,first_visit,mild,0,3,27.0
+28,M,Orthopedics,first_visit,mild,0,26,19.3
+20,O,Cardiology,urgent,mild,1,24,37.5
+67,F,Dermatology,follow_up,mild,0,29,8.0
+3,F,Cardiology,first_visit,mild,0,17,34.1
+20,F,Dermatology,follow_up,mild,1,29,8.6
+51,F,General Medicine,first_visit,severe,0,7,35.2
+48,F,Neurology,routine_checkup,moderate,0,26,25.7
+50,M,Orthopedics,follow_up,mild,0,5,18.3
+56,M,General Medicine,first_visit,mild,0,1,31.9
+22,F,Neurology,routine_checkup,mild,0,10,21.0
+29,M,Pediatrics,follow_up,mild,0,3,20.8
+57,F,Cardiology,first_visit,mild,0,27,27.8
+62,F,Pediatrics,routine_checkup,mild,1,1,19.1
+4,F,Dermatology,routine_checkup,mild,1,21,15.6
+12,F,Orthopedics,urgent,moderate,0,29,33.6
+47,M,Pediatrics,follow_up,severe,0,16,27.3
+52,F,Neurology,first_visit,moderate,0,16,38.0
+47,F,Cardiology,routine_checkup,mild,0,13,16.1
+29,M,Cardiology,routine_checkup,mild,1,24,21.7
+68,F,Gynecology,urgent,moderate,1,23,44.3
+8,F,Cardiology,routine_checkup,severe,0,4,33.9
+34,M,Neurology,routine_checkup,mild,1,7,30.4
+21,M,ENT,follow_up,severe,1,18,20.3
+43,M,Neurology,routine_checkup,mild,0,9,24.5
+4,F,ENT,first_visit,moderate,0,16,28.9
+20,F,Cardiology,first_visit,mild,0,21,28.8
+10,M,Dermatology,routine_checkup,moderate,0,9,18.1
+71,M,Cardiology,first_visit,severe,0,23,44.2
+9,F,General Medicine,first_visit,moderate,0,4,30.9
+38,M,General Medicine,routine_checkup,mild,1,24,14.1
+20,F,Orthopedics,follow_up,moderate,0,4,23.8
+44,F,General Medicine,routine_checkup,moderate,0,9,21.1
+46,M,General Medicine,routine_checkup,mild,0,6,16.6
+6,F,Gynecology,routine_checkup,mild,1,29,17.4
+56,F,Orthopedics,first_visit,moderate,1,18,33.8
+17,F,Neurology,routine_checkup,moderate,0,21,22.8
+17,M,Dermatology,urgent,severe,0,24,30.0
+42,F,General Medicine,first_visit,moderate,0,9,30.9
+46,F,Orthopedics,first_visit,severe,1,23,40.7
+62,M,ENT,first_visit,mild,0,2,20.2
+82,F,Orthopedics,first_visit,mild,0,24,27.9
+44,F,Cardiology,routine_checkup,moderate,1,13,27.7
+70,M,Neurology,first_visit,moderate,0,21,41.6
+17,M,Orthopedics,routine_checkup,mild,0,8,22.2
+32,F,General Medicine,first_visit,mild,1,3,36.0
+36,F,General Medicine,routine_checkup,mild,0,11,10.5
+75,F,Neurology,first_visit,severe,0,1,47.1
+81,M,Orthopedics,first_visit,severe,1,27,48.5
+84,F,Orthopedics,routine_checkup,mild,1,21,24.8
+61,M,Pediatrics,follow_up,mild,0,6,14.8
+51,M,Gynecology,first_visit,mild,0,2,33.1
+49,M,Cardiology,routine_checkup,mild,1,22,25.5
+29,F,Pediatrics,first_visit,moderate,0,24,29.0
+51,F,Gynecology,first_visit,moderate,0,1,35.5
+39,M,Neurology,routine_checkup,mild,1,6,25.5
+81,F,General Medicine,first_visit,mild,1,25,29.3
+58,F,Orthopedics,first_visit,mild,1,29,30.1
+36,M,Pediatrics,first_visit,moderate,1,13,34.5
+45,M,Pediatrics,urgent,mild,0,22,27.2
+22,F,General Medicine,follow_up,mild,0,3,11.1
+25,M,Pediatrics,follow_up,mild,0,28,13.2
+19,M,Pediatrics,first_visit,mild,0,28,16.3
+60,M,Dermatology,urgent,severe,0,18,29.0
+40,F,Dermatology,follow_up,moderate,1,11,19.6
+33,M,Cardiology,routine_checkup,mild,0,15,15.9
+63,F,General Medicine,follow_up,mild,0,13,11.9
+52,F,Neurology,first_visit,severe,0,10,43.1
+16,F,Orthopedics,follow_up,mild,0,23,13.3
+81,M,Pediatrics,follow_up,mild,0,12,16.8
+19,O,Pediatrics,first_visit,moderate,1,7,40.7
+53,M,General Medicine,follow_up,mild,1,26,18.8
+32,F,General Medicine,routine_checkup,mild,1,5,15.5
+36,M,General Medicine,follow_up,moderate,1,9,20.4
+22,F,Dermatology,follow_up,mild,0,13,8.0
+81,F,Pediatrics,follow_up,mild,1,6,22.5
+16,M,Orthopedics,first_visit,mild,1,23,35.5
+72,F,Cardiology,first_visit,mild,1,4,39.4
+28,F,General Medicine,first_visit,mild,1,23,21.8
+56,M,Pediatrics,follow_up,severe,1,24,29.9
+11,F,Dermatology,first_visit,mild,1,13,28.1
+30,M,ENT,first_visit,mild,1,6,28.5
+81,F,ENT,routine_checkup,mild,0,7,11.6
+45,M,Gynecology,first_visit,mild,0,26,29.0
+54,M,Pediatrics,urgent,mild,0,25,24.5
+55,M,Pediatrics,first_visit,moderate,0,20,28.9
+14,F,General Medicine,follow_up,moderate,1,9,22.6
+51,M,General Medicine,first_visit,mild,0,25,22.4
+26,F,Orthopedics,follow_up,mild,1,25,16.6
+3,F,Neurology,first_visit,moderate,0,13,40.7
+73,M,Dermatology,follow_up,mild,1,10,15.0
+53,F,General Medicine,first_visit,mild,1,7,25.4
+83,M,Neurology,routine_checkup,severe,1,3,44.8
+13,M,Dermatology,follow_up,severe,1,19,22.0
+63,F,General Medicine,first_visit,mild,1,22,25.8
+13,F,Gynecology,routine_checkup,mild,0,5,19.8
+40,F,General Medicine,first_visit,severe,0,5,37.4
+76,M,Pediatrics,routine_checkup,moderate,1,22,24.3
+80,F,General Medicine,urgent,severe,0,28,36.7
+49,F,Orthopedics,follow_up,moderate,0,22,18.7
+81,M,Neurology,follow_up,mild,0,3,32.2
+77,M,Neurology,first_visit,moderate,0,19,37.1
+67,F,Dermatology,follow_up,mild,1,10,14.6
+40,M,Pediatrics,routine_checkup,moderate,1,23,26.4
+12,O,General Medicine,first_visit,mild,0,27,23.3
+6,M,General Medicine,routine_checkup,mild,0,29,8.9
+23,M,Gynecology,routine_checkup,mild,0,10,20.7
+64,M,Cardiology,routine_checkup,mild,0,18,20.0
+49,M,Neurology,routine_checkup,mild,1,6,31.5
+42,F,Gynecology,first_visit,mild,1,3,33.9
+66,F,Gynecology,routine_checkup,mild,0,28,19.4
+48,M,Cardiology,first_visit,mild,1,24,33.2
+72,M,Gynecology,first_visit,mild,0,6,30.0
+81,F,Pediatrics,follow_up,moderate,0,6,20.5
+34,F,Cardiology,follow_up,moderate,0,1,26.0
+8,F,Cardiology,first_visit,moderate,0,20,34.1
+84,M,Cardiology,first_visit,moderate,1,22,41.0
+26,M,Dermatology,first_visit,moderate,0,15,23.1
+72,F,Pediatrics,follow_up,mild,0,27,18.4
+63,M,Orthopedics,follow_up,mild,0,3,14.4
+29,O,Orthopedics,first_visit,moderate,0,26,29.1
+32,M,Pediatrics,urgent,mild,0,10,25.5
+21,F,General Medicine,routine_checkup,mild,1,11,17.7
+49,M,General Medicine,first_visit,mild,0,2,23.4
+10,M,Dermatology,routine_checkup,moderate,1,29,15.3
+75,M,Cardiology,routine_checkup,mild,0,28,22.2
+41,F,Neurology,first_visit,mild,0,22,30.9
+32,F,Dermatology,follow_up,severe,0,26,16.9
+4,F,General Medicine,routine_checkup,moderate,0,7,20.1
+38,M,General Medicine,routine_checkup,mild,1,4,15.8
+63,M,ENT,follow_up,mild,0,29,9.4
+58,F,General Medicine,first_visit,mild,0,26,21.5
+32,M,Gynecology,routine_checkup,severe,0,21,29.2
+71,M,Pediatrics,routine_checkup,mild,0,25,19.6
+17,M,Neurology,follow_up,mild,1,6,25.3
+31,F,General Medicine,follow_up,mild,0,11,12.1
+40,M,Pediatrics,follow_up,mild,1,12,18.8
+65,M,Orthopedics,follow_up,severe,1,24,32.5
+10,M,Gynecology,follow_up,mild,0,16,17.6
+46,F,ENT,follow_up,moderate,1,5,21.3
+39,F,Pediatrics,first_visit,severe,1,27,39.4
+4,M,Orthopedics,follow_up,moderate,1,6,32.2
+41,M,Cardiology,urgent,mild,0,22,30.0
+29,M,Neurology,follow_up,mild,0,15,22.1
+28,M,Cardiology,follow_up,mild,0,14,17.2
+80,M,Pediatrics,follow_up,mild,1,24,17.9
+59,M,Orthopedics,urgent,mild,1,8,35.9
+54,M,Gynecology,follow_up,mild,0,1,18.3
+17,M,Cardiology,first_visit,severe,1,26,48.4
+30,M,Cardiology,first_visit,severe,1,13,46.9
+72,F,Cardiology,first_visit,severe,0,29,43.4
+28,M,ENT,first_visit,mild,0,1,20.6
+52,M,Pediatrics,first_visit,severe,0,27,33.6
+25,M,Dermatology,first_visit,moderate,1,10,30.1
+49,M,Cardiology,follow_up,mild,0,13,14.5
+7,M,Cardiology,follow_up,moderate,0,21,19.9
+26,F,Orthopedics,first_visit,moderate,1,25,33.5
+54,M,Pediatrics,routine_checkup,moderate,1,24,21.1
+8,M,General Medicine,routine_checkup,moderate,1,29,19.8
+15,O,Dermatology,follow_up,mild,0,23,8.0
+54,M,Neurology,urgent,moderate,1,11,45.9
+76,M,ENT,urgent,mild,0,2,28.4
+22,M,Pediatrics,first_visit,moderate,0,28,30.0
+50,F,ENT,first_visit,moderate,1,15,27.8
+84,M,Orthopedics,routine_checkup,moderate,1,13,33.3
+66,F,Dermatology,follow_up,moderate,1,10,27.7
+65,F,Neurology,first_visit,mild,0,9,36.2
+59,F,Gynecology,follow_up,severe,1,29,30.2
+2,F,Cardiology,follow_up,severe,0,28,28.0
+73,F,Neurology,follow_up,mild,0,13,27.3
+68,F,Pediatrics,follow_up,severe,0,24,22.8
+58,F,Pediatrics,first_visit,severe,0,26,33.2
+12,F,Pediatrics,urgent,mild,0,25,29.5
+17,F,Pediatrics,follow_up,severe,0,21,18.0
+9,O,General Medicine,first_visit,mild,1,18,26.8
+8,M,Pediatrics,follow_up,moderate,0,19,14.8
+21,O,Cardiology,urgent,severe,0,18,39.0
+40,M,Cardiology,follow_up,moderate,0,27,24.4
+82,M,Pediatrics,first_visit,severe,0,17,36.6
+38,F,Pediatrics,routine_checkup,moderate,0,5,18.9
+61,F,Neurology,routine_checkup,moderate,1,7,37.3
+37,M,ENT,routine_checkup,mild,0,12,11.8
+52,M,Neurology,first_visit,mild,0,13,34.5
+21,M,General Medicine,urgent,mild,0,8,24.8
+36,M,Dermatology,follow_up,mild,0,25,8.0
+79,F,Pediatrics,follow_up,mild,0,25,16.9
+40,M,Dermatology,follow_up,mild,1,26,9.3
+47,F,Cardiology,urgent,moderate,0,22,36.6
+7,M,Dermatology,urgent,mild,1,12,28.9
+54,F,Pediatrics,follow_up,mild,0,3,14.2
+59,F,Pediatrics,first_visit,mild,1,20,19.3
+84,F,Cardiology,first_visit,mild,0,8,36.0
+15,F,Neurology,first_visit,mild,0,16,29.4
+37,M,Cardiology,follow_up,mild,0,6,23.3
+55,M,Cardiology,follow_up,mild,0,24,16.3
+28,M,Dermatology,routine_checkup,moderate,0,13,11.4
+31,F,General Medicine,follow_up,mild,0,29,10.2
+33,M,General Medicine,urgent,mild,0,9,26.0
+79,M,ENT,first_visit,mild,0,9,21.7
+47,F,Neurology,first_visit,moderate,0,3,38.9
+30,M,General Medicine,urgent,mild,1,5,30.5
+48,M,Cardiology,first_visit,moderate,0,1,39.9
+80,F,ENT,follow_up,moderate,1,15,18.7
+57,F,Dermatology,first_visit,mild,0,14,19.4
+22,F,Gynecology,follow_up,severe,1,20,33.3
+30,F,Neurology,follow_up,severe,1,8,32.3
+7,M,Cardiology,first_visit,mild,0,12,36.8
+60,F,General Medicine,routine_checkup,mild,0,23,8.0
+24,M,General Medicine,first_visit,mild,1,6,31.2
+41,M,General Medicine,follow_up,mild,1,4,21.4
+47,F,Dermatology,first_visit,moderate,1,13,30.2
+25,F,Pediatrics,routine_checkup,severe,0,22,20.9
+51,M,Neurology,routine_checkup,mild,0,11,23.4
+10,F,General Medicine,follow_up,mild,0,29,9.0
+55,M,General Medicine,follow_up,moderate,0,22,12.7
+74,F,Pediatrics,follow_up,moderate,0,28,23.5
+52,F,Orthopedics,routine_checkup,moderate,0,19,22.2
+64,F,General Medicine,first_visit,severe,0,26,37.3
+80,M,Cardiology,follow_up,moderate,0,16,29.3
+34,M,General Medicine,follow_up,mild,0,13,8.0
+71,M,Cardiology,routine_checkup,mild,1,19,27.0
+84,F,General Medicine,follow_up,moderate,0,7,21.4
+72,M,Cardiology,routine_checkup,mild,1,20,21.5
+23,F,General Medicine,first_visit,mild,0,22,23.3
+49,M,Dermatology,first_visit,mild,0,4,20.2
+41,F,Neurology,urgent,moderate,0,14,38.6
+40,F,Pediatrics,routine_checkup,moderate,1,8,20.2
+48,M,General Medicine,routine_checkup,mild,0,11,12.8
+65,F,General Medicine,routine_checkup,mild,0,1,13.3
+66,M,General Medicine,routine_checkup,moderate,1,28,20.0
+22,M,Pediatrics,first_visit,mild,0,8,29.0
+24,F,Pediatrics,routine_checkup,mild,0,7,16.0
+71,M,Orthopedics,urgent,moderate,0,25,35.8
+48,M,General Medicine,first_visit,mild,0,19,22.9
+56,F,General Medicine,routine_checkup,mild,1,13,18.6
+56,F,Orthopedics,first_visit,moderate,0,20,35.0
+29,F,Pediatrics,follow_up,mild,0,18,13.4
+75,F,General Medicine,routine_checkup,mild,0,9,18.9
+3,F,Cardiology,follow_up,mild,0,1,21.4
+48,F,General Medicine,follow_up,mild,1,18,17.9
+79,M,ENT,urgent,moderate,1,11,33.1
+6,M,Pediatrics,routine_checkup,moderate,0,5,19.8
+52,F,Pediatrics,first_visit,mild,0,9,27.0
+63,O,Orthopedics,first_visit,mild,1,15,29.4
+64,F,General Medicine,routine_checkup,moderate,0,12,14.7
+75,F,General Medicine,follow_up,moderate,0,3,21.9
+68,F,Dermatology,routine_checkup,moderate,1,9,25.8
+36,F,Pediatrics,routine_checkup,mild,0,3,20.8
+78,M,Dermatology,routine_checkup,severe,0,6,21.5
+4,M,Cardiology,urgent,mild,1,11,39.5
+21,M,Cardiology,follow_up,moderate,0,13,24.7
+19,M,Cardiology,first_visit,mild,0,27,32.5
+24,M,Cardiology,first_visit,moderate,0,20,32.8
+60,F,Orthopedics,follow_up,moderate,0,11,18.7
+70,M,General Medicine,first_visit,mild,0,16,30.3
+49,F,Dermatology,first_visit,mild,0,6,19.6
+63,M,Neurology,routine_checkup,moderate,0,12,33.3
+14,F,Orthopedics,follow_up,moderate,1,25,21.3
+71,F,General Medicine,urgent,mild,0,21,27.4
+27,F,Orthopedics,routine_checkup,mild,0,5,21.3
+12,F,Dermatology,urgent,moderate,0,17,25.6
+17,F,Pediatrics,follow_up,mild,1,6,20.3
+51,M,Neurology,routine_checkup,moderate,1,11,29.0
+61,O,Dermatology,first_visit,mild,1,29,22.4
+10,F,ENT,first_visit,severe,1,1,35.9
+76,M,Dermatology,routine_checkup,mild,0,26,8.0
+60,M,General Medicine,routine_checkup,moderate,0,19,21.1
+61,F,Cardiology,follow_up,moderate,1,28,27.3
+41,F,Orthopedics,first_visit,moderate,0,12,30.3
+64,M,Neurology,first_visit,moderate,0,26,40.3
+8,F,Cardiology,first_visit,mild,0,21,34.4
+28,F,Cardiology,first_visit,mild,0,3,34.5
+29,M,Pediatrics,first_visit,mild,0,17,21.4
+55,F,General Medicine,routine_checkup,mild,0,29,11.1
+3,M,General Medicine,follow_up,mild,1,7,16.2
+26,F,Gynecology,first_visit,moderate,0,2,39.2
+61,M,Pediatrics,routine_checkup,mild,0,13,19.4
+55,F,Cardiology,first_visit,mild,0,23,31.7
+14,M,Gynecology,urgent,moderate,0,20,35.2
+17,M,Pediatrics,routine_checkup,mild,0,21,14.4
+34,M,Pediatrics,follow_up,mild,1,4,15.2
+46,F,Orthopedics,follow_up,mild,0,8,16.1
+61,F,Cardiology,routine_checkup,severe,1,9,40.3
+11,M,Orthopedics,routine_checkup,mild,0,14,14.4
+17,F,Pediatrics,follow_up,mild,1,13,19.3
+40,M,General Medicine,first_visit,mild,0,27,18.8
+13,F,Orthopedics,urgent,mild,0,1,28.8
+78,M,General Medicine,first_visit,moderate,0,20,29.3
+49,M,General Medicine,first_visit,mild,0,15,23.7
+78,F,Cardiology,first_visit,severe,1,23,49.7
+53,M,Gynecology,routine_checkup,mild,0,9,22.1
+84,M,Cardiology,first_visit,moderate,0,28,41.4
+77,F,Cardiology,first_visit,severe,1,2,53.5
+6,F,Pediatrics,routine_checkup,moderate,0,12,16.5
+63,F,General Medicine,first_visit,mild,1,1,28.5
+3,M,Cardiology,follow_up,mild,1,15,29.7
+11,M,Orthopedics,urgent,mild,0,11,28.1
+23,F,Dermatology,follow_up,mild,0,18,9.5
+31,F,Dermatology,first_visit,mild,0,9,24.8
+62,M,Pediatrics,routine_checkup,mild,0,7,16.2
+46,M,Orthopedics,urgent,mild,1,17,29.9
+25,M,Cardiology,follow_up,mild,0,13,22.6
+33,M,Dermatology,follow_up,severe,0,13,17.2
+75,M,ENT,urgent,mild,0,18,28.4
+18,F,Orthopedics,first_visit,mild,0,23,26.5
+54,F,General Medicine,follow_up,severe,0,15,26.5
+48,F,General Medicine,first_visit,moderate,1,21,33.3
+79,M,Dermatology,follow_up,moderate,0,19,15.5
+84,M,General Medicine,first_visit,mild,0,15,33.3
+24,F,General Medicine,first_visit,severe,0,3,37.0
+83,M,General Medicine,first_visit,mild,0,3,23.4
+27,F,Neurology,first_visit,moderate,0,8,35.8
+8,M,Pediatrics,routine_checkup,moderate,0,22,18.2
+10,F,Cardiology,follow_up,mild,0,6,23.9
+37,M,Pediatrics,follow_up,moderate,0,10,21.5
+58,F,Cardiology,first_visit,mild,0,12,34.0
+7,M,Pediatrics,routine_checkup,mild,0,3,13.7
+55,F,Orthopedics,follow_up,severe,1,18,32.5
+45,F,Cardiology,urgent,mild,0,17,33.3
+10,O,ENT,urgent,severe,0,23,29.2
+54,O,Cardiology,first_visit,moderate,0,25,35.7
+83,F,General Medicine,urgent,mild,0,17,25.5
+10,F,ENT,urgent,mild,1,4,27.7
+10,F,Cardiology,follow_up,mild,0,20,19.2
+2,F,General Medicine,first_visit,mild,0,9,26.3
+69,M,Orthopedics,first_visit,mild,0,18,29.6
+37,F,General Medicine,first_visit,mild,0,5,26.7
+5,M,General Medicine,follow_up,moderate,1,22,23.3
+20,O,Pediatrics,routine_checkup,moderate,0,1,18.9
+66,F,ENT,urgent,mild,0,16,30.4
+65,F,Pediatrics,routine_checkup,severe,0,21,27.5
+56,F,Neurology,follow_up,moderate,1,21,31.0
+47,F,Orthopedics,follow_up,mild,0,13,15.3
+7,F,Dermatology,follow_up,mild,0,8,8.0
+14,M,Cardiology,first_visit,mild,0,22,28.2
+59,F,Cardiology,routine_checkup,moderate,1,6,31.1
+70,M,Dermatology,routine_checkup,mild,0,7,13.0
+79,O,Orthopedics,routine_checkup,moderate,1,13,26.8
+10,M,Orthopedics,routine_checkup,moderate,0,14,21.9
+68,F,ENT,first_visit,mild,0,24,20.5
+81,M,Cardiology,follow_up,mild,1,22,25.8
+49,M,ENT,routine_checkup,moderate,0,26,14.8
+17,M,Pediatrics,urgent,moderate,1,12,36.5
+61,M,ENT,first_visit,mild,1,7,26.6
+79,F,Neurology,first_visit,mild,1,24,39.0
+35,F,Cardiology,follow_up,mild,1,15,21.6
+76,F,Dermatology,routine_checkup,moderate,0,13,19.7
+25,F,Neurology,follow_up,moderate,0,29,25.9
+76,F,Pediatrics,routine_checkup,severe,1,7,34.3
+32,F,Neurology,first_visit,moderate,1,22,37.3
+20,F,ENT,first_visit,mild,1,14,25.8
+30,F,Gynecology,routine_checkup,mild,1,25,19.3
+40,M,Dermatology,first_visit,mild,0,27,18.0
+84,F,ENT,routine_checkup,severe,1,8,31.4
+35,F,General Medicine,first_visit,mild,0,21,22.6
+9,F,Orthopedics,first_visit,mild,1,13,32.6
+23,M,ENT,follow_up,severe,0,1,25.5
+39,F,Neurology,first_visit,mild,0,8,32.4
+47,M,General Medicine,first_visit,moderate,1,16,32.5
+21,F,General Medicine,follow_up,mild,1,2,19.4
+6,M,ENT,first_visit,moderate,0,15,21.8
+21,F,Neurology,routine_checkup,severe,1,22,36.0
+5,O,Cardiology,first_visit,mild,0,3,34.0
+61,F,Cardiology,follow_up,mild,0,14,19.3
+21,F,General Medicine,first_visit,mild,0,28,22.3
+64,F,Gynecology,routine_checkup,mild,0,20,18.0
+73,O,General Medicine,first_visit,moderate,0,20,35.4
+47,M,General Medicine,first_visit,moderate,0,14,29.1
+19,F,Pediatrics,urgent,severe,0,2,40.8
+14,M,Orthopedics,routine_checkup,mild,0,7,17.2
+57,F,Pediatrics,follow_up,mild,0,24,14.6
+78,M,General Medicine,urgent,mild,0,14,33.2
+51,F,ENT,routine_checkup,mild,1,15,12.7
+29,M,General Medicine,first_visit,mild,1,25,17.2
+83,M,General Medicine,follow_up,severe,0,20,22.4
+26,F,Neurology,first_visit,mild,0,15,27.9
+16,F,Neurology,follow_up,moderate,1,19,32.2
+40,F,Pediatrics,routine_checkup,severe,0,9,20.8
+22,M,Pediatrics,first_visit,severe,0,11,33.9
+44,M,Orthopedics,first_visit,mild,0,9,30.1
+81,M,Orthopedics,first_visit,moderate,1,6,42.3
+63,F,ENT,follow_up,mild,0,18,10.1
+4,M,Pediatrics,routine_checkup,moderate,0,2,26.6
+21,F,Pediatrics,first_visit,moderate,0,6,32.8
+45,F,Gynecology,first_visit,moderate,0,12,34.3
+20,M,Dermatology,urgent,mild,1,13,21.6
+67,F,Neurology,first_visit,mild,0,28,31.9
+76,M,ENT,first_visit,mild,0,13,26.9
+71,M,Gynecology,urgent,severe,0,12,40.3
+70,F,Dermatology,follow_up,mild,0,17,9.7
+2,F,Neurology,follow_up,severe,0,26,33.7
+31,F,Cardiology,first_visit,moderate,1,12,37.9
+54,O,Dermatology,routine_checkup,mild,0,7,12.9
+31,O,Pediatrics,first_visit,moderate,1,12,35.7
+14,M,Cardiology,urgent,mild,1,17,38.0
+73,M,Dermatology,routine_checkup,mild,0,17,12.6
+81,M,Pediatrics,first_visit,mild,0,25,30.0
+14,M,Orthopedics,follow_up,mild,1,18,19.2
+77,M,Gynecology,routine_checkup,mild,0,25,22.1
+79,F,Dermatology,follow_up,mild,0,23,11.8
+79,F,Pediatrics,follow_up,mild,1,26,18.1
+31,F,Orthopedics,urgent,moderate,0,6,35.7
+29,M,Dermatology,follow_up,moderate,0,1,12.1
+44,F,Cardiology,first_visit,mild,1,12,36.3
+36,F,Cardiology,first_visit,moderate,1,3,40.9
+45,F,Pediatrics,routine_checkup,mild,0,8,16.4
+75,M,Gynecology,follow_up,mild,0,24,18.5
+60,F,Cardiology,follow_up,moderate,0,11,22.8
+48,F,General Medicine,follow_up,severe,0,4,23.1
+7,M,Dermatology,follow_up,moderate,0,9,14.7
+60,F,Pediatrics,first_visit,moderate,0,13,28.3
+37,M,Dermatology,follow_up,moderate,1,2,22.9
+28,M,Cardiology,follow_up,severe,0,22,29.3
+30,F,Pediatrics,first_visit,mild,0,5,30.1
+40,F,Gynecology,follow_up,severe,0,7,29.7
+47,F,General Medicine,first_visit,moderate,0,17,25.9
+20,F,Pediatrics,follow_up,mild,1,29,13.7
+59,F,General Medicine,routine_checkup,mild,0,19,11.8
+17,M,Cardiology,follow_up,mild,0,13,25.9
+69,M,Orthopedics,routine_checkup,mild,1,24,20.8
+56,F,Orthopedics,first_visit,mild,1,17,29.4
+66,M,General Medicine,follow_up,moderate,0,28,13.0
+7,O,General Medicine,first_visit,mild,1,3,27.2
+39,F,ENT,routine_checkup,severe,0,16,21.9
+22,M,Orthopedics,first_visit,moderate,0,6,31.8
+64,F,Pediatrics,follow_up,mild,0,14,11.6
+63,M,Dermatology,follow_up,mild,0,14,8.0
+21,M,Gynecology,first_visit,severe,0,9,43.2
+10,F,Orthopedics,follow_up,mild,0,26,12.9
+22,M,Dermatology,follow_up,moderate,1,6,20.6
+34,M,Neurology,routine_checkup,mild,1,5,26.9
+7,F,ENT,follow_up,moderate,0,13,14.0
+31,F,Orthopedics,first_visit,mild,0,18,26.4
+33,M,Pediatrics,follow_up,severe,1,16,29.6
+48,F,General Medicine,first_visit,mild,0,20,19.2
+19,M,ENT,follow_up,mild,0,16,8.4
+8,F,Cardiology,routine_checkup,mild,0,18,25.0
+17,M,Dermatology,follow_up,severe,0,27,21.1
+37,M,Orthopedics,follow_up,severe,0,16,22.0
+77,F,Orthopedics,urgent,moderate,1,27,39.6
+8,F,Pediatrics,follow_up,mild,0,24,17.5
+11,F,General Medicine,follow_up,moderate,0,7,13.2
+10,M,Cardiology,follow_up,mild,1,17,24.6
+40,F,General Medicine,follow_up,mild,0,8,13.6
+82,M,Orthopedics,follow_up,mild,1,24,23.9
+67,M,Cardiology,routine_checkup,severe,0,28,31.0
+5,M,Orthopedics,follow_up,mild,1,16,22.3
+50,M,Pediatrics,follow_up,mild,1,18,16.2
+27,M,Orthopedics,follow_up,severe,0,15,28.7
+62,O,Pediatrics,first_visit,moderate,0,27,25.1
+34,F,General Medicine,follow_up,moderate,1,11,21.9
+25,F,General Medicine,first_visit,mild,0,20,23.4
+9,M,Cardiology,follow_up,mild,1,16,22.8
+75,F,Dermatology,follow_up,mild,0,21,11.3
+20,M,Pediatrics,routine_checkup,mild,0,8,13.6
+82,F,Pediatrics,follow_up,mild,0,25,17.9
+6,M,General Medicine,first_visit,mild,0,15,22.1
+47,F,Dermatology,follow_up,severe,1,25,23.3
+47,M,General Medicine,routine_checkup,moderate,0,9,20.7
+66,F,Cardiology,first_visit,mild,1,22,36.4
+71,F,Dermatology,urgent,moderate,1,12,32.9
+53,F,General Medicine,routine_checkup,mild,1,22,13.5
+73,F,Gynecology,follow_up,mild,0,20,21.5
+69,M,General Medicine,first_visit,mild,1,21,28.0
+38,M,Cardiology,follow_up,severe,0,14,34.4
+2,F,Cardiology,follow_up,moderate,0,16,25.8
+51,F,General Medicine,urgent,moderate,0,14,32.5
+76,M,Pediatrics,routine_checkup,mild,0,22,18.5
+18,M,Gynecology,follow_up,mild,1,18,15.7
+81,O,Cardiology,urgent,moderate,1,3,47.6
+45,M,Dermatology,urgent,mild,0,3,27.2
+45,F,General Medicine,follow_up,mild,1,26,10.0
+31,F,Neurology,routine_checkup,mild,0,9,22.7
+42,F,General Medicine,routine_checkup,mild,0,9,11.7
+62,M,General Medicine,first_visit,moderate,0,18,29.0
+51,F,Cardiology,follow_up,severe,1,12,40.8
+21,M,General Medicine,routine_checkup,mild,0,19,13.9
+8,M,Dermatology,follow_up,moderate,0,13,9.4
+10,M,General Medicine,first_visit,mild,1,18,28.6
+32,M,Gynecology,routine_checkup,mild,0,11,18.7
+2,M,Gynecology,routine_checkup,moderate,1,18,33.4
+76,F,ENT,first_visit,mild,0,23,22.0
+82,F,Orthopedics,first_visit,moderate,1,24,40.8
+10,F,Pediatrics,first_visit,mild,1,24,25.3
+28,F,Cardiology,first_visit,moderate,0,8,36.6
+73,F,Neurology,follow_up,mild,0,19,27.6
+82,F,ENT,first_visit,mild,1,11,30.3
+21,M,Gynecology,routine_checkup,mild,0,21,19.9
+30,F,ENT,follow_up,severe,1,4,26.3
+3,F,General Medicine,follow_up,mild,1,12,21.5
+40,M,Pediatrics,follow_up,mild,0,14,10.3
+39,F,ENT,follow_up,severe,1,2,28.3
+38,M,General Medicine,follow_up,mild,0,29,12.4
+75,M,Cardiology,follow_up,mild,0,17,23.2
+82,M,Orthopedics,routine_checkup,mild,1,18,23.5
+33,M,General Medicine,urgent,severe,0,15,34.8
+37,F,General Medicine,routine_checkup,mild,0,3,11.9
+37,M,General Medicine,routine_checkup,mild,1,17,12.6
+77,M,Gynecology,first_visit,mild,0,20,31.6
+69,M,Cardiology,routine_checkup,moderate,0,6,30.2
+30,F,Pediatrics,follow_up,mild,1,16,20.4
+13,F,Gynecology,routine_checkup,severe,0,13,29.8
+22,M,Dermatology,follow_up,moderate,0,21,11.5
+7,M,Dermatology,routine_checkup,moderate,1,6,22.5
+21,M,General Medicine,first_visit,moderate,0,23,28.2
+50,M,Cardiology,first_visit,moderate,1,21,37.1
+44,M,Cardiology,follow_up,moderate,0,11,27.0
+75,M,Cardiology,follow_up,mild,0,16,23.5
+59,F,General Medicine,routine_checkup,severe,1,10,24.2
+17,F,Pediatrics,first_visit,moderate,1,21,36.0
+9,M,General Medicine,first_visit,mild,1,23,29.2
+49,M,Cardiology,follow_up,mild,0,21,22.9
+51,M,Pediatrics,follow_up,moderate,1,1,25.3
+57,M,ENT,first_visit,mild,0,20,21.1
+54,F,Cardiology,first_visit,mild,0,18,26.6
+51,M,Cardiology,follow_up,moderate,0,26,17.6
+20,M,Orthopedics,follow_up,mild,0,1,18.5
+12,F,Pediatrics,follow_up,mild,0,9,12.5
+84,F,Cardiology,first_visit,mild,1,27,39.4
+82,F,General Medicine,first_visit,severe,0,27,35.0
+70,M,ENT,routine_checkup,mild,0,15,10.9
+55,F,Pediatrics,follow_up,moderate,1,7,24.5
+28,M,Cardiology,first_visit,moderate,1,18,37.1
+39,F,Gynecology,first_visit,mild,0,18,26.7
+23,F,Dermatology,follow_up,mild,1,13,13.0
+42,M,Cardiology,first_visit,mild,0,8,31.6
+65,M,Cardiology,first_visit,severe,1,14,38.5
+19,F,Gynecology,follow_up,mild,0,8,20.8
+32,M,General Medicine,first_visit,severe,0,23,34.1
+39,F,Cardiology,first_visit,severe,1,17,44.5
+9,M,General Medicine,follow_up,moderate,1,10,20.0
+52,F,Neurology,urgent,mild,0,22,30.9
+43,M,Orthopedics,first_visit,moderate,1,28,34.6
+73,F,Gynecology,routine_checkup,mild,1,22,24.2
+48,M,Orthopedics,follow_up,mild,0,8,16.0
+50,M,ENT,routine_checkup,moderate,1,2,24.6
+18,M,Dermatology,first_visit,moderate,0,29,22.6
+77,M,Cardiology,urgent,mild,0,23,35.3
+4,M,Orthopedics,follow_up,severe,1,8,34.3
+38,F,Neurology,follow_up,severe,1,10,40.0
+69,M,Cardiology,routine_checkup,moderate,0,27,26.5
+4,F,Orthopedics,first_visit,severe,0,2,44.9
+41,M,Cardiology,follow_up,mild,0,28,20.4
+66,F,Cardiology,follow_up,severe,1,5,38.3
+6,M,Cardiology,follow_up,mild,1,13,27.8
+51,M,Dermatology,follow_up,mild,0,8,8.6
+65,M,General Medicine,first_visit,severe,1,20,32.8
+29,F,Dermatology,first_visit,mild,1,16,25.6
+76,M,Neurology,first_visit,severe,0,13,46.9
+29,M,Gynecology,routine_checkup,moderate,0,14,19.9
+57,M,Cardiology,follow_up,mild,0,13,20.2
+58,M,Orthopedics,routine_checkup,mild,0,29,15.0
+19,M,General Medicine,urgent,mild,1,28,29.4
+59,F,Dermatology,first_visit,mild,0,11,20.9
+67,F,Cardiology,follow_up,moderate,0,7,30.3
+46,F,ENT,routine_checkup,moderate,0,8,17.7
+16,O,Pediatrics,first_visit,mild,0,13,24.9
+5,F,Neurology,follow_up,moderate,0,25,22.3
+75,M,Cardiology,follow_up,mild,0,5,24.9
+56,F,Gynecology,routine_checkup,moderate,0,15,24.9
+73,M,Pediatrics,first_visit,mild,0,22,30.3
+48,F,Pediatrics,first_visit,mild,0,7,22.1
+31,M,Cardiology,follow_up,severe,1,14,38.6
+40,F,Cardiology,follow_up,moderate,0,29,12.0
+25,F,Orthopedics,urgent,mild,0,5,30.9
+31,M,General Medicine,follow_up,mild,1,11,17.2
+28,M,Cardiology,routine_checkup,mild,0,3,23.1
+33,M,Orthopedics,routine_checkup,mild,0,18,16.9
+41,F,Orthopedics,first_visit,moderate,0,14,26.6
+19,M,Dermatology,first_visit,mild,1,29,21.7
+39,F,Neurology,routine_checkup,mild,1,8,32.0
+75,M,Pediatrics,first_visit,moderate,0,14,32.2
+81,M,General Medicine,routine_checkup,moderate,1,10,28.8
+32,O,Dermatology,follow_up,moderate,1,26,15.1
+37,F,Pediatrics,follow_up,mild,0,9,11.0
+60,F,Cardiology,follow_up,mild,0,26,13.6
+22,F,Pediatrics,follow_up,mild,1,7,23.1
+38,F,Cardiology,urgent,mild,0,19,31.2
+28,M,ENT,first_visit,mild,0,23,21.0
+83,M,Gynecology,first_visit,mild,0,28,28.3
+76,M,Orthopedics,follow_up,mild,1,29,19.6
+68,M,Orthopedics,first_visit,severe,0,27,41.2
+2,M,Orthopedics,routine_checkup,mild,0,21,20.4
+78,M,Neurology,first_visit,mild,0,19,35.2
+41,M,Gynecology,first_visit,mild,0,17,31.8
+66,F,Orthopedics,urgent,moderate,0,15,37.0
+10,F,ENT,first_visit,moderate,1,8,35.7
+28,M,Pediatrics,first_visit,mild,0,14,22.9
+84,O,Cardiology,first_visit,mild,0,26,29.8
+21,F,Pediatrics,routine_checkup,mild,1,20,16.7
+65,M,General Medicine,follow_up,moderate,1,19,19.3
+12,M,Neurology,first_visit,mild,0,8,31.0
+5,F,Dermatology,follow_up,mild,1,3,13.3
+41,M,General Medicine,routine_checkup,moderate,0,20,14.9
+37,F,General Medicine,first_visit,moderate,0,8,28.7
+19,F,Neurology,follow_up,mild,0,1,22.4
+14,M,Neurology,first_visit,moderate,1,15,36.2
+16,F,General Medicine,first_visit,severe,0,16,35.2
+46,F,General Medicine,follow_up,mild,0,28,8.1
+2,M,General Medicine,routine_checkup,severe,1,24,31.6
+24,F,General Medicine,routine_checkup,moderate,0,17,19.7
+60,F,Neurology,follow_up,moderate,1,26,24.8
+5,M,Orthopedics,first_visit,moderate,0,1,33.7
+80,M,General Medicine,first_visit,moderate,0,13,32.9
+5,F,Cardiology,routine_checkup,moderate,1,5,28.8
+52,O,Orthopedics,routine_checkup,mild,0,14,21.3
+22,F,ENT,routine_checkup,moderate,0,27,15.0
+54,M,Neurology,urgent,mild,1,17,37.3
+48,M,Pediatrics,first_visit,moderate,0,24,26.9
+70,F,Dermatology,follow_up,mild,0,22,15.8
+53,M,Pediatrics,first_visit,mild,0,8,28.5
+6,M,Neurology,routine_checkup,mild,0,5,25.5
+34,M,Neurology,follow_up,mild,1,16,23.1
+67,F,Pediatrics,follow_up,moderate,0,2,28.9
+70,F,Dermatology,routine_checkup,moderate,0,20,12.2
+71,F,Dermatology,follow_up,mild,0,11,16.4
+65,F,Cardiology,follow_up,mild,1,7,23.1
+40,F,General Medicine,routine_checkup,mild,0,9,13.9
+70,F,Dermatology,first_visit,severe,1,26,36.1
+24,F,General Medicine,first_visit,mild,0,18,24.0
+76,F,Orthopedics,follow_up,mild,0,22,18.3
+2,F,Dermatology,first_visit,mild,0,12,18.8
+67,M,Neurology,follow_up,mild,1,14,28.2
+4,F,Dermatology,first_visit,mild,0,7,25.1
+53,F,ENT,follow_up,moderate,0,26,12.7
+36,F,Pediatrics,follow_up,severe,0,12,24.4
+8,M,Dermatology,follow_up,mild,0,19,10.2
+63,F,Orthopedics,first_visit,moderate,0,7,32.8
+51,M,General Medicine,routine_checkup,mild,0,21,14.2
+7,F,Pediatrics,first_visit,moderate,1,5,40.7
+75,F,Cardiology,first_visit,mild,0,18,36.4
+2,M,Orthopedics,urgent,severe,1,4,47.2
+8,F,Pediatrics,first_visit,mild,1,10,31.7
+7,F,Dermatology,first_visit,mild,0,20,21.4
+84,F,Pediatrics,follow_up,moderate,0,10,23.6
+63,M,Neurology,routine_checkup,moderate,0,10,27.2
+83,F,Gynecology,first_visit,mild,0,17,34.3
+22,F,Orthopedics,first_visit,moderate,0,28,31.9
+72,F,Cardiology,routine_checkup,moderate,0,7,26.1
+14,M,Dermatology,first_visit,mild,0,18,20.5
+57,M,Dermatology,follow_up,moderate,0,12,14.0
+9,F,General Medicine,routine_checkup,mild,0,5,13.1
+20,F,Cardiology,follow_up,moderate,0,5,22.2
+78,M,Gynecology,follow_up,moderate,0,13,27.3
+9,F,Orthopedics,first_visit,moderate,1,17,30.9
+32,M,Pediatrics,follow_up,mild,1,10,21.0
+51,M,Dermatology,follow_up,mild,0,15,12.5
+9,M,General Medicine,first_visit,moderate,0,29,25.5
+55,M,Gynecology,first_visit,moderate,0,29,34.5
+31,F,Orthopedics,follow_up,mild,0,23,16.2
+13,F,Pediatrics,first_visit,mild,1,29,26.1
+67,F,Dermatology,follow_up,mild,1,20,15.2
+7,M,Cardiology,routine_checkup,moderate,1,23,25.1
+40,M,Orthopedics,follow_up,moderate,0,14,21.9
+75,M,Cardiology,urgent,mild,0,26,34.5
+77,M,Dermatology,urgent,moderate,0,27,32.7
+45,M,General Medicine,follow_up,severe,0,21,20.2
+24,M,Cardiology,first_visit,severe,0,21,35.8
+73,F,Cardiology,first_visit,mild,0,23,33.8
+45,M,ENT,follow_up,moderate,0,2,16.3
+32,O,Orthopedics,first_visit,moderate,1,27,34.4
+42,M,Cardiology,urgent,severe,0,25,40.9
+72,F,Pediatrics,follow_up,mild,1,8,21.4
+21,M,Pediatrics,follow_up,mild,1,9,22.2
+64,F,Dermatology,first_visit,mild,0,17,22.3
+35,F,Cardiology,follow_up,mild,0,17,23.1
+66,M,Cardiology,urgent,mild,1,11,41.7
+65,M,Cardiology,follow_up,mild,0,2,20.3
+82,F,General Medicine,follow_up,mild,1,28,18.1
+40,O,Orthopedics,follow_up,severe,0,12,24.0
+52,M,Cardiology,routine_checkup,moderate,1,29,27.0
+65,F,Cardiology,routine_checkup,mild,0,26,20.0
+25,O,Neurology,first_visit,severe,0,15,41.6
+63,M,Dermatology,routine_checkup,moderate,1,17,14.3
+42,M,General Medicine,follow_up,severe,1,18,29.9
+62,F,General Medicine,follow_up,mild,0,18,10.8
+6,F,Neurology,follow_up,moderate,0,26,23.5
+26,M,General Medicine,first_visit,moderate,1,22,29.8
+42,M,Dermatology,first_visit,mild,1,7,24.4
+17,M,Cardiology,follow_up,mild,1,29,22.9
+57,M,Orthopedics,first_visit,mild,0,18,29.1
+44,F,Neurology,first_visit,mild,1,22,32.6
+44,F,ENT,first_visit,moderate,0,5,27.4
+79,F,Orthopedics,first_visit,severe,0,1,40.8
+79,F,Cardiology,follow_up,mild,0,23,20.8
+75,F,General Medicine,follow_up,mild,0,8,15.0
+80,M,Orthopedics,routine_checkup,moderate,0,28,21.0
+70,F,Cardiology,follow_up,moderate,0,9,26.6
+62,O,General Medicine,first_visit,moderate,0,29,26.2
+62,M,Orthopedics,follow_up,moderate,1,26,25.0
+16,M,Pediatrics,follow_up,mild,0,8,15.4
+46,M,Dermatology,follow_up,mild,0,16,8.0
+53,F,ENT,first_visit,moderate,1,3,31.7
+43,M,ENT,first_visit,moderate,0,7,27.3
+49,F,Orthopedics,routine_checkup,moderate,0,3,17.2
+52,F,Neurology,routine_checkup,moderate,1,11,30.3
+9,F,Cardiology,routine_checkup,severe,0,1,37.3
+21,F,Neurology,follow_up,mild,0,22,22.6
+74,M,ENT,first_visit,mild,0,20,28.4
+26,F,Pediatrics,follow_up,moderate,0,2,21.0
+62,M,Pediatrics,first_visit,moderate,0,13,31.4
+58,M,Dermatology,first_visit,severe,1,12,36.3
+11,M,Orthopedics,follow_up,moderate,1,29,20.4
+62,F,Dermatology,first_visit,mild,0,2,27.2
+39,M,Cardiology,routine_checkup,moderate,1,24,29.9
+62,M,Pediatrics,follow_up,severe,0,17,26.5
+33,F,ENT,routine_checkup,mild,1,22,14.0
+35,M,Neurology,first_visit,mild,0,28,35.6
+17,M,Cardiology,routine_checkup,moderate,0,11,27.1
+47,M,General Medicine,first_visit,moderate,0,29,24.3
+82,F,Cardiology,first_visit,mild,0,12,33.1
+58,F,ENT,routine_checkup,mild,0,10,11.8
+76,M,Pediatrics,follow_up,moderate,1,2,23.8
+36,M,General Medicine,first_visit,mild,0,1,24.9
+18,F,Pediatrics,follow_up,mild,0,4,14.7
+53,F,Cardiology,routine_checkup,moderate,1,14,29.2
+9,F,Neurology,follow_up,moderate,0,5,31.2
+13,M,General Medicine,first_visit,mild,1,17,28.4
+30,F,General Medicine,first_visit,mild,0,10,24.1
+48,F,General Medicine,first_visit,mild,0,17,23.1
+15,M,Cardiology,follow_up,mild,1,6,26.5
+44,M,Neurology,follow_up,mild,0,17,21.2
+59,F,Orthopedics,routine_checkup,mild,0,22,19.8
+32,M,General Medicine,follow_up,severe,0,14,22.5
+50,M,Gynecology,follow_up,moderate,0,14,24.0
+59,M,Pediatrics,routine_checkup,moderate,0,12,20.1
+45,F,Cardiology,first_visit,moderate,1,29,39.4
+74,O,General Medicine,routine_checkup,mild,1,7,20.3
+19,F,ENT,follow_up,moderate,1,17,12.8
+16,M,Pediatrics,first_visit,moderate,1,29,32.5
+54,F,Gynecology,first_visit,moderate,0,29,32.5
+28,F,General Medicine,follow_up,mild,1,21,11.8
+77,F,General Medicine,first_visit,mild,0,14,25.3
+59,M,Cardiology,first_visit,moderate,0,17,42.7
+75,M,General Medicine,routine_checkup,mild,0,20,18.2
+11,M,ENT,first_visit,moderate,0,9,26.6
+6,F,Neurology,routine_checkup,moderate,1,20,31.7
+11,F,Gynecology,first_visit,moderate,0,11,34.5
+16,F,Cardiology,follow_up,moderate,1,23,23.4
+48,F,Cardiology,routine_checkup,mild,1,28,26.9
+65,M,Dermatology,follow_up,moderate,0,8,11.8
+26,F,Orthopedics,first_visit,mild,0,28,22.8
+9,M,General Medicine,follow_up,moderate,0,12,14.2
+50,F,Cardiology,first_visit,severe,0,8,42.9
+38,M,Cardiology,first_visit,mild,0,3,36.5
+22,M,Cardiology,first_visit,moderate,0,20,37.1
+26,M,Cardiology,follow_up,severe,0,20,28.0
+53,F,Cardiology,first_visit,mild,1,26,33.7
+81,M,Cardiology,urgent,mild,0,26,35.0
+49,M,General Medicine,follow_up,moderate,1,13,21.0
+42,F,Cardiology,routine_checkup,mild,0,5,24.9
+21,F,Gynecology,first_visit,mild,0,2,31.8
+56,M,Cardiology,follow_up,mild,0,7,22.0
+64,F,Dermatology,follow_up,moderate,1,8,23.3
+77,F,Pediatrics,first_visit,moderate,1,14,32.7
+84,F,Cardiology,first_visit,mild,1,9,41.4
+27,M,Dermatology,first_visit,severe,0,18,30.4
+9,F,Dermatology,follow_up,moderate,0,28,11.6
+32,O,Cardiology,first_visit,moderate,0,7,35.0
+16,M,General Medicine,routine_checkup,mild,0,28,9.5
+50,M,Orthopedics,first_visit,severe,1,3,42.9
+67,F,Pediatrics,routine_checkup,mild,0,1,15.3
+36,F,Dermatology,urgent,mild,0,26,19.8
+14,F,General Medicine,first_visit,moderate,1,23,28.4
+43,F,General Medicine,urgent,mild,0,20,24.6
+24,F,Orthopedics,follow_up,moderate,0,5,18.6
+69,F,General Medicine,first_visit,severe,0,7,33.7
+28,M,Gynecology,routine_checkup,severe,0,23,27.6
+80,F,Orthopedics,first_visit,mild,0,22,30.0
+8,M,General Medicine,follow_up,moderate,0,26,11.8
+14,F,Pediatrics,follow_up,moderate,1,25,22.5
+20,F,Orthopedics,urgent,mild,0,9,27.5
+27,F,Cardiology,first_visit,mild,0,28,28.2
+45,F,Cardiology,first_visit,mild,1,17,37.6
+38,M,Dermatology,follow_up,mild,0,7,12.1
+31,F,General Medicine,urgent,mild,0,9,25.7
+13,M,Pediatrics,follow_up,mild,0,6,14.0
+73,M,Dermatology,routine_checkup,mild,0,1,17.9
+68,M,Dermatology,first_visit,moderate,0,10,30.2
+30,M,Pediatrics,routine_checkup,severe,0,14,26.4
+18,M,Cardiology,first_visit,mild,0,16,29.8
+73,O,Orthopedics,follow_up,moderate,1,15,34.3
+51,M,Cardiology,first_visit,moderate,0,8,35.3
+84,M,Pediatrics,follow_up,severe,0,18,25.6
+74,M,Pediatrics,follow_up,moderate,1,18,23.5
+78,M,Neurology,follow_up,moderate,1,8,39.1
+25,F,Neurology,routine_checkup,mild,1,3,25.8
+81,M,Gynecology,follow_up,moderate,1,17,27.7
+48,M,Neurology,routine_checkup,mild,0,4,25.4
+5,M,Orthopedics,first_visit,mild,0,25,23.6
+49,F,ENT,first_visit,moderate,0,4,29.3
+51,F,Pediatrics,follow_up,moderate,1,10,18.4
+78,F,Neurology,first_visit,mild,0,11,35.9
+45,F,Neurology,follow_up,mild,0,16,21.2
+79,F,Dermatology,first_visit,moderate,0,15,25.7
+29,F,Dermatology,first_visit,severe,1,16,32.9
+49,M,Neurology,routine_checkup,mild,0,18,21.3
+24,O,Neurology,follow_up,moderate,0,18,27.2
+75,M,General Medicine,follow_up,mild,0,16,17.6
+72,M,Orthopedics,routine_checkup,mild,0,10,24.3
+40,F,Orthopedics,follow_up,mild,0,4,13.1
+48,F,Dermatology,routine_checkup,mild,1,26,11.6
+70,F,Pediatrics,first_visit,mild,1,27,32.4
+11,M,Orthopedics,routine_checkup,mild,0,22,14.5
+80,M,Pediatrics,follow_up,mild,1,27,14.7
+46,M,Orthopedics,routine_checkup,severe,1,8,32.6
+19,F,ENT,routine_checkup,mild,1,28,12.7
+19,F,General Medicine,first_visit,mild,1,8,24.1
+36,M,General Medicine,follow_up,moderate,1,17,19.3
+35,M,Cardiology,first_visit,moderate,0,7,33.4
+66,M,Dermatology,first_visit,moderate,0,3,27.7
+64,F,Pediatrics,first_visit,mild,1,5,31.2
+42,M,General Medicine,routine_checkup,mild,1,18,13.7
+69,F,General Medicine,follow_up,moderate,1,28,23.8
+45,M,Dermatology,routine_checkup,mild,0,23,8.7
+20,O,General Medicine,urgent,mild,1,10,28.0
+11,F,Cardiology,routine_checkup,mild,1,28,20.2
+40,M,Gynecology,routine_checkup,mild,0,7,19.4
+7,F,Pediatrics,first_visit,severe,0,11,35.2
+47,M,Gynecology,first_visit,mild,1,15,34.3
+28,M,ENT,first_visit,moderate,0,24,28.0
+27,F,Orthopedics,routine_checkup,severe,0,20,22.5
+59,F,ENT,follow_up,mild,1,28,10.1
+49,F,General Medicine,routine_checkup,mild,1,14,19.5
+66,M,Pediatrics,urgent,mild,0,6,30.5
+66,M,ENT,follow_up,moderate,0,27,12.3
+39,F,Cardiology,first_visit,severe,0,1,43.5
+67,M,Orthopedics,routine_checkup,mild,1,18,21.2
+13,F,Cardiology,urgent,mild,0,7,29.2
+27,M,Neurology,follow_up,mild,0,16,21.2
+9,M,Neurology,first_visit,mild,1,24,41.6
+6,F,Orthopedics,first_visit,mild,0,20,29.7
+63,F,General Medicine,follow_up,mild,1,28,15.5
+30,F,General Medicine,follow_up,mild,1,7,12.9
+69,F,Pediatrics,follow_up,severe,0,23,27.4
+72,M,Orthopedics,first_visit,mild,1,14,34.4
+29,F,Cardiology,follow_up,mild,1,2,25.8
+24,M,Orthopedics,first_visit,mild,0,15,30.3
+29,M,General Medicine,urgent,moderate,0,6,29.2
+16,F,Dermatology,routine_checkup,moderate,0,23,15.7
+3,F,Orthopedics,first_visit,severe,1,16,42.3
+65,F,Pediatrics,routine_checkup,mild,0,26,10.3
+49,M,Cardiology,first_visit,mild,0,5,31.5
+62,F,Pediatrics,first_visit,mild,0,22,25.5
+48,M,ENT,first_visit,moderate,1,5,32.3
+39,O,General Medicine,follow_up,moderate,0,18,16.2
+2,M,General Medicine,first_visit,severe,0,19,36.3
+54,M,Cardiology,urgent,moderate,0,5,35.4
+31,F,General Medicine,first_visit,moderate,1,10,30.4
+78,M,Pediatrics,follow_up,moderate,1,3,25.6
+25,M,Pediatrics,first_visit,mild,0,23,20.9
+15,O,Pediatrics,follow_up,moderate,0,15,19.4
+10,M,General Medicine,follow_up,mild,0,10,13.6
+84,M,General Medicine,follow_up,mild,0,10,15.4
+19,M,Pediatrics,first_visit,mild,1,28,24.4
+29,M,Pediatrics,follow_up,mild,1,17,17.7
+66,F,Orthopedics,urgent,moderate,0,25,35.1
+72,M,Cardiology,follow_up,mild,0,25,22.2
+38,F,ENT,urgent,mild,0,1,23.1
+20,M,General Medicine,first_visit,mild,1,23,23.8
+6,M,Dermatology,urgent,mild,0,8,25.4
+54,M,ENT,urgent,mild,0,3,21.1
+45,F,General Medicine,follow_up,moderate,1,16,21.7
+63,M,Orthopedics,urgent,moderate,1,23,33.5
+59,O,Dermatology,first_visit,mild,1,5,28.2
+68,F,General Medicine,first_visit,moderate,0,27,32.1
+50,M,Cardiology,routine_checkup,moderate,1,21,27.6
+11,M,Orthopedics,urgent,moderate,0,6,32.7
+17,M,Cardiology,follow_up,mild,1,8,27.6
+83,F,Dermatology,first_visit,severe,0,5,38.1
+14,M,Orthopedics,follow_up,mild,1,11,19.1
+73,F,Cardiology,first_visit,mild,0,10,36.1
+76,F,General Medicine,urgent,mild,1,1,36.0
+70,F,Orthopedics,first_visit,mild,1,4,33.4
+27,M,Orthopedics,follow_up,mild,1,10,18.3
+32,F,Neurology,follow_up,mild,0,14,21.3
+78,M,General Medicine,follow_up,mild,0,3,19.1
+11,M,General Medicine,urgent,mild,0,18,23.9
+79,M,General Medicine,urgent,moderate,1,18,38.4
+10,F,Pediatrics,follow_up,severe,0,2,24.8
+70,M,Neurology,follow_up,mild,0,10,29.2
+59,M,ENT,follow_up,moderate,1,14,17.6
+26,M,General Medicine,follow_up,moderate,1,3,20.6
+24,F,Pediatrics,follow_up,mild,0,1,15.3
+23,F,General Medicine,follow_up,moderate,0,18,15.3
+84,M,ENT,routine_checkup,severe,1,9,30.6
+66,M,Dermatology,follow_up,mild,0,21,8.3
+19,F,Dermatology,first_visit,moderate,1,26,24.2
+30,F,Pediatrics,first_visit,mild,0,24,19.2
+47,F,Cardiology,follow_up,severe,1,28,34.1
+14,F,Dermatology,first_visit,mild,1,6,22.8
+44,F,Pediatrics,first_visit,mild,0,19,25.9
+75,M,Orthopedics,urgent,mild,1,16,38.5
+37,F,Cardiology,follow_up,mild,1,4,18.2
+23,M,Orthopedics,follow_up,mild,1,22,17.7
+7,F,Orthopedics,follow_up,mild,0,6,16.7
+84,M,General Medicine,urgent,mild,1,19,31.0
+5,M,Cardiology,routine_checkup,moderate,1,19,31.2
+57,M,Orthopedics,follow_up,severe,0,1,30.8
+70,M,Cardiology,routine_checkup,severe,1,9,39.2
+16,M,ENT,follow_up,moderate,0,23,12.3
+31,M,Neurology,routine_checkup,moderate,0,4,27.4
+50,M,Pediatrics,first_visit,mild,0,3,27.7
+46,F,General Medicine,follow_up,severe,1,23,23.8
+79,F,Pediatrics,follow_up,moderate,1,25,24.4
+4,M,Cardiology,first_visit,mild,1,28,38.7
+56,F,Neurology,follow_up,mild,0,26,22.9
+22,F,Pediatrics,first_visit,severe,1,19,42.2
+37,M,General Medicine,follow_up,mild,1,15,14.9
+78,F,Dermatology,follow_up,severe,0,26,21.0
+77,F,General Medicine,urgent,mild,1,2,38.6
+8,M,Pediatrics,routine_checkup,mild,0,22,14.5
+13,M,Orthopedics,first_visit,mild,0,11,28.6
+40,F,ENT,follow_up,mild,1,15,17.2
+72,F,Neurology,routine_checkup,mild,0,23,26.8
+50,F,Cardiology,first_visit,mild,0,18,32.3
+14,F,Pediatrics,first_visit,mild,0,1,29.8
+19,M,General Medicine,routine_checkup,moderate,0,4,20.3
+75,M,Orthopedics,first_visit,mild,0,4,32.6
+78,M,Cardiology,first_visit,mild,0,21,34.0
+2,M,Orthopedics,urgent,moderate,1,6,44.0
+56,M,Pediatrics,urgent,severe,0,20,37.0
+37,M,Orthopedics,follow_up,mild,0,22,13.1
+77,F,General Medicine,routine_checkup,severe,1,16,33.1
+55,M,General Medicine,first_visit,moderate,1,21,31.9
+39,F,Orthopedics,routine_checkup,moderate,1,20,25.3
+50,F,General Medicine,follow_up,mild,0,16,12.6
+42,F,General Medicine,routine_checkup,moderate,0,28,16.3
+36,M,General Medicine,follow_up,severe,0,29,20.5
+7,M,Cardiology,first_visit,mild,0,7,31.2
+81,M,Neurology,routine_checkup,mild,0,21,29.2
+23,F,Orthopedics,follow_up,mild,0,10,19.9
+62,M,Cardiology,first_visit,mild,0,8,31.7
+32,M,Orthopedics,follow_up,moderate,1,4,27.5
+43,M,Cardiology,follow_up,severe,0,7,31.4
+66,M,General Medicine,urgent,mild,0,2,29.6
+21,F,General Medicine,routine_checkup,severe,1,7,29.8
+23,F,General Medicine,follow_up,mild,0,28,10.6
+35,M,Dermatology,routine_checkup,mild,0,21,9.1
+53,F,Cardiology,urgent,severe,1,25,44.2
+41,M,Pediatrics,follow_up,mild,0,27,10.0
+31,F,Orthopedics,routine_checkup,moderate,0,21,24.2
+4,M,Cardiology,follow_up,severe,1,8,39.3
+12,M,ENT,first_visit,mild,1,28,24.8
+68,F,General Medicine,urgent,mild,1,28,29.6
+62,F,General Medicine,follow_up,moderate,1,21,20.2
+49,F,Gynecology,routine_checkup,moderate,0,9,25.5
+48,F,Pediatrics,first_visit,mild,0,16,24.2
+47,F,General Medicine,first_visit,moderate,1,2,35.2
+51,M,Pediatrics,follow_up,mild,0,24,13.5
+59,F,Orthopedics,follow_up,mild,1,7,19.7
+81,F,Dermatology,follow_up,moderate,0,22,11.7
+64,F,Cardiology,first_visit,mild,0,14,25.4
+18,M,Orthopedics,follow_up,moderate,0,25,16.0
+75,F,Orthopedics,follow_up,moderate,0,27,21.1
+60,M,Pediatrics,follow_up,mild,1,7,18.4
+76,F,Orthopedics,follow_up,mild,1,27,20.7
+30,M,General Medicine,routine_checkup,mild,0,9,15.3
+41,F,Pediatrics,first_visit,mild,1,24,30.0
+40,F,Pediatrics,first_visit,mild,1,21,32.4
+35,M,Orthopedics,routine_checkup,severe,1,7,35.8
+33,F,General Medicine,first_visit,mild,1,13,28.6
+17,M,Neurology,follow_up,mild,0,9,21.0
+71,M,General Medicine,first_visit,mild,1,19,32.9
+19,F,Dermatology,first_visit,moderate,0,18,23.0
+76,M,Neurology,routine_checkup,mild,1,7,35.0
+23,F,Pediatrics,urgent,mild,1,19,32.9
+6,M,Neurology,first_visit,mild,0,8,33.4
+75,F,Gynecology,follow_up,mild,1,25,19.7
+68,O,Pediatrics,follow_up,moderate,0,10,28.8
+47,M,General Medicine,first_visit,severe,1,5,37.7
+17,F,Dermatology,first_visit,moderate,0,23,24.1
+35,M,ENT,first_visit,moderate,0,14,26.2
+83,F,Pediatrics,follow_up,moderate,0,12,25.7
+56,F,Neurology,routine_checkup,moderate,0,24,32.2
+71,M,Dermatology,routine_checkup,moderate,0,13,22.6
+58,M,General Medicine,follow_up,mild,1,3,18.5
+53,F,Pediatrics,routine_checkup,mild,0,14,14.8
+29,F,Gynecology,routine_checkup,severe,1,3,31.9
+78,F,Orthopedics,first_visit,severe,0,13,47.3
+53,F,Orthopedics,first_visit,moderate,0,7,34.9
+70,F,Pediatrics,urgent,mild,0,13,30.0
+8,F,Cardiology,follow_up,severe,0,14,30.2
+29,F,Orthopedics,routine_checkup,moderate,1,17,26.3
+27,F,Dermatology,follow_up,moderate,1,17,21.8
+78,F,Pediatrics,follow_up,severe,1,2,32.8
+57,F,Dermatology,follow_up,mild,0,1,9.4
+60,M,Gynecology,routine_checkup,moderate,1,9,31.2
+55,F,ENT,first_visit,mild,1,17,26.4
+11,F,Cardiology,first_visit,moderate,0,19,31.0
+73,F,Orthopedics,first_visit,mild,1,8,35.1
+13,M,ENT,routine_checkup,mild,0,9,11.8
+27,F,Gynecology,follow_up,mild,1,9,20.7
+84,M,General Medicine,first_visit,mild,0,24,25.7
+61,M,Dermatology,first_visit,mild,1,2,27.2
+80,M,Pediatrics,urgent,mild,1,1,31.8
+65,M,Orthopedics,follow_up,moderate,0,24,19.1
+22,M,General Medicine,first_visit,mild,0,11,25.9
+26,F,Cardiology,follow_up,severe,1,18,35.7
+29,M,Dermatology,first_visit,severe,1,16,36.3
+65,F,Cardiology,follow_up,moderate,0,12,21.9
+64,M,Orthopedics,routine_checkup,mild,0,6,18.7
+79,M,General Medicine,follow_up,mild,1,8,23.6
+34,M,Dermatology,follow_up,severe,0,29,16.3
+29,F,Orthopedics,follow_up,mild,1,15,18.4
+31,M,General Medicine,routine_checkup,mild,1,5,13.3
+73,F,ENT,urgent,moderate,0,14,31.1
+75,M,General Medicine,follow_up,mild,0,13,15.6
+63,M,Pediatrics,first_visit,mild,0,25,23.4
+25,F,Cardiology,routine_checkup,mild,1,15,24.6
+32,M,Dermatology,routine_checkup,mild,1,15,15.9
+70,F,Pediatrics,urgent,mild,1,7,32.2
+9,M,ENT,first_visit,severe,1,23,38.4
+67,M,General Medicine,follow_up,mild,1,19,20.9
+52,F,General Medicine,follow_up,moderate,0,3,20.8
+33,M,Pediatrics,follow_up,mild,1,4,14.8
+54,F,General Medicine,first_visit,severe,0,4,38.5
+19,F,General Medicine,first_visit,mild,0,18,23.3
+36,M,Pediatrics,follow_up,mild,0,27,13.3
+28,O,General Medicine,follow_up,mild,1,26,9.6
+67,M,ENT,follow_up,moderate,0,22,17.7
+30,F,Cardiology,follow_up,severe,0,21,30.5
+76,F,General Medicine,follow_up,mild,0,2,19.7
+47,F,General Medicine,first_visit,moderate,0,21,29.0
+76,M,Dermatology,routine_checkup,moderate,1,17,18.8
+19,M,Cardiology,first_visit,moderate,0,29,35.5
+77,F,Pediatrics,follow_up,mild,0,21,14.7
+78,M,General Medicine,first_visit,mild,1,19,25.3
+51,M,Pediatrics,first_visit,severe,0,7,38.0
+81,M,Orthopedics,routine_checkup,moderate,0,25,23.0
+20,F,Cardiology,first_visit,mild,0,29,31.1
+22,M,Cardiology,first_visit,mild,0,25,32.1
+46,M,ENT,follow_up,moderate,0,7,11.9
+74,O,Cardiology,first_visit,mild,0,11,34.2
+12,F,General Medicine,first_visit,moderate,0,10,27.9
+45,F,Dermatology,urgent,severe,0,28,29.9
+79,M,Pediatrics,routine_checkup,severe,0,23,27.9
+43,O,Cardiology,routine_checkup,severe,1,19,37.2
+34,F,General Medicine,first_visit,mild,1,26,25.3
+39,F,Cardiology,first_visit,moderate,1,2,42.8
+60,F,Orthopedics,follow_up,mild,0,20,12.2
+45,M,General Medicine,first_visit,moderate,1,6,39.2
+80,F,Cardiology,first_visit,moderate,0,18,35.6
+59,F,Gynecology,follow_up,mild,0,14,21.3
+2,M,Orthopedics,follow_up,severe,0,21,30.1
+64,M,Orthopedics,follow_up,mild,1,15,21.9
+26,M,Dermatology,follow_up,severe,1,20,23.4
+49,M,ENT,first_visit,mild,0,11,20.1
+5,F,Pediatrics,first_visit,mild,1,25,32.9
+37,F,Dermatology,first_visit,moderate,0,25,22.8
+64,M,Dermatology,urgent,moderate,1,2,31.6
+41,M,Cardiology,first_visit,mild,0,21,26.0
+72,F,Neurology,first_visit,moderate,0,6,40.5
+31,F,Orthopedics,follow_up,severe,0,14,27.9
+24,M,General Medicine,first_visit,mild,1,14,29.7
+52,M,Pediatrics,first_visit,moderate,1,15,31.4
+17,F,Neurology,routine_checkup,moderate,1,4,35.7
+81,F,ENT,urgent,moderate,1,22,36.3
+22,M,General Medicine,routine_checkup,mild,1,15,14.3
+46,F,Dermatology,first_visit,mild,0,14,18.5
+34,M,Pediatrics,routine_checkup,mild,0,22,14.6
+31,M,ENT,first_visit,mild,0,6,26.6
+51,M,General Medicine,routine_checkup,moderate,0,7,18.7
+5,F,General Medicine,first_visit,moderate,1,23,32.3
+22,M,Cardiology,first_visit,moderate,0,24,34.2
+39,F,Orthopedics,follow_up,mild,0,29,16.0
+67,M,Gynecology,urgent,mild,0,1,36.1
+43,F,Neurology,routine_checkup,moderate,0,12,24.2
+48,F,Pediatrics,urgent,mild,0,16,28.0
+55,M,Cardiology,routine_checkup,mild,0,13,24.4
+51,M,Pediatrics,follow_up,mild,0,8,15.7
+64,F,Cardiology,follow_up,moderate,0,20,24.3
+9,M,Dermatology,first_visit,moderate,0,17,26.8
+19,M,Dermatology,follow_up,moderate,1,24,16.4
+26,F,Orthopedics,first_visit,moderate,0,10,30.9
+10,F,General Medicine,routine_checkup,mild,1,17,10.9
+29,M,Cardiology,first_visit,severe,1,7,49.1
+3,M,Cardiology,first_visit,mild,1,24,37.5
+47,F,General Medicine,follow_up,mild,1,1,20.7
+67,M,Pediatrics,first_visit,mild,1,15,36.2
+66,F,Cardiology,follow_up,mild,1,7,28.6
+8,M,Pediatrics,first_visit,mild,0,25,26.0
+79,M,Gynecology,routine_checkup,moderate,1,3,33.3
+84,F,Cardiology,routine_checkup,moderate,1,6,34.4
+78,M,Dermatology,first_visit,mild,0,17,23.5
+15,F,Cardiology,follow_up,mild,0,12,20.0
+3,F,Pediatrics,first_visit,mild,1,10,37.6
+46,F,Cardiology,follow_up,moderate,1,18,28.6
+71,O,General Medicine,follow_up,mild,0,10,11.2
+51,F,Neurology,routine_checkup,mild,1,26,20.8
+57,M,Neurology,routine_checkup,mild,0,21,20.9
+84,F,General Medicine,routine_checkup,mild,0,9,17.0
+64,M,Pediatrics,urgent,moderate,1,19,33.0
+66,F,Cardiology,first_visit,moderate,0,5,36.9
+2,M,Gynecology,first_visit,mild,0,18,34.4
+81,M,General Medicine,follow_up,mild,0,27,13.1
+63,F,Dermatology,urgent,moderate,0,25,26.4
+81,M,Cardiology,first_visit,moderate,1,16,42.1
+68,M,General Medicine,first_visit,severe,0,3,41.7
+28,F,Pediatrics,first_visit,mild,0,21,21.2
+35,M,Pediatrics,urgent,mild,1,24,28.0
+9,M,General Medicine,urgent,mild,1,24,27.2
+62,F,General Medicine,first_visit,severe,1,19,42.1
+37,F,Dermatology,routine_checkup,severe,0,25,18.8
+46,F,General Medicine,first_visit,mild,0,10,28.6
+32,F,Orthopedics,follow_up,mild,0,24,15.3
+17,F,Cardiology,first_visit,mild,1,3,39.5
+18,M,Orthopedics,follow_up,mild,0,7,16.7
+13,F,Dermatology,follow_up,mild,0,15,8.1
+49,F,Cardiology,urgent,mild,0,2,36.4
+28,F,Pediatrics,follow_up,mild,0,26,13.5
+58,M,General Medicine,routine_checkup,mild,0,27,10.1
+63,M,Neurology,first_visit,mild,0,22,33.6
+13,O,Cardiology,first_visit,mild,0,21,28.1
+81,F,Cardiology,follow_up,moderate,1,16,31.0
+26,F,Pediatrics,routine_checkup,moderate,0,27,18.6
+37,F,Neurology,first_visit,mild,1,20,33.8
+32,F,Neurology,follow_up,severe,1,20,35.7
+14,M,Pediatrics,follow_up,mild,0,11,13.0
+79,F,Dermatology,follow_up,mild,0,2,15.3
+38,M,Pediatrics,urgent,mild,1,19,30.3
+5,M,Pediatrics,routine_checkup,severe,1,6,31.7
+71,M,ENT,follow_up,mild,0,8,18.7
+46,M,Dermatology,first_visit,mild,0,27,16.5
+15,M,Pediatrics,follow_up,mild,0,29,13.6
+6,M,General Medicine,follow_up,moderate,1,24,14.1
+29,O,Dermatology,follow_up,moderate,0,29,10.3
+5,M,Pediatrics,first_visit,mild,0,28,22.2
+46,M,Dermatology,first_visit,moderate,0,5,25.6
+26,F,Neurology,first_visit,mild,0,12,33.6
+68,M,General Medicine,first_visit,severe,0,25,37.6
+17,M,Dermatology,first_visit,mild,0,6,20.7
+39,F,Pediatrics,urgent,mild,0,12,24.1
+83,M,Cardiology,first_visit,mild,1,25,34.4
+48,M,General Medicine,first_visit,mild,0,12,21.6
+60,M,Dermatology,follow_up,mild,0,12,16.6
+38,M,Orthopedics,first_visit,mild,0,17,29.1
+50,F,ENT,follow_up,mild,0,21,9.8
+15,F,Orthopedics,first_visit,mild,1,28,33.5
+4,O,Orthopedics,urgent,mild,1,5,38.7
+64,M,Gynecology,first_visit,mild,0,1,35.4
+47,M,Pediatrics,first_visit,moderate,0,13,32.6
+40,M,Gynecology,follow_up,moderate,0,3,28.8
+4,M,Orthopedics,first_visit,severe,0,16,41.2
+49,F,Dermatology,follow_up,moderate,0,28,8.3
+9,M,Orthopedics,follow_up,mild,1,18,19.8
+39,M,Orthopedics,urgent,mild,1,21,30.8
+34,F,Dermatology,urgent,mild,0,2,23.6
+71,M,Cardiology,follow_up,mild,0,12,23.4
+39,M,Pediatrics,urgent,mild,0,27,25.3
+34,O,Pediatrics,first_visit,mild,0,6,27.8
+32,F,Pediatrics,follow_up,mild,1,25,16.6
+60,M,General Medicine,follow_up,moderate,0,8,14.2
+31,M,General Medicine,routine_checkup,mild,0,4,15.0
+36,M,General Medicine,urgent,moderate,1,20,32.3
+65,F,Pediatrics,follow_up,mild,0,24,12.7
+21,F,Orthopedics,routine_checkup,mild,0,23,9.0
+15,O,General Medicine,follow_up,mild,0,15,9.5
+39,F,General Medicine,urgent,mild,0,2,26.8
+83,F,General Medicine,first_visit,mild,0,13,28.1
+57,F,Pediatrics,follow_up,mild,0,26,15.1
+28,M,General Medicine,routine_checkup,mild,0,8,13.1
+59,F,Neurology,follow_up,moderate,1,28,25.3
+53,M,Neurology,routine_checkup,severe,1,21,37.4
+9,M,Pediatrics,routine_checkup,mild,0,14,15.4
+2,M,Gynecology,follow_up,moderate,1,7,32.0
+73,O,Pediatrics,urgent,mild,1,19,32.3
+58,M,General Medicine,routine_checkup,mild,0,23,8.1
+53,F,Cardiology,urgent,moderate,0,17,37.4
+18,F,Cardiology,first_visit,mild,1,28,28.2
+72,F,Cardiology,first_visit,moderate,0,28,41.5
+16,M,General Medicine,follow_up,moderate,1,22,18.3
+18,F,Dermatology,first_visit,moderate,0,21,23.3
+8,F,Cardiology,first_visit,mild,1,9,35.3
+33,F,General Medicine,follow_up,mild,1,21,13.6
+14,M,General Medicine,routine_checkup,mild,0,11,15.9
+45,F,Cardiology,follow_up,moderate,0,22,20.7
+61,M,Neurology,urgent,mild,0,16,33.1
+52,F,General Medicine,follow_up,mild,0,29,8.0
+59,M,Cardiology,follow_up,severe,0,17,32.2
+27,F,General Medicine,first_visit,moderate,1,1,32.3
+24,F,Gynecology,follow_up,moderate,1,9,24.9
+27,F,Pediatrics,urgent,moderate,1,16,35.8
+66,F,Dermatology,follow_up,mild,1,7,18.5
+53,M,Dermatology,first_visit,mild,1,29,21.7
+31,M,Pediatrics,follow_up,mild,1,7,21.3
+31,F,Neurology,follow_up,mild,0,1,23.2
+34,F,Cardiology,routine_checkup,mild,0,26,21.5
+12,F,Dermatology,follow_up,severe,0,25,15.5
+53,M,General Medicine,first_visit,moderate,0,27,25.6
+43,M,General Medicine,follow_up,mild,0,22,10.2
+47,F,Dermatology,follow_up,mild,1,19,14.2
+19,M,Pediatrics,follow_up,mild,0,26,14.5
+39,O,General Medicine,follow_up,moderate,0,6,19.4
+53,F,General Medicine,follow_up,moderate,0,27,17.4
+6,F,Dermatology,routine_checkup,mild,0,27,8.3
+23,F,ENT,follow_up,mild,0,20,11.7
+29,F,Pediatrics,routine_checkup,moderate,1,11,23.8
+3,F,Neurology,follow_up,moderate,0,17,31.8
+68,M,Pediatrics,routine_checkup,moderate,0,12,25.2
+12,F,Pediatrics,follow_up,mild,1,14,19.9
+7,F,Pediatrics,first_visit,mild,0,27,18.7
+7,M,General Medicine,routine_checkup,mild,0,10,17.0
+60,O,Cardiology,first_visit,mild,0,9,30.4
+26,M,Pediatrics,follow_up,mild,0,14,8.2
+21,M,General Medicine,first_visit,severe,0,11,34.5
+19,M,Dermatology,routine_checkup,mild,0,3,8.1
+66,M,General Medicine,first_visit,moderate,1,7,38.2
+60,F,Dermatology,follow_up,moderate,0,27,14.3
+31,F,Neurology,follow_up,moderate,1,22,30.5
+43,F,Dermatology,follow_up,moderate,0,29,11.4
+40,M,Pediatrics,first_visit,severe,1,19,42.6
+57,F,Cardiology,routine_checkup,moderate,0,11,22.9
+44,F,Orthopedics,urgent,mild,0,6,29.7
+43,F,Gynecology,first_visit,severe,1,9,45.4
+49,F,Pediatrics,follow_up,moderate,0,27,13.3
+28,M,General Medicine,first_visit,mild,0,29,27.2
+20,F,Dermatology,first_visit,mild,0,6,22.8
+68,M,Orthopedics,first_visit,moderate,0,28,33.6
+82,M,Dermatology,first_visit,moderate,0,13,25.0
+27,F,General Medicine,first_visit,moderate,0,3,29.5
+82,F,General Medicine,first_visit,mild,0,15,29.1
+62,M,Cardiology,follow_up,moderate,0,23,24.1
+23,F,ENT,follow_up,severe,1,12,27.0
+17,F,Cardiology,urgent,moderate,0,21,36.4
+5,M,General Medicine,follow_up,mild,1,18,18.0
+57,M,Neurology,first_visit,moderate,1,23,45.5
+83,O,General Medicine,routine_checkup,moderate,0,6,21.2
+17,M,Gynecology,follow_up,severe,0,20,26.9
+62,M,Dermatology,follow_up,mild,0,2,11.3
+77,F,General Medicine,first_visit,moderate,1,25,31.2
+4,F,Pediatrics,routine_checkup,mild,1,12,19.6
+17,F,General Medicine,routine_checkup,mild,0,4,15.7
+69,M,General Medicine,first_visit,mild,0,18,25.8
+27,F,Pediatrics,routine_checkup,moderate,0,25,17.8
+30,F,Dermatology,first_visit,mild,0,20,23.1
+14,M,General Medicine,routine_checkup,mild,1,13,17.4
+13,F,Neurology,routine_checkup,moderate,0,19,22.9
+75,F,Pediatrics,first_visit,mild,1,13,32.6
+57,M,Orthopedics,follow_up,moderate,0,28,22.7
+2,F,Orthopedics,follow_up,mild,1,9,24.6
+84,F,Dermatology,follow_up,mild,0,23,15.3
+27,F,Orthopedics,follow_up,moderate,0,9,24.0
+53,M,General Medicine,follow_up,mild,0,7,13.3
+40,M,Cardiology,first_visit,mild,0,1,34.5
+46,F,ENT,first_visit,mild,0,6,23.9
+62,F,Orthopedics,routine_checkup,mild,0,19,15.0
+79,M,General Medicine,first_visit,moderate,1,2,36.7
+22,M,General Medicine,first_visit,moderate,0,26,25.1
+5,M,General Medicine,follow_up,mild,0,9,12.8
+49,F,Neurology,routine_checkup,moderate,1,16,32.7
+59,F,Pediatrics,urgent,moderate,1,25,33.9
+18,F,Cardiology,first_visit,mild,0,2,35.5
+59,M,General Medicine,first_visit,moderate,1,16,31.0
+80,F,General Medicine,follow_up,moderate,0,26,22.1
+44,F,ENT,follow_up,mild,0,2,9.1
+27,O,General Medicine,first_visit,moderate,1,22,33.7
+50,F,General Medicine,routine_checkup,mild,0,11,9.5
+19,O,Dermatology,first_visit,mild,1,29,22.5
+60,F,Gynecology,first_visit,mild,1,5,35.7
+36,F,Gynecology,first_visit,moderate,1,10,43.4
+60,M,Gynecology,routine_checkup,moderate,0,4,25.1
+74,M,Orthopedics,first_visit,severe,0,7,42.8
+66,M,Gynecology,routine_checkup,severe,0,21,33.4
+72,F,General Medicine,routine_checkup,mild,0,2,17.1
+60,F,ENT,follow_up,moderate,0,10,13.8
+61,F,Neurology,first_visit,moderate,0,21,45.1
+74,M,Cardiology,urgent,mild,1,10,42.9
+59,M,Pediatrics,follow_up,moderate,0,6,21.1
+72,F,Gynecology,first_visit,mild,0,12,32.4
+11,F,General Medicine,routine_checkup,mild,1,18,11.9
+13,F,Cardiology,follow_up,mild,1,20,25.6
+79,F,Neurology,follow_up,mild,0,10,23.2
+28,M,Orthopedics,first_visit,mild,0,22,29.7
+54,F,Cardiology,follow_up,mild,0,12,22.4
+50,F,Orthopedics,first_visit,mild,1,26,28.3
+70,F,General Medicine,first_visit,moderate,0,19,28.5
+9,M,General Medicine,first_visit,mild,0,2,22.8
+14,F,General Medicine,routine_checkup,mild,0,17,11.5
+58,F,ENT,follow_up,severe,1,20,23.9
+8,F,Cardiology,first_visit,moderate,0,5,37.7
+66,M,Pediatrics,follow_up,mild,1,20,23.8
+58,M,Orthopedics,follow_up,moderate,0,5,22.1
+83,F,Pediatrics,follow_up,moderate,0,29,19.8
+18,M,Cardiology,first_visit,mild,0,7,34.5
+17,M,ENT,follow_up,mild,0,18,11.6
+74,F,ENT,first_visit,mild,0,3,27.4
+53,F,Pediatrics,follow_up,moderate,0,11,17.6
+21,F,Dermatology,routine_checkup,mild,0,25,8.0
+22,F,Pediatrics,follow_up,severe,0,6,26.4
+81,M,ENT,first_visit,mild,0,22,19.3
+41,F,Dermatology,first_visit,moderate,0,15,26.4
+18,F,Pediatrics,follow_up,moderate,1,25,20.0
+36,F,General Medicine,first_visit,mild,0,23,21.3
+7,M,Dermatology,routine_checkup,mild,0,18,8.4
+71,M,Pediatrics,first_visit,mild,0,8,24.0
+51,M,Pediatrics,first_visit,mild,1,27,24.9
+17,M,Cardiology,follow_up,mild,1,18,20.7
+19,M,Pediatrics,follow_up,mild,0,5,19.5
+14,M,Neurology,first_visit,mild,1,23,35.5
+27,F,Dermatology,follow_up,mild,0,12,11.2
+15,F,General Medicine,first_visit,severe,0,2,36.4
+41,F,Cardiology,routine_checkup,moderate,1,19,29.7
+14,M,General Medicine,first_visit,mild,1,19,30.9
+4,F,Orthopedics,first_visit,mild,0,7,35.8
+42,O,Pediatrics,routine_checkup,moderate,1,4,25.0
+11,M,General Medicine,routine_checkup,mild,0,17,13.4
+34,M,Neurology,first_visit,mild,0,15,30.0
+58,M,Gynecology,follow_up,mild,0,23,16.3
+60,F,General Medicine,urgent,mild,0,18,20.0
+17,M,Pediatrics,follow_up,mild,0,10,18.1
+82,M,Dermatology,routine_checkup,moderate,0,11,19.8
+75,M,Cardiology,first_visit,moderate,0,12,37.1
+19,F,General Medicine,routine_checkup,mild,0,27,15.4
+70,M,General Medicine,follow_up,moderate,0,24,12.9
+24,M,General Medicine,urgent,mild,1,5,29.6
+47,F,Pediatrics,follow_up,moderate,0,12,14.4
+66,F,Dermatology,follow_up,mild,0,20,14.6
+82,M,Cardiology,routine_checkup,moderate,0,11,31.7
+22,M,Pediatrics,routine_checkup,severe,1,17,34.4
+38,M,Cardiology,first_visit,mild,0,7,33.5
+23,M,Dermatology,urgent,mild,1,22,27.3
+43,M,Cardiology,routine_checkup,mild,1,7,24.2
+79,M,Orthopedics,follow_up,mild,0,17,20.8
+84,M,Dermatology,first_visit,moderate,1,18,33.5
+4,F,Pediatrics,follow_up,moderate,0,11,24.6
+42,M,Cardiology,follow_up,mild,1,14,21.6
+13,O,Cardiology,follow_up,mild,0,9,21.6
+6,M,Orthopedics,urgent,severe,0,14,41.4
+20,F,Orthopedics,follow_up,moderate,1,9,27.0
+49,M,General Medicine,first_visit,mild,0,1,19.1
+73,F,Orthopedics,urgent,mild,0,14,34.6
+52,M,General Medicine,follow_up,mild,0,8,13.8
+16,M,Pediatrics,first_visit,mild,1,11,29.6
+73,M,Dermatology,first_visit,moderate,0,22,29.5
+35,M,Orthopedics,urgent,mild,0,1,31.4
+41,M,Neurology,first_visit,mild,0,4,35.2
+83,F,General Medicine,follow_up,moderate,1,26,17.8
+58,F,ENT,follow_up,mild,1,8,15.4
+31,F,Pediatrics,follow_up,mild,0,25,14.2
+47,F,General Medicine,follow_up,moderate,0,10,18.5
+51,F,Gynecology,routine_checkup,mild,0,16,16.6
+80,F,Dermatology,urgent,mild,0,13,26.1
+39,F,Cardiology,routine_checkup,mild,1,5,23.7
+49,M,Dermatology,follow_up,moderate,1,20,16.9
+81,F,General Medicine,follow_up,mild,1,16,22.3
+61,F,Neurology,routine_checkup,moderate,1,4,33.2
+75,F,Cardiology,first_visit,mild,0,15,33.3
+83,M,General Medicine,routine_checkup,mild,0,20,17.0
+6,F,General Medicine,routine_checkup,mild,0,22,10.6
+59,M,Neurology,follow_up,mild,0,26,22.1
+64,M,General Medicine,follow_up,mild,0,17,9.3
+75,F,General Medicine,follow_up,mild,0,10,19.0
+71,F,Pediatrics,urgent,mild,0,12,31.7
+56,F,Gynecology,routine_checkup,moderate,0,9,22.5
+45,M,General Medicine,first_visit,moderate,0,5,34.5
+79,M,General Medicine,urgent,moderate,0,28,29.2
+19,M,Orthopedics,follow_up,severe,0,4,30.6
+83,M,Cardiology,urgent,mild,1,18,37.6
+58,M,General Medicine,routine_checkup,moderate,0,17,17.8
+66,F,Orthopedics,follow_up,moderate,1,2,26.1
+76,M,General Medicine,follow_up,severe,1,20,31.6
+41,F,Cardiology,first_visit,mild,1,6,37.0
+60,F,Cardiology,follow_up,mild,0,4,19.8
+8,F,Dermatology,first_visit,mild,0,21,20.4
+31,M,Neurology,follow_up,mild,1,11,24.7
+67,F,Pediatrics,first_visit,mild,1,29,31.0
+2,M,General Medicine,first_visit,moderate,0,29,25.8
+55,F,Dermatology,follow_up,moderate,0,1,14.3
+72,F,Cardiology,routine_checkup,mild,0,28,24.8
+70,M,Pediatrics,first_visit,mild,0,22,29.7
+37,F,Neurology,first_visit,mild,0,7,36.6
+28,M,Dermatology,first_visit,mild,0,20,22.7
+2,M,Cardiology,urgent,moderate,1,12,42.8
+48,M,Cardiology,first_visit,mild,1,6,40.4
+26,M,ENT,follow_up,severe,0,10,19.7
+43,F,Gynecology,first_visit,mild,1,26,33.3
+63,F,Pediatrics,urgent,moderate,1,19,32.3
+33,M,General Medicine,follow_up,moderate,1,9,19.8
+19,M,Orthopedics,routine_checkup,mild,1,7,23.6
+6,M,Dermatology,routine_checkup,mild,0,14,8.0
+23,M,Cardiology,first_visit,mild,0,14,30.4
+3,F,Gynecology,first_visit,mild,0,9,35.7
+72,M,Orthopedics,first_visit,severe,0,14,40.8
+23,F,General Medicine,urgent,mild,0,13,26.5
+30,M,ENT,follow_up,mild,0,9,8.3
+11,M,General Medicine,routine_checkup,moderate,0,9,19.9
+81,M,Orthopedics,urgent,moderate,0,9,39.5
+60,M,Dermatology,follow_up,severe,0,22,22.7
+52,M,ENT,follow_up,severe,0,2,19.5
+14,M,Dermatology,follow_up,moderate,0,21,11.9
+22,M,Pediatrics,first_visit,mild,1,20,29.4
+57,M,ENT,routine_checkup,moderate,0,9,14.7
+48,F,Cardiology,first_visit,moderate,0,2,38.9
+73,M,Cardiology,follow_up,moderate,1,5,34.0
+12,F,Pediatrics,follow_up,mild,0,17,11.8
+2,M,Gynecology,routine_checkup,mild,0,16,25.9
+3,M,Pediatrics,first_visit,mild,0,1,31.8
+37,M,Dermatology,first_visit,mild,1,28,20.9
+70,M,Orthopedics,first_visit,moderate,1,8,40.8
+25,F,Orthopedics,first_visit,mild,0,25,28.7
+20,M,Orthopedics,follow_up,mild,1,2,21.3
+56,F,Orthopedics,routine_checkup,moderate,1,24,23.4
+24,M,General Medicine,urgent,mild,0,14,24.9
+76,O,General Medicine,routine_checkup,moderate,0,17,21.9
+67,M,Pediatrics,first_visit,severe,1,28,41.0
+71,F,General Medicine,follow_up,moderate,0,2,23.6
+5,F,Gynecology,follow_up,mild,1,12,20.7
+63,F,Gynecology,first_visit,mild,1,20,33.7
+53,F,Orthopedics,routine_checkup,mild,0,10,18.7
+69,F,Cardiology,routine_checkup,severe,0,21,36.4
+2,O,Dermatology,follow_up,mild,1,9,18.3
+5,F,Cardiology,follow_up,mild,1,18,23.3
+68,F,ENT,first_visit,moderate,0,5,26.2
+49,M,Gynecology,follow_up,mild,0,5,14.4
+30,M,Pediatrics,follow_up,mild,0,28,11.5
+6,M,Neurology,first_visit,mild,0,29,34.6
+60,F,Dermatology,routine_checkup,severe,1,9,25.2
+24,M,Cardiology,follow_up,severe,0,18,33.7
+66,M,Orthopedics,first_visit,mild,0,8,32.8
+39,M,Pediatrics,first_visit,mild,1,13,29.2
+17,M,Orthopedics,first_visit,mild,0,5,27.4
+32,F,Dermatology,first_visit,mild,1,13,26.2
+47,M,Orthopedics,follow_up,moderate,1,13,27.3
+69,F,General Medicine,first_visit,mild,0,6,27.5
+47,M,Dermatology,routine_checkup,severe,0,15,21.8
+81,F,Pediatrics,first_visit,moderate,0,5,38.4
+12,F,Pediatrics,routine_checkup,moderate,1,19,19.8
+29,F,Cardiology,urgent,moderate,0,3,37.9
+82,F,Pediatrics,first_visit,mild,0,8,32.6
+78,M,Orthopedics,first_visit,mild,0,11,35.0
+22,M,Neurology,follow_up,moderate,1,23,26.3
+65,F,Dermatology,urgent,mild,1,3,25.1
+14,M,Cardiology,urgent,mild,0,13,35.7
+34,F,Cardiology,routine_checkup,mild,0,27,17.6
+82,F,Cardiology,first_visit,moderate,1,26,40.4
+10,F,Pediatrics,follow_up,severe,0,29,18.7
+73,F,General Medicine,first_visit,moderate,0,29,28.7
+68,F,General Medicine,follow_up,mild,0,14,15.5
+67,F,Cardiology,follow_up,mild,1,22,23.4
+18,F,Pediatrics,first_visit,mild,0,24,22.7
+20,F,Gynecology,routine_checkup,mild,0,10,19.9
+26,F,Dermatology,routine_checkup,mild,1,2,18.1
+9,M,General Medicine,routine_checkup,mild,1,21,14.9
+30,M,Orthopedics,follow_up,moderate,0,17,21.3
+37,M,Pediatrics,follow_up,mild,0,6,15.9
+28,O,Dermatology,first_visit,severe,0,2,38.7
+32,M,General Medicine,urgent,mild,0,13,27.2
+23,M,Orthopedics,first_visit,severe,1,13,47.3
+14,F,General Medicine,first_visit,mild,0,5,23.7
+18,M,General Medicine,first_visit,mild,1,25,23.8
+43,F,Cardiology,urgent,mild,1,26,36.3
+2,F,Pediatrics,follow_up,mild,0,22,17.7
+33,F,Cardiology,first_visit,mild,0,1,38.1
+29,F,Gynecology,first_visit,mild,0,20,30.2
+4,M,Dermatology,first_visit,moderate,0,3,34.0
+44,M,Pediatrics,follow_up,mild,1,28,15.2
+34,M,Orthopedics,routine_checkup,moderate,1,17,28.4
+41,F,Orthopedics,first_visit,severe,1,21,37.8
+61,F,Cardiology,first_visit,moderate,1,7,37.3
+58,F,Dermatology,follow_up,moderate,0,7,15.8
+76,F,ENT,follow_up,mild,1,2,16.7
+69,F,Cardiology,first_visit,severe,0,23,45.1
+59,M,Pediatrics,routine_checkup,moderate,0,21,18.6
+83,O,Pediatrics,first_visit,mild,1,11,37.5
+8,F,Orthopedics,follow_up,mild,0,17,18.6
+8,O,General Medicine,routine_checkup,moderate,0,2,17.7
+47,F,Cardiology,urgent,moderate,0,22,38.5
+70,O,General Medicine,first_visit,mild,0,7,31.4
+10,M,Dermatology,follow_up,severe,0,25,16.3
+46,F,Dermatology,routine_checkup,mild,1,20,16.6
+29,M,Dermatology,routine_checkup,moderate,0,27,10.4
+26,F,Gynecology,follow_up,moderate,0,3,23.3
+48,M,Pediatrics,routine_checkup,mild,0,16,14.9
+15,M,Gynecology,urgent,mild,0,17,33.6
+71,M,General Medicine,first_visit,mild,0,10,24.6
+47,M,General Medicine,urgent,moderate,0,25,28.9
+17,F,Orthopedics,routine_checkup,mild,1,7,22.4
+44,M,Orthopedics,first_visit,mild,1,22,30.2
+78,M,General Medicine,first_visit,mild,1,23,25.0
+37,F,General Medicine,first_visit,moderate,1,28,29.7
+80,M,Gynecology,routine_checkup,moderate,1,25,27.5
+51,F,Pediatrics,first_visit,mild,0,14,23.3
+25,F,General Medicine,first_visit,severe,0,19,37.5
+30,F,Orthopedics,follow_up,mild,1,10,15.8
+49,M,Orthopedics,follow_up,severe,1,9,32.7
+31,F,Orthopedics,urgent,mild,1,14,29.9
+37,F,Orthopedics,routine_checkup,moderate,1,9,23.4
+43,F,Cardiology,urgent,mild,0,18,33.4
+78,F,Dermatology,routine_checkup,moderate,0,28,13.8
+14,F,Cardiology,urgent,mild,1,20,31.9
+31,O,General Medicine,urgent,mild,1,12,31.7
+82,F,General Medicine,first_visit,moderate,0,7,31.1
+48,O,Orthopedics,routine_checkup,severe,0,7,30.2
+52,F,General Medicine,follow_up,mild,0,1,10.0
+59,F,Orthopedics,first_visit,moderate,0,11,33.2
+26,F,Dermatology,first_visit,moderate,0,2,27.2
+79,M,General Medicine,urgent,severe,1,7,43.4
+20,M,Orthopedics,first_visit,mild,0,9,28.7
+50,F,Dermatology,routine_checkup,mild,0,23,10.4
+35,F,Orthopedics,first_visit,moderate,1,21,37.0
+71,M,Dermatology,first_visit,mild,1,22,27.0
+80,F,Cardiology,follow_up,moderate,0,9,27.6
+18,F,Dermatology,first_visit,moderate,0,17,20.6
+40,F,Neurology,routine_checkup,severe,1,29,33.7
+64,M,Orthopedics,routine_checkup,mild,0,11,19.0
+43,M,Orthopedics,routine_checkup,moderate,0,2,28.1
+18,F,Orthopedics,first_visit,mild,0,18,23.3
+3,M,ENT,first_visit,moderate,0,26,23.2
+12,M,Neurology,first_visit,moderate,0,21,35.6
+65,M,General Medicine,follow_up,mild,0,22,11.3
+2,M,Cardiology,follow_up,severe,1,29,35.3
+74,F,General Medicine,routine_checkup,moderate,1,29,25.2
+55,F,Dermatology,first_visit,mild,1,15,26.6
+12,F,Pediatrics,routine_checkup,moderate,0,18,19.7
+21,M,ENT,routine_checkup,moderate,0,4,20.7
+12,M,Dermatology,routine_checkup,mild,1,13,15.5
+49,M,Cardiology,follow_up,moderate,0,8,21.2
+56,M,Dermatology,follow_up,mild,1,15,13.7
+39,M,General Medicine,first_visit,mild,0,18,20.0
+41,F,Pediatrics,follow_up,moderate,1,26,18.9
+50,M,Neurology,follow_up,moderate,0,7,27.1
+47,M,Neurology,follow_up,severe,0,25,32.7
+40,M,Pediatrics,follow_up,severe,0,5,24.9
+52,M,General Medicine,routine_checkup,mild,1,23,16.0
+39,M,Orthopedics,follow_up,moderate,0,23,21.3
+30,M,Neurology,urgent,mild,1,11,40.1
+20,M,Orthopedics,follow_up,moderate,0,22,19.7
+39,M,Cardiology,urgent,mild,1,22,34.5
+80,F,General Medicine,follow_up,mild,1,15,17.7
+51,F,General Medicine,first_visit,moderate,1,21,29.9
+46,M,Cardiology,urgent,mild,1,8,34.6
+36,M,Pediatrics,routine_checkup,moderate,1,6,24.3
+5,F,Dermatology,routine_checkup,mild,0,23,8.8
+48,F,Dermatology,routine_checkup,moderate,1,12,21.1
+3,M,Dermatology,first_visit,moderate,0,4,30.4
+72,M,Orthopedics,routine_checkup,mild,0,4,20.8
+5,F,Cardiology,urgent,mild,1,29,31.0
+68,M,General Medicine,follow_up,severe,0,4,24.8
+5,F,Dermatology,follow_up,mild,1,29,8.0
+33,F,Dermatology,follow_up,severe,1,21,18.6
+64,M,Cardiology,routine_checkup,severe,0,1,31.7
+82,M,Orthopedics,first_visit,mild,0,15,30.4
+5,F,Cardiology,follow_up,mild,1,7,27.3
+67,F,Cardiology,first_visit,severe,0,7,50.9
+62,F,Pediatrics,first_visit,severe,1,23,39.1
+68,F,Cardiology,first_visit,mild,0,12,37.9
+81,M,Cardiology,routine_checkup,mild,1,20,31.5
+35,M,General Medicine,first_visit,mild,1,7,30.4
+3,M,Dermatology,routine_checkup,moderate,0,24,10.3
+84,F,Neurology,routine_checkup,moderate,1,5,34.4
+4,F,Pediatrics,follow_up,moderate,0,19,14.9
+59,F,General Medicine,routine_checkup,severe,1,1,29.8
+62,M,ENT,urgent,mild,1,15,27.7
+44,F,General Medicine,first_visit,moderate,0,13,29.7
+82,M,General Medicine,first_visit,mild,0,4,25.3
+42,F,Dermatology,first_visit,moderate,1,7,26.6
+76,F,Dermatology,follow_up,mild,0,11,12.4
+47,O,Pediatrics,urgent,moderate,1,15,34.0
+24,O,General Medicine,follow_up,mild,1,7,21.7
+44,M,Dermatology,follow_up,mild,0,23,9.1
+40,M,Cardiology,follow_up,moderate,0,8,27.0
+7,F,General Medicine,follow_up,mild,0,22,8.1
+75,M,Pediatrics,routine_checkup,moderate,0,2,25.7
+5,F,General Medicine,follow_up,moderate,1,28,20.1
+48,M,Orthopedics,routine_checkup,moderate,1,17,20.2
+59,M,Cardiology,routine_checkup,severe,1,15,38.9
+66,M,Dermatology,routine_checkup,mild,1,13,18.7
+10,F,Cardiology,follow_up,moderate,1,24,28.8
+20,M,Orthopedics,follow_up,mild,1,21,21.9
+35,M,Dermatology,follow_up,severe,0,8,23.2
+80,F,General Medicine,routine_checkup,mild,1,2,24.1
+28,F,Cardiology,first_visit,mild,0,10,34.2
+34,O,Dermatology,first_visit,moderate,0,7,23.2
+44,M,Gynecology,first_visit,mild,1,25,28.9
+43,F,Gynecology,first_visit,mild,1,6,30.7
+68,M,Gynecology,first_visit,severe,0,9,44.1
+74,F,Cardiology,routine_checkup,mild,0,6,24.6
+2,M,General Medicine,follow_up,mild,0,24,11.9
+57,F,General Medicine,follow_up,severe,0,4,25.8
+82,M,Neurology,routine_checkup,moderate,1,12,34.8
+10,F,General Medicine,first_visit,mild,1,25,24.9
+38,M,Orthopedics,first_visit,mild,0,19,27.4
+39,F,Orthopedics,first_visit,severe,0,1,44.9
+42,F,Cardiology,first_visit,mild,1,7,35.5
+82,F,General Medicine,routine_checkup,moderate,0,27,19.7
+62,F,General Medicine,follow_up,moderate,1,17,20.1
+5,F,Neurology,first_visit,mild,0,29,33.8
+35,M,Cardiology,urgent,mild,1,12,34.5
+53,F,Cardiology,follow_up,mild,0,10,20.7
+36,F,General Medicine,first_visit,mild,0,11,22.0
+6,F,Neurology,routine_checkup,mild,0,22,18.4
+29,M,General Medicine,follow_up,severe,0,11,17.8
+66,M,Neurology,follow_up,moderate,0,9,30.4
+52,M,Cardiology,first_visit,moderate,1,23,41.5
+78,M,Orthopedics,first_visit,moderate,1,11,39.9
+32,M,Cardiology,first_visit,mild,0,26,28.7
+53,O,Cardiology,first_visit,mild,1,13,37.7
+9,M,Cardiology,urgent,severe,1,8,45.3
+79,M,Dermatology,follow_up,severe,1,27,26.3
+80,F,General Medicine,routine_checkup,mild,0,7,15.6
+53,M,Pediatrics,first_visit,mild,0,21,23.5
+5,F,Cardiology,routine_checkup,moderate,0,12,26.6
+54,F,Orthopedics,routine_checkup,mild,0,29,20.6
+17,F,General Medicine,follow_up,moderate,0,19,15.3
+84,M,General Medicine,urgent,mild,0,10,26.6
+40,F,Pediatrics,follow_up,mild,1,29,14.7
+55,O,Dermatology,urgent,mild,0,7,23.3
+70,M,Cardiology,first_visit,mild,0,23,34.0
+62,F,General Medicine,first_visit,moderate,1,27,28.0
+11,M,General Medicine,first_visit,moderate,0,19,27.4
+32,F,Cardiology,urgent,moderate,1,12,45.8
+20,M,Pediatrics,first_visit,mild,0,9,30.3
+76,F,Orthopedics,urgent,moderate,0,21,34.6
+78,O,Dermatology,follow_up,mild,0,19,15.0
+3,F,Cardiology,follow_up,mild,0,1,23.1
+57,M,General Medicine,follow_up,moderate,0,5,20.7
+8,F,General Medicine,urgent,mild,0,25,26.1
+34,F,General Medicine,first_visit,mild,0,2,30.1
+17,M,Gynecology,routine_checkup,mild,1,16,22.2
+36,O,General Medicine,follow_up,mild,0,3,14.7
+27,M,Cardiology,follow_up,moderate,0,12,24.6
+79,M,General Medicine,first_visit,moderate,0,15,30.4
+67,M,Orthopedics,urgent,moderate,0,7,34.5
+83,M,Orthopedics,first_visit,moderate,0,4,36.6
+48,O,Orthopedics,first_visit,moderate,0,18,30.0
+20,M,Orthopedics,follow_up,mild,0,25,12.3
+70,M,Cardiology,first_visit,mild,0,20,28.2
+37,M,Orthopedics,routine_checkup,severe,0,18,24.5
+48,M,Dermatology,urgent,mild,0,24,23.4
+18,M,General Medicine,first_visit,moderate,0,5,34.1
+56,M,Orthopedics,follow_up,mild,0,8,17.5
+75,F,Cardiology,urgent,moderate,1,1,45.2
+18,M,General Medicine,follow_up,moderate,0,26,13.9
+22,M,Dermatology,follow_up,mild,0,23,8.1
+40,F,Dermatology,first_visit,severe,1,2,36.3
+48,F,Pediatrics,urgent,moderate,0,15,32.8
+31,M,Pediatrics,first_visit,severe,0,12,34.2
+13,F,Cardiology,first_visit,moderate,1,3,43.8
+17,M,Pediatrics,routine_checkup,mild,0,21,10.2
+61,F,Orthopedics,follow_up,mild,1,24,19.3
+36,F,Pediatrics,first_visit,mild,0,1,22.8
+29,F,Dermatology,follow_up,mild,1,2,15.9
+68,M,Orthopedics,follow_up,severe,0,19,29.2
+8,M,Cardiology,first_visit,severe,1,18,49.5
+80,M,Pediatrics,first_visit,mild,0,6,29.8
+56,M,Orthopedics,first_visit,mild,0,5,31.2
+8,F,ENT,urgent,moderate,1,1,35.6
+49,M,General Medicine,follow_up,moderate,0,11,15.0
+84,F,Cardiology,urgent,moderate,0,2,41.3
+55,F,Orthopedics,follow_up,severe,1,11,30.5
+15,M,Neurology,routine_checkup,mild,0,21,22.1
+36,M,Pediatrics,first_visit,mild,0,23,23.8
+13,F,Dermatology,routine_checkup,mild,0,19,10.3
+52,M,Pediatrics,routine_checkup,mild,0,11,14.3
+27,M,General Medicine,urgent,mild,0,4,25.4
+38,F,Pediatrics,first_visit,moderate,0,18,31.4
+59,F,ENT,follow_up,mild,0,20,8.0
+36,F,Gynecology,follow_up,mild,0,4,21.3
+8,F,Cardiology,follow_up,moderate,0,1,24.5
+58,F,General Medicine,follow_up,mild,0,26,8.0
+45,F,Cardiology,first_visit,moderate,0,15,36.7
+50,F,Cardiology,first_visit,mild,0,12,32.0
+80,M,Orthopedics,first_visit,severe,0,27,36.9
+38,F,Dermatology,follow_up,moderate,0,23,10.5
+3,M,Gynecology,first_visit,moderate,0,27,35.0
+71,M,Orthopedics,routine_checkup,mild,0,19,18.0
+64,F,Pediatrics,routine_checkup,severe,0,3,27.1
+83,M,Gynecology,follow_up,mild,0,28,21.1
+39,F,General Medicine,follow_up,mild,1,19,12.3
+23,M,General Medicine,first_visit,moderate,1,14,34.9
+41,M,Pediatrics,follow_up,severe,0,4,26.5
+60,F,Orthopedics,follow_up,severe,1,5,32.9
+52,M,Dermatology,first_visit,mild,1,16,25.7
+17,F,Pediatrics,first_visit,moderate,1,22,35.2
+73,M,General Medicine,follow_up,mild,0,5,18.3
+24,M,Pediatrics,follow_up,mild,0,29,10.0
+43,F,Orthopedics,first_visit,moderate,0,3,44.7
+66,F,Dermatology,routine_checkup,mild,1,23,13.3
+67,F,General Medicine,routine_checkup,moderate,1,7,23.4
+9,F,ENT,routine_checkup,moderate,0,15,15.2
+27,O,Dermatology,follow_up,moderate,0,29,12.8
+50,M,General Medicine,follow_up,mild,0,10,12.1
+55,M,ENT,first_visit,moderate,0,20,19.8
+2,F,Gynecology,follow_up,moderate,0,10,25.1
+26,M,ENT,follow_up,severe,1,12,24.6
+12,M,Pediatrics,follow_up,moderate,1,6,24.0
+34,F,Orthopedics,follow_up,mild,0,13,17.0
+24,F,Neurology,follow_up,severe,0,11,34.9
+3,F,Gynecology,first_visit,mild,0,21,32.0
+72,F,Cardiology,follow_up,moderate,0,27,27.0
+28,F,Pediatrics,follow_up,mild,1,7,20.3
+26,F,Neurology,follow_up,moderate,0,27,23.8
+45,F,Dermatology,first_visit,mild,0,20,18.1
+61,M,Gynecology,urgent,mild,1,4,32.8
+84,M,Cardiology,follow_up,mild,1,10,27.0
+20,M,Orthopedics,routine_checkup,severe,0,4,26.8
+23,F,Orthopedics,follow_up,mild,0,21,12.4
+39,M,Pediatrics,urgent,mild,0,20,24.3
+39,F,General Medicine,follow_up,mild,1,26,9.3
+12,F,General Medicine,first_visit,mild,0,25,19.6
+8,F,Pediatrics,follow_up,severe,1,16,28.8
+44,M,Neurology,routine_checkup,mild,0,5,27.4
+28,F,Orthopedics,routine_checkup,mild,0,21,14.9
+12,F,Neurology,urgent,mild,0,27,35.8
+65,F,Cardiology,urgent,moderate,1,3,43.4
+64,M,Orthopedics,follow_up,moderate,0,29,12.1
+16,M,Cardiology,routine_checkup,moderate,0,11,26.0
+10,F,General Medicine,follow_up,severe,0,13,17.5
+50,F,Pediatrics,first_visit,moderate,1,13,34.8
+2,M,General Medicine,routine_checkup,mild,0,18,16.4
+51,M,Cardiology,first_visit,severe,0,10,41.2
+54,M,Neurology,follow_up,severe,1,5,38.9
+69,O,Dermatology,first_visit,mild,1,20,24.7
+59,F,Neurology,follow_up,mild,0,6,20.1
+59,M,Cardiology,follow_up,moderate,1,17,30.2
+7,F,General Medicine,first_visit,mild,0,25,19.8
+12,F,General Medicine,first_visit,mild,0,8,22.9
+15,F,Cardiology,routine_checkup,mild,0,19,23.7
+18,F,Dermatology,routine_checkup,mild,0,16,11.4
+43,M,Dermatology,first_visit,moderate,0,4,29.4
+41,F,Cardiology,routine_checkup,mild,0,15,19.3
+13,F,Gynecology,follow_up,mild,0,16,20.4
+14,M,Cardiology,routine_checkup,moderate,0,26,23.3
+46,M,Dermatology,first_visit,mild,0,16,21.8
+2,M,Pediatrics,first_visit,mild,1,24,32.4
+80,M,Neurology,urgent,moderate,1,19,40.6
+67,M,Dermatology,routine_checkup,severe,1,27,28.6
+63,F,Pediatrics,first_visit,moderate,1,24,32.2
+12,F,Neurology,first_visit,mild,1,2,37.6
+33,M,General Medicine,first_visit,mild,0,14,21.7
+45,F,Gynecology,first_visit,moderate,1,7,40.7
+82,F,Dermatology,first_visit,mild,0,2,18.9
+24,M,Orthopedics,first_visit,mild,0,13,26.3
+81,F,Gynecology,routine_checkup,mild,1,19,21.0
+48,F,Orthopedics,routine_checkup,mild,1,23,19.5
+31,M,Gynecology,first_visit,mild,0,4,30.0
+80,M,General Medicine,first_visit,moderate,0,21,26.9
+2,M,General Medicine,follow_up,moderate,1,19,20.5
+13,F,General Medicine,follow_up,moderate,0,20,19.7
+75,M,Dermatology,first_visit,mild,0,10,25.9
+45,M,Dermatology,follow_up,mild,1,1,14.2
+68,F,General Medicine,urgent,moderate,1,22,31.6
+15,M,Gynecology,first_visit,mild,0,24,22.2
+26,M,Cardiology,routine_checkup,mild,0,2,21.2
+56,M,Orthopedics,follow_up,severe,1,24,30.6
+22,O,Cardiology,follow_up,mild,1,16,22.0
+38,M,Cardiology,urgent,moderate,1,28,35.7
+14,M,Cardiology,first_visit,moderate,1,28,38.4
+27,F,Orthopedics,first_visit,mild,1,12,34.0
+46,M,Gynecology,follow_up,mild,1,13,22.9
+78,F,Dermatology,routine_checkup,mild,1,22,16.0
+20,F,Cardiology,first_visit,mild,0,19,24.2
+53,F,Neurology,follow_up,mild,0,18,23.0
+20,O,Pediatrics,first_visit,mild,0,25,23.5
+69,M,General Medicine,routine_checkup,moderate,0,11,23.9
+5,M,Neurology,first_visit,mild,0,25,29.2
+12,F,General Medicine,follow_up,moderate,0,18,22.1
+73,F,General Medicine,routine_checkup,severe,0,28,21.7
+46,M,General Medicine,first_visit,mild,1,5,26.7
+63,M,ENT,follow_up,severe,0,6,22.4
+55,F,Pediatrics,urgent,mild,0,19,28.4
+24,M,Dermatology,follow_up,severe,0,10,21.4
+44,M,Pediatrics,routine_checkup,moderate,0,27,18.8
+7,M,Dermatology,first_visit,mild,0,5,25.3
+71,O,Gynecology,first_visit,mild,0,17,33.8
+52,F,Neurology,urgent,mild,0,22,32.7
+10,M,Pediatrics,first_visit,mild,1,3,30.7
+38,F,Cardiology,routine_checkup,moderate,0,23,23.2
+17,M,Dermatology,follow_up,mild,0,28,8.0
+73,F,ENT,follow_up,mild,0,13,13.6
+67,M,Orthopedics,urgent,mild,0,16,29.3
+17,F,Pediatrics,follow_up,mild,1,27,10.6
+16,M,Cardiology,follow_up,mild,1,17,25.4
+44,M,Dermatology,follow_up,mild,0,22,8.7
+54,F,Cardiology,first_visit,mild,0,22,31.7
+16,M,General Medicine,urgent,moderate,0,24,28.5
+50,M,Orthopedics,first_visit,mild,1,9,32.2
+77,F,General Medicine,first_visit,severe,1,4,44.5
+66,M,Gynecology,follow_up,mild,1,20,23.1
+58,M,General Medicine,urgent,mild,1,12,30.5
+30,M,Cardiology,routine_checkup,mild,1,17,24.2
+29,M,General Medicine,follow_up,mild,1,5,16.8
+13,M,ENT,follow_up,moderate,0,20,14.5
+22,M,Dermatology,routine_checkup,mild,0,28,8.0
+45,F,Pediatrics,routine_checkup,severe,0,7,27.6
+17,M,Cardiology,routine_checkup,severe,0,24,28.0
+44,F,Orthopedics,first_visit,mild,1,8,31.9
+63,F,Dermatology,first_visit,severe,1,12,33.1
+41,F,General Medicine,follow_up,moderate,1,22,15.1
+81,M,Neurology,first_visit,mild,0,3,38.9
+7,F,Orthopedics,first_visit,severe,0,5,39.8
+12,O,General Medicine,urgent,moderate,0,24,29.9
+34,M,Cardiology,first_visit,mild,1,15,32.1
+39,O,General Medicine,urgent,mild,1,22,29.0
+5,O,Orthopedics,follow_up,mild,0,8,16.8
+43,F,ENT,follow_up,mild,0,9,11.1
+55,F,Cardiology,follow_up,mild,0,18,19.6
+18,M,Cardiology,follow_up,moderate,0,10,28.7
+65,F,Cardiology,first_visit,mild,0,28,29.1
+3,F,General Medicine,first_visit,mild,0,13,24.7
+7,O,Gynecology,first_visit,mild,1,25,32.7
+28,M,Neurology,routine_checkup,mild,0,21,20.8
+16,M,Cardiology,follow_up,mild,1,8,26.1
+76,O,Neurology,urgent,moderate,1,5,51.9
+9,O,Neurology,follow_up,moderate,0,8,31.0
+14,F,Cardiology,first_visit,moderate,0,16,32.2
+27,M,General Medicine,first_visit,mild,0,26,18.9
+74,F,General Medicine,first_visit,mild,1,5,32.6
+12,M,Pediatrics,urgent,severe,0,21,38.4
+51,M,Cardiology,first_visit,mild,1,27,34.9
+3,F,Pediatrics,follow_up,mild,0,26,18.7
+29,M,General Medicine,follow_up,mild,0,27,12.2
+38,O,Pediatrics,follow_up,mild,0,21,15.2
+65,M,Pediatrics,routine_checkup,moderate,0,19,14.2
+61,F,Dermatology,urgent,mild,0,3,23.3
+72,M,Pediatrics,urgent,moderate,0,6,36.2
+41,F,Dermatology,urgent,mild,1,21,21.4
+54,M,Cardiology,routine_checkup,moderate,0,17,23.4
+67,M,General Medicine,first_visit,moderate,0,9,33.2
+35,M,Pediatrics,first_visit,severe,1,20,39.5
+53,M,ENT,routine_checkup,mild,0,2,15.5
+12,F,ENT,first_visit,mild,1,15,26.8
+15,F,ENT,routine_checkup,moderate,0,18,18.5
+2,F,Pediatrics,follow_up,mild,0,23,19.2
+73,M,Neurology,follow_up,moderate,1,18,32.1
+28,F,Dermatology,urgent,severe,1,14,32.8
+42,F,Neurology,follow_up,mild,0,9,21.9
+49,M,General Medicine,routine_checkup,moderate,1,18,26.2
+69,M,Pediatrics,routine_checkup,mild,0,7,14.0
+76,M,Neurology,follow_up,mild,1,4,26.8
+36,M,Cardiology,routine_checkup,moderate,0,28,23.9
+62,F,Dermatology,follow_up,moderate,0,11,11.4
+3,M,Orthopedics,follow_up,moderate,1,1,29.9
+76,M,General Medicine,first_visit,moderate,0,29,30.8
+13,F,Orthopedics,first_visit,mild,0,13,29.3
+14,F,Pediatrics,first_visit,mild,0,3,27.3
+25,F,Neurology,first_visit,mild,0,4,28.3
+6,F,Cardiology,follow_up,severe,1,2,38.3
+47,M,Orthopedics,routine_checkup,mild,0,14,19.2
+30,F,Gynecology,urgent,severe,0,13,42.4
+27,F,Pediatrics,follow_up,moderate,1,9,24.3
+17,M,Pediatrics,follow_up,moderate,0,21,18.1
+49,F,Cardiology,follow_up,mild,1,13,25.6
+33,M,Orthopedics,first_visit,mild,0,26,20.8
+43,F,Dermatology,follow_up,severe,0,10,22.1
+42,M,Pediatrics,follow_up,moderate,0,19,14.6
+40,M,Orthopedics,routine_checkup,moderate,1,29,24.6
+32,F,Dermatology,first_visit,mild,0,5,22.6
+68,F,Cardiology,first_visit,mild,1,29,37.5
+34,F,Orthopedics,follow_up,severe,0,2,29.2
+36,M,Dermatology,follow_up,moderate,1,6,18.9
+42,M,Dermatology,first_visit,moderate,0,29,28.8
+7,F,Cardiology,first_visit,moderate,0,14,35.0
+76,F,ENT,follow_up,mild,0,7,12.8
+17,M,ENT,follow_up,severe,1,22,27.8
+35,M,Pediatrics,follow_up,mild,0,2,14.4
+33,F,Neurology,follow_up,mild,0,25,21.0
+40,M,Orthopedics,routine_checkup,mild,1,10,24.9
+62,F,Dermatology,urgent,severe,0,19,30.1
+29,M,General Medicine,first_visit,mild,0,1,25.8
+23,F,General Medicine,follow_up,mild,1,16,12.8
+19,F,Orthopedics,routine_checkup,severe,1,4,35.8
+32,M,Cardiology,routine_checkup,moderate,0,24,23.5
+5,F,Pediatrics,follow_up,mild,0,10,12.9
+43,F,Cardiology,first_visit,mild,0,21,29.6
+33,O,Cardiology,first_visit,mild,0,28,25.7
+82,F,General Medicine,follow_up,mild,0,27,14.0
+38,F,General Medicine,follow_up,mild,0,1,10.3
+10,M,General Medicine,urgent,moderate,1,22,33.3
+40,F,General Medicine,follow_up,mild,0,18,12.2
+43,M,Cardiology,follow_up,mild,0,27,17.4
+24,M,Cardiology,follow_up,moderate,0,22,22.1
+40,M,Gynecology,routine_checkup,moderate,1,16,27.5
+17,O,ENT,urgent,moderate,0,19,30.3
+77,F,General Medicine,follow_up,mild,1,18,22.0
+51,M,General Medicine,routine_checkup,mild,0,27,10.1
+29,F,Cardiology,follow_up,mild,0,21,19.3
+59,F,ENT,first_visit,mild,0,4,20.6
+59,F,Pediatrics,first_visit,mild,1,25,27.6
+16,F,Neurology,routine_checkup,moderate,0,5,28.0
+27,M,Cardiology,follow_up,mild,0,26,16.8
+50,F,ENT,first_visit,severe,1,19,39.2
+23,F,Dermatology,follow_up,mild,1,15,17.0
+67,M,General Medicine,routine_checkup,mild,1,24,20.1
+50,F,Cardiology,follow_up,mild,0,3,20.0
+48,F,Orthopedics,follow_up,mild,1,4,20.7
+14,F,General Medicine,routine_checkup,moderate,0,9,16.9
+40,F,General Medicine,first_visit,moderate,0,9,26.4
+16,M,Dermatology,routine_checkup,mild,1,13,16.5
+41,O,Cardiology,urgent,mild,1,4,36.5
+9,F,General Medicine,routine_checkup,mild,1,5,20.0
+73,M,General Medicine,follow_up,mild,0,3,16.2
+26,M,Orthopedics,follow_up,moderate,1,9,29.5
+23,F,Dermatology,urgent,mild,1,11,28.6
+10,M,General Medicine,first_visit,mild,1,15,24.8
+21,M,Pediatrics,follow_up,moderate,0,17,18.1
+83,M,Orthopedics,first_visit,severe,0,21,39.3
+11,F,Dermatology,first_visit,moderate,0,18,23.9
+2,F,Dermatology,follow_up,mild,0,21,8.0
+34,M,Orthopedics,follow_up,severe,1,3,30.0
+69,F,ENT,first_visit,moderate,0,4,33.0
+2,M,Pediatrics,first_visit,mild,1,6,31.8
+64,F,General Medicine,routine_checkup,mild,0,21,16.0
+37,M,Cardiology,routine_checkup,mild,1,7,25.6
+76,F,General Medicine,routine_checkup,mild,0,2,18.1
+63,F,Cardiology,routine_checkup,mild,0,19,25.4
+21,M,Orthopedics,first_visit,mild,1,19,31.4
+84,F,General Medicine,follow_up,moderate,0,13,21.6
+40,M,Cardiology,urgent,mild,0,27,32.6
+49,F,General Medicine,urgent,mild,0,2,28.0
+7,F,ENT,first_visit,mild,0,1,20.0
+25,F,Pediatrics,follow_up,mild,0,14,14.9
+40,M,Dermatology,follow_up,moderate,1,12,18.0
+50,M,General Medicine,follow_up,moderate,1,21,22.5
+19,F,Cardiology,first_visit,moderate,0,7,39.1
+76,F,Neurology,follow_up,mild,0,27,25.3
+32,F,General Medicine,first_visit,moderate,0,28,26.0
+42,F,Cardiology,follow_up,mild,1,15,24.2
+79,M,Pediatrics,urgent,mild,0,19,28.7
+16,F,ENT,first_visit,mild,0,29,15.5
+51,F,Dermatology,first_visit,moderate,0,20,27.9
+7,F,Cardiology,follow_up,moderate,1,6,32.0
+83,F,Pediatrics,first_visit,mild,0,18,32.6
+24,M,Dermatology,routine_checkup,mild,1,6,12.3
+27,M,General Medicine,first_visit,mild,0,9,26.1
+68,M,Pediatrics,routine_checkup,severe,0,14,25.5
+66,F,ENT,first_visit,moderate,1,10,36.0
+40,M,Dermatology,first_visit,mild,1,10,21.7
+32,M,General Medicine,follow_up,moderate,0,19,9.4
+52,F,General Medicine,follow_up,moderate,1,25,18.6
+22,F,General Medicine,routine_checkup,mild,1,17,15.3
+8,F,Gynecology,follow_up,moderate,0,9,17.8
+45,M,Pediatrics,follow_up,moderate,1,17,23.9
+64,M,Orthopedics,routine_checkup,mild,0,29,18.1
+58,F,Dermatology,routine_checkup,mild,1,1,18.1
+29,F,Cardiology,first_visit,mild,0,22,28.5
+70,F,ENT,follow_up,mild,0,28,9.0
+83,M,Cardiology,routine_checkup,moderate,1,19,34.1
+18,F,Pediatrics,first_visit,mild,0,15,24.2
+11,F,Neurology,follow_up,mild,0,25,19.1
+81,M,Neurology,routine_checkup,mild,0,15,23.9
+11,F,Dermatology,follow_up,moderate,0,20,8.0
+44,M,General Medicine,follow_up,mild,0,17,14.1
+77,O,General Medicine,first_visit,mild,1,18,29.5
+50,F,Gynecology,first_visit,severe,1,9,46.8
+10,M,General Medicine,urgent,mild,0,23,22.7
+4,M,Pediatrics,first_visit,moderate,1,3,36.3
+19,M,Orthopedics,follow_up,moderate,1,2,29.6
+78,F,General Medicine,urgent,mild,1,3,35.3
+54,F,Pediatrics,follow_up,moderate,0,7,15.8
+43,M,Pediatrics,first_visit,mild,0,29,20.7
+11,M,Cardiology,routine_checkup,moderate,0,21,23.8
+27,M,Orthopedics,first_visit,moderate,1,24,35.7
+33,M,Pediatrics,urgent,moderate,0,24,28.0
+4,M,Pediatrics,follow_up,mild,1,3,20.4
+78,F,Cardiology,routine_checkup,mild,0,28,23.7
+38,M,General Medicine,routine_checkup,mild,0,4,10.3
+50,M,Gynecology,first_visit,moderate,0,20,29.4
+45,M,Orthopedics,follow_up,mild,0,19,18.3
+40,F,Cardiology,first_visit,moderate,1,17,37.8
+11,M,Orthopedics,urgent,moderate,1,13,39.7
+47,F,General Medicine,first_visit,severe,0,5,35.9
+81,M,Cardiology,follow_up,severe,1,13,36.3
+27,F,Cardiology,first_visit,moderate,1,24,39.8
+46,M,ENT,routine_checkup,mild,0,4,11.8
+74,M,Orthopedics,routine_checkup,mild,1,3,25.9
+43,M,Orthopedics,first_visit,moderate,0,25,33.7
+49,M,Orthopedics,routine_checkup,moderate,0,5,22.5
+71,M,Pediatrics,follow_up,mild,1,1,24.0
+54,F,Gynecology,first_visit,severe,0,11,42.8
+78,M,Dermatology,first_visit,mild,0,3,23.2
+66,M,General Medicine,first_visit,mild,1,11,30.5
+39,M,Orthopedics,follow_up,mild,1,24,15.4
+33,F,Neurology,first_visit,moderate,0,22,35.9
+74,F,Neurology,routine_checkup,severe,1,8,41.5
+23,M,Cardiology,urgent,mild,0,18,33.5
+76,M,Cardiology,routine_checkup,mild,0,16,22.1
+19,F,Pediatrics,routine_checkup,moderate,0,19,13.0
+24,M,Cardiology,first_visit,moderate,0,3,33.6
+64,F,Orthopedics,first_visit,mild,1,3,35.4
+78,F,Cardiology,first_visit,mild,0,3,36.0
+79,M,Dermatology,routine_checkup,moderate,1,7,23.0
+45,F,ENT,first_visit,severe,0,4,38.1
+33,M,Cardiology,urgent,moderate,0,29,35.5
+23,F,General Medicine,follow_up,mild,0,12,10.8
+41,F,Cardiology,first_visit,severe,0,6,41.1
+66,F,Pediatrics,first_visit,moderate,0,29,36.7
+36,F,Gynecology,first_visit,severe,1,15,45.4
+41,M,Pediatrics,first_visit,moderate,0,23,32.1
+6,M,Neurology,routine_checkup,severe,0,15,30.2
+52,M,Gynecology,first_visit,mild,1,9,35.2
+72,M,Cardiology,routine_checkup,moderate,1,26,31.4
+68,F,Orthopedics,routine_checkup,moderate,0,12,25.8
+6,F,Dermatology,urgent,severe,0,18,31.0
+17,M,Orthopedics,follow_up,moderate,1,12,23.0
+57,M,Orthopedics,first_visit,mild,0,11,27.0
+80,F,Orthopedics,first_visit,moderate,0,23,36.1
+14,M,Cardiology,follow_up,moderate,1,20,30.3
+27,O,Dermatology,follow_up,moderate,1,3,19.8
+44,F,ENT,follow_up,moderate,1,17,19.2
+29,F,Pediatrics,follow_up,mild,0,8,17.4
+4,M,General Medicine,follow_up,mild,0,5,22.2
+78,M,Pediatrics,urgent,mild,1,5,35.0
+68,M,Pediatrics,follow_up,mild,0,11,19.8
+79,M,Pediatrics,follow_up,mild,0,21,14.4
+16,F,General Medicine,first_visit,mild,1,1,31.2
+6,M,General Medicine,urgent,mild,0,13,28.8
+26,M,Neurology,first_visit,mild,0,18,28.8
+47,M,Neurology,follow_up,moderate,0,25,24.8
+81,F,Pediatrics,first_visit,moderate,0,12,32.7
+41,O,Neurology,urgent,mild,0,27,33.4
+14,O,Cardiology,first_visit,moderate,0,5,38.9
+63,F,Dermatology,routine_checkup,mild,0,19,8.0
+3,M,Cardiology,follow_up,mild,0,20,26.2
+37,F,Orthopedics,routine_checkup,mild,1,21,20.1
+67,F,Dermatology,routine_checkup,mild,0,8,8.8
+50,F,Pediatrics,routine_checkup,mild,1,23,17.2
+40,F,Orthopedics,follow_up,mild,0,13,17.6
+11,F,Orthopedics,routine_checkup,severe,0,16,27.7
+65,M,Dermatology,follow_up,mild,0,15,11.3
+61,M,Dermatology,routine_checkup,mild,1,27,8.0
+40,F,ENT,first_visit,severe,0,17,35.4
+37,M,General Medicine,first_visit,mild,1,5,24.3
+46,M,Cardiology,routine_checkup,mild,1,22,25.5
+30,F,Cardiology,first_visit,moderate,1,24,36.3
+3,M,Cardiology,first_visit,mild,0,25,31.3
+36,F,Pediatrics,first_visit,severe,0,7,33.9
+41,M,Orthopedics,urgent,mild,0,11,28.8
+3,F,Cardiology,urgent,moderate,0,27,38.5
+71,F,Dermatology,first_visit,moderate,1,27,27.9
+63,M,Cardiology,first_visit,mild,0,16,34.1

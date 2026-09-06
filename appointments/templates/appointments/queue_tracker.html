@@ -1,0 +1,191 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Live Queue Tracker - Token #{{ appointment.token_number }} - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom p-4 p-md-5 mb-4 border-top border-5" style="border-top-color: var(--sc-primary) !important;">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                    <div>
+                        <span class="badge bg-teal-subtle text-teal border mb-1" style="background-color: #ccfbf1; color: #0f766e;">
+                            <span class="live-pulse me-1"></span> Live SmartCare Queue Console
+                        </span>
+                        <h3 class="fw-bold mb-0">Live Queue Tracker</h3>
+                    </div>
+                    <div class="text-end">
+                        <div class="small text-muted">Auto-refreshes every 6s</div>
+                        <span class="badge bg-light text-dark border"><i class="bi bi-calendar-event me-1"></i>{{ appointment.appointment_date }}</span>
+                    </div>
+                </div>
+
+                <!-- Big Visual Token Counters -->
+                <div class="row g-3 mb-4 text-center">
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-4 bg-light border h-100">
+                            <div class="text-muted small fw-semibold text-uppercase mb-1">Your Token Number</div>
+                            <div class="display-3 fw-bold text-teal" style="color: var(--sc-primary);">
+                                #{{ appointment.token_number }}
+                            </div>
+                            <span class="badge bg-white text-dark border px-3 py-1">
+                                Patient: {{ appointment.patient.get_full_name|default:appointment.patient.username }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-4 border h-100" style="background-color: #f0fdfa;">
+                            <div class="text-muted small fw-semibold text-uppercase mb-1">Currently In Consultation</div>
+                            <div class="display-3 fw-bold text-dark" id="currentServingToken">
+                                {% if queue_status.currently_serving_token %}
+                                    #{{ queue_status.currently_serving_token }}
+                                {% else %}
+                                    &mdash;
+                                {% endif %}
+                            </div>
+                            <span class="badge bg-success text-white px-3 py-1" id="doctorStatusBadge">
+                                <i class="bi bi-door-open me-1"></i>Doctor Serving
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Dynamic Wait Time & Ahead Count -->
+                <div class="card p-4 mb-4 border-0 text-white rounded-4 shadow-sm" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #0284c7 100%);">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <div class="small text-white-50 text-uppercase fw-bold mb-1">Estimated Remaining Wait</div>
+                            <div class="display-5 fw-bold" id="estWaitDisplay">
+                                {% if appointment.status == 'in_consultation' %}
+                                    Now Consulting
+                                {% elif appointment.status == 'completed' %}
+                                    Completed
+                                {% else %}
+                                    ~{{ queue_status.estimated_wait_minutes }} Mins
+                                {% endif %}
+                            </div>
+                            <div class="small text-white-70 mt-1" id="queueMessage">
+                                {{ queue_status.message }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <div class="p-3 rounded-3 bg-white bg-opacity-20 d-inline-block text-start" style="min-width: 200px;">
+                                <div class="d-flex justify-content-between mb-1 small">
+                                    <span>Patients Ahead:</span>
+                                    <strong id="patientsAheadCount">{{ queue_status.patients_ahead_count }}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-1 small">
+                                    <span>ML Consultation Est:</span>
+                                    <strong>{{ appointment.predicted_duration_minutes }} mins</strong>
+                                </div>
+                                <div class="d-flex justify-content-between small">
+                                    <span>Room:</span>
+                                    <strong>{{ appointment.doctor.room_number }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Progression Steps -->
+                <div class="mb-4">
+                    <h6 class="fw-bold text-secondary mb-3">Appointment Progress</h6>
+                    <div class="row g-2 text-center small">
+                        <div class="col-3">
+                            <div class="p-2 rounded-3 border {% if appointment.status in 'scheduled,waiting,in_consultation,completed' %}bg-success text-white fw-bold{% else %}bg-light text-muted{% endif %}">
+                                1. Booked
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-2 rounded-3 border {% if appointment.status in 'waiting,in_consultation,completed' %}bg-success text-white fw-bold{% else %}bg-light text-muted{% endif %}">
+                                2. Waiting
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-2 rounded-3 border {% if appointment.status in 'in_consultation,completed' %}bg-primary text-white fw-bold{% else %}bg-light text-muted{% endif %}">
+                                3. Consulting
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-2 rounded-3 border {% if appointment.status == 'completed' %}bg-dark text-white fw-bold{% else %}bg-light text-muted{% endif %}">
+                                4. Completed
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor & Clinical Details -->
+                <div class="bg-light p-3 rounded-3 border mb-4">
+                    <div class="row g-2">
+                        <div class="col-sm-6">
+                            <div class="small text-muted">Specialist Doctor</div>
+                            <div class="fw-bold">{{ appointment.doctor.full_name }}</div>
+                            <span class="small text-muted">{{ appointment.doctor.department.name }}</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="small text-muted">Visit Type / Severity</div>
+                            <div class="fw-semibold">{{ appointment.get_visit_type_display }}</div>
+                            <span class="badge bg-secondary-subtle text-secondary small">{{ appointment.get_symptom_severity_display }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center">
+                    <a href="{% url 'patient_dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                    </a>
+                    <div class="d-flex gap-2">
+                        {% if appointment.status in 'scheduled,waiting' %}
+                            <a href="{% url 'appointments:reschedule' appointment.id %}" class="btn btn-light border">
+                                <i class="bi bi-calendar2-range me-1"></i> Reschedule
+                            </a>
+                            <a href="{% url 'appointments:cancel' appointment.id %}" class="btn btn-outline-danger">
+                                <i class="bi bi-x-circle me-1"></i> Cancel
+                            </a>
+                        {% elif appointment.status == 'completed' %}
+                            <a href="{% url 'appointments:feedback' appointment.id %}" class="btn btn-outline-warning">
+                                <i class="bi bi-star me-1"></i> Rate Doctor
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const appointmentId = {{ appointment.id }};
+    function pollQueue() {
+        fetch(`/appointments/api/queue-status/${appointmentId}/`)
+            .then(res => res.json())
+            .then(data => {
+                if (data) {
+                    if (data.currently_serving_token) {
+                        document.getElementById('currentServingToken').innerText = '#' + data.currently_serving_token;
+                    }
+                    if (data.patients_ahead_count !== undefined) {
+                        document.getElementById('patientsAheadCount').innerText = data.patients_ahead_count;
+                    }
+                    if (data.status === 'in_consultation') {
+                        document.getElementById('estWaitDisplay').innerText = "Now Consulting";
+                    } else if (data.status === 'completed') {
+                        document.getElementById('estWaitDisplay').innerText = "Completed";
+                    } else {
+                        document.getElementById('estWaitDisplay').innerText = '~' + data.estimated_wait_minutes + ' Mins';
+                    }
+                    if (data.message) {
+                        document.getElementById('queueMessage').innerText = data.message;
+                    }
+                }
+            })
+            .catch(err => console.error("Error polling queue status:", err));
+    }
+
+    setInterval(pollQueue, 6000);
+</script>
+{% endblock %}
+

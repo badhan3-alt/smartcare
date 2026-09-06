@@ -1,0 +1,173 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Doctor Queue Console - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-5">
+    <!-- Top Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <span class="badge bg-teal-subtle text-teal border mb-1" style="background-color: #ccfbf1; color: #0f766e;">
+                <span class="live-pulse me-1"></span> Live Clinic Console &bull; {{ doctor.room_number }}
+            </span>
+            <h3 class="fw-bold mb-0">{{ doctor.full_name }} &bull; Queue Management</h3>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <span class="badge bg-light text-dark border p-2"><i class="bi bi-clock me-1"></i>Remaining Queue: ~{{ queue.pending_minutes }} Mins</span>
+            <a href="{% url 'doctors:dashboard' %}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Exit Console
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Active Patient Panel (Left Column) -->
+        <div class="col-lg-6">
+            <div class="card card-custom p-4 h-100 border-top border-5" style="border-top-color: {% if queue.in_consultation %}#0d9488{% else %}#94a3b8{% endif %} !important;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-person-fill-gear me-2"></i>Active Consultation</h5>
+                    {% if queue.in_consultation %}
+                        <span class="badge bg-success-subtle text-success border"><span class="live-pulse me-1"></span> In Progress</span>
+                    {% else %}
+                        <span class="badge bg-light text-muted border">Waiting for Next Patient</span>
+                    {% endif %}
+                </div>
+
+                {% if queue.in_consultation %}
+                    {% with appt=queue.in_consultation %}
+                        <div class="p-3 rounded-4 mb-4" style="background-color: #f0fdfa; border: 1px solid #99f6e4;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-dark fs-5">Token #{{ appt.token_number }}</span>
+                                <span class="badge bg-teal text-white" style="background-color: var(--sc-primary);">
+                                    ML Est: {{ appt.predicted_duration_minutes }} mins
+                                </span>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-1">{{ appt.patient.get_full_name|default:appt.patient.username }}</h4>
+                            <div class="text-muted small mb-2">
+                                Age: <strong>{{ appt.patient.profile.calculated_age }}</strong> &bull;
+                                Gender: <strong>{{ appt.patient.profile.get_gender_display }}</strong> &bull;
+                                Blood Group: <strong>{{ appt.patient.profile.blood_group|default:"N/A" }}</strong> &bull;
+                                Phone: <strong>{{ appt.patient.profile.phone }}</strong>
+                            </div>
+                            <div class="bg-white p-2 rounded-2 border small">
+                                <strong>Chief Complaint:</strong> {{ appt.primary_symptom|default:"Routine Checkup" }}
+                                {% if appt.patient_notes %}
+                                    <div class="text-muted mt-1"><em>"{{ appt.patient_notes }}"</em></div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Consultation Completion Form -->
+                        <form method="post" action="{% url 'doctors:complete_consultation' appt.id %}">
+                            {% csrf_token %}
+                            <h6 class="fw-bold text-secondary mb-2">Complete Consultation & Save Rx</h6>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Actual Duration (Minutes) *</label>
+                                <input type="number" step="0.5" name="actual_duration_minutes" class="form-control" value="{{ appt.predicted_duration_minutes }}" required>
+                                <div class="form-text small">This actual time feeds into SmartCare's continuous learning model.</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Doctor's Clinical Notes / Diagnosis</label>
+                                <textarea name="doctor_notes" class="form-control" rows="3" placeholder="Symptoms evaluated, clinical assessment, diagnosis..."></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold">Prescription (Rx) & Advice</label>
+                                <textarea name="prescription" class="form-control font-monospace" rows="4" placeholder="Medication, dosage, duration, lab tests, follow-up advice..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-success w-100 py-2 fw-bold">
+                                <i class="bi bi-check2-circle me-1"></i> Finish Consultation & Call Next
+                            </button>
+                        </form>
+                    {% endwith %}
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <div class="fs-1 text-secondary opacity-50 mb-3"><i class="bi bi-cup-hot"></i></div>
+                        <h5>No patient is currently in the room</h5>
+                        <p class="small text-muted">Select the next scheduled or waiting patient from the queue on the right.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Today's Patient Queue (Right Column) -->
+        <div class="col-lg-6">
+            <div class="card card-custom p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-list-ol me-2"></i>Today's Patient Queue ({{ queue.total_count }})</h5>
+                    <span class="badge bg-light text-dark border">{{ queue.completed_count }} Completed</span>
+                </div>
+
+                <div class="list-group list-group-flush overflow-auto" style="max-height: 600px;">
+                    {% for appt in queue.appointments %}
+                        <div class="list-group-item p-3 border rounded-3 mb-2 {% if appt.status == 'in_consultation' %}border-success bg-success-subtle{% elif appt.status == 'waiting' %}border-warning bg-warning-subtle{% endif %}">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <span class="badge bg-dark fw-bold me-2">#{{ appt.token_number }}</span>
+                                    <strong class="text-dark">{{ appt.patient.get_full_name|default:appt.patient.username }}</strong>
+                                    <span class="small text-muted ms-1">({{ appt.patient.profile.calculated_age }}y / {{ appt.patient.profile.get_gender_display }})</span>
+                                </div>
+                                <div>
+                                    {% if appt.status == 'in_consultation' %}
+                                        <span class="badge bg-primary">In Progress</span>
+                                    {% elif appt.status == 'waiting' %}
+                                        <span class="badge bg-warning text-dark">In Waiting Room</span>
+                                    {% elif appt.status == 'completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% elif appt.status == 'no_show' %}
+                                        <span class="badge bg-secondary">No-Show</span>
+                                    {% else %}
+                                        <span class="badge bg-light text-dark border">Scheduled</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center small text-muted mb-2">
+                                <span><i class="bi bi-clock me-1"></i>ML Est: <strong>{{ appt.predicted_duration_minutes }}m</strong></span>
+                                <span>Visit: <strong>{{ appt.get_visit_type_display }}</strong></span>
+                                <span>Severity: <strong>{{ appt.get_symptom_severity_display }}</strong></span>
+                            </div>
+
+                            {% if appt.primary_symptom %}
+                                <div class="small text-secondary mb-2">
+                                    <em>"{{ appt.primary_symptom }}"</em>
+                                </div>
+                            {% endif %}
+
+                            <!-- Actions for Doctor -->
+                            <div class="d-flex gap-2 justify-content-end mt-2">
+                                {% if appt.status == 'scheduled' %}
+                                    <a href="{% url 'doctors:call_patient' appt.id %}" class="btn btn-outline-warning btn-sm">
+                                        <i class="bi bi-bell me-1"></i> Call to Room
+                                    </a>
+                                    <a href="{% url 'doctors:start_consultation' appt.id %}" class="btn btn-primary-sc btn-sm">
+                                        <i class="bi bi-play-fill me-1"></i> Start Consult
+                                    </a>
+                                    <a href="{% url 'doctors:no_show' appt.id %}" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Mark as No-Show?')">
+                                        No-Show
+                                    </a>
+                                {% elif appt.status == 'waiting' %}
+                                    <a href="{% url 'doctors:start_consultation' appt.id %}" class="btn btn-primary-sc btn-sm">
+                                        <i class="bi bi-play-fill me-1"></i> Start Consult
+                                    </a>
+                                    <a href="{% url 'doctors:no_show' appt.id %}" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Mark as No-Show?')">
+                                        No-Show
+                                    </a>
+                                {% elif appt.status == 'completed' %}
+                                    <span class="small text-success"><i class="bi bi-check-circle me-1"></i>Done ({{ appt.actual_duration_minutes|default:appt.predicted_duration_minutes }}m)</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="text-center py-4 text-muted">No appointments in the queue.</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

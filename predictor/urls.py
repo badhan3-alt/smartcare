@@ -11,7 +11,7 @@ urlpatterns = [
     path(
         "",
         home,
-        name="home"
+        name="insurance_home"
     ),
 
     path(

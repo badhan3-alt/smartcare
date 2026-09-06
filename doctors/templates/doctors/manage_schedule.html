@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Manage Availability - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h4 class="fw-bold mb-1">Doctor Availability Status</h4>
+                        <p class="text-muted small mb-0">Toggle your daily clinic availability</p>
+                    </div>
+                    {% if doctor.is_available %}
+                        <span class="badge bg-success-subtle text-success border px-3 py-2">Currently Available</span>
+                    {% else %}
+                        <span class="badge bg-danger-subtle text-danger border px-3 py-2">Currently Away</span>
+                    {% endif %}
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="is_available" name="is_available" {% if doctor.is_available %}checked{% endif %}>
+                        <label class="form-check-label fw-bold" for="is_available">Accepting New Patient Appointments Today</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-sc">Save Availability</button>
+                </form>
+            </div>
+
+            <!-- Weekly Schedule Slots -->
+            <div class="card card-custom p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-calendar-week me-2" style="color: var(--sc-primary);"></i>Weekly Working Hours</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Day</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Slot Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in schedules %}
+                                <tr>
+                                    <td class="fw-semibold">{{ s.get_day_of_week_display }}</td>
+                                    <td>{{ s.start_time|time:"h:i A" }}</td>
+                                    <td>{{ s.end_time|time:"h:i A" }}</td>
+                                    <td><span class="badge bg-light text-dark border">{{ s.slot_duration_minutes }} Mins</span></td>
+                                    <td>
+                                        {% if s.is_active %}
+                                            <span class="badge bg-success-subtle text-success border">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary-subtle text-secondary border">Off</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-muted text-center py-3">Default hospital shift: Mon-Fri 09:00 AM - 05:00 PM.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

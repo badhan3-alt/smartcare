@@ -1,0 +1,244 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Payment - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <!-- Payment Header -->
+            <div class="text-center mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 mb-3" style="width: 64px; height: 64px;">
+                    <i class="bi bi-credit-card-2-front fs-2 text-success"></i>
+                </div>
+                <h3 class="fw-bold">Complete Payment</h3>
+                <p class="text-muted">Pay the consultation fee to confirm your appointment</p>
+            </div>
+
+            <!-- Appointment Summary Card -->
+            <div class="card card-custom mb-4">
+                <div class="card-header bg-light py-3">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-receipt me-2"></i>Appointment Summary</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="text-muted small">Doctor</div>
+                            <div class="fw-semibold">{{ appointment.doctor.full_name }}</div>
+                            <div class="text-muted small">{{ appointment.doctor.department.name }}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-muted small">Appointment</div>
+                            <div class="fw-semibold">{{ appointment.appointment_date|date:"d M Y" }}</div>
+                            <div class="text-muted small">{{ appointment.appointment_time|time:"h:i A" }}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-muted small">Token Number</div>
+                            <div class="fw-semibold fs-5 text-primary">#{{ appointment.token_number }}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-muted small">Visit Type</div>
+                            <div class="fw-semibold">{{ appointment.get_visit_type_display }}</div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-5 fw-bold">Consultation Fee</span>
+                        <span class="fs-4 fw-bold text-success">৳{{ consultation_fee }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Form -->
+            <div class="card card-custom">
+                <div class="card-header bg-light py-3">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-wallet2 me-2"></i>Select Payment Method</h6>
+                </div>
+                <div class="card-body">
+                    {% if otp_pending %}
+                    <div class="alert alert-success small">
+                        <i class="bi bi-envelope-check me-1"></i>
+                        We sent a verification OTP to <strong>{{ request.user.email }}</strong>.
+                        Enter it below to complete your payment.
+                    </div>
+                    <form method="post" id="paymentOtpForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="verify_otp">
+                        <label class="form-label fw-semibold" for="paymentOtp">Payment OTP</label>
+                        <input type="text" name="otp" id="paymentOtp" class="form-control mb-3"
+                               inputmode="numeric" autocomplete="one-time-code"
+                               pattern="[0-9]{6}" maxlength="6" required autofocus>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg py-3">
+                                <i class="bi bi-shield-check me-2"></i>Verify OTP &amp; Complete Payment
+                            </button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <form method="post" id="paymentForm">
+                        {% csrf_token %}
+
+                        <!-- Payment Methods -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold mb-3">Choose Payment Option</label>
+                            <div class="row g-3">
+                                {% for radio in form.payment_method %}
+                                <div class="col-6 col-md-4">
+                                    <div class="form-check payment-option p-3 border rounded-3 text-center h-100 position-relative">
+                                        {{ radio.tag }}
+                                        <label class="form-check-label d-block mt-2 fw-semibold" for="{{ radio.id_for_label }}">
+                                            {% if radio.data.value == 'bkash' %}
+                                                <img class="payment-logo" src="{% static 'core/img/payments/bkash.svg' %}" alt="bKash">
+                                            {% elif radio.data.value == 'nagad' %}
+                                                <img class="payment-logo" src="{% static 'core/img/payments/nagad.svg' %}" alt="Nagad">
+                                            {% elif radio.data.value == 'rocket' %}
+                                                <img class="payment-logo" src="{% static 'core/img/payments/rocket.svg' %}" alt="Rocket">
+                                            {% elif radio.data.value == 'card' %}
+                                                <img class="payment-logo" src="{% static 'core/img/payments/card.svg' %}" alt="Credit or Debit Card">
+                                            {% elif radio.data.value == 'cash' %}
+                                                <img class="payment-logo" src="{% static 'core/img/payments/cash.svg' %}" alt="Cash at Counter">
+                                            {% else %}
+                                                <span class="payment-logo payment-logo-cash"><i class="bi bi-cash-stack"></i></span>
+                                            {% endif %}
+                                            <span class="d-block small mt-1">{{ radio.choice_label }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% if form.payment_method.errors %}
+                            <div class="text-danger small mt-1">{{ form.payment_method.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Transaction ID Input -->
+                        <div class="mb-4" id="txnIdSection">
+                            <label class="form-label fw-semibold" for="id_transaction_id">
+                                <i class="bi bi-hash me-1"></i>Transaction ID <span class="text-danger">*</span>
+                            </label>
+                            {{ form.transaction_id }}
+                            <div class="form-text text-muted">
+                                Enter the TrxID received from your mobile banking app or bank SMS.
+                            </div>
+                            {% if form.transaction_id.errors %}
+                            <div class="text-danger small mt-1">{{ form.transaction_id.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Payment Info Notice -->
+                        <div class="alert alert-info small mb-4" id="paymentInfoNotice">
+                            <i class="bi bi-info-circle me-1"></i>
+                            <strong>Payment Receiver:</strong> SmartCare Hospital Administration<br>
+                            <i class="bi bi-telephone me-1"></i>
+                            <strong>bKash / Nagad / Rocket Merchant:</strong> 01700-000000<br>
+                            <span class="text-muted">Please send ৳{{ consultation_fee }} to the above merchant number and enter the Transaction ID.</span>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg py-3">
+                                <i class="bi bi-check-circle me-2"></i>Confirm Payment of ৳{{ consultation_fee }}
+                            </button>
+                            <a href="{% url 'appointments:patient_dashboard' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Pay Later
+                            </a>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.payment-option {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+}
+.payment-option .form-check-input {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+}
+.payment-logo {
+    width: 100%;
+    max-width: 120px;
+    height: 46px;
+    margin: 0.25rem auto 0.4rem;
+    display: block;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+.payment-logo-cash {
+    width: 100%;
+    max-width: 120px;
+    height: 46px;
+    margin: 0.25rem auto 0.4rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    font-size: 1.5rem;
+}
+.payment-option:hover {
+    border-color: var(--sc-primary) !important;
+    background-color: #f0fdfa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.12);
+}
+.payment-option:hover .payment-logo {
+    transform: scale(1.04);
+}
+.payment-option:has(input:checked) {
+    border-color: var(--sc-primary) !important;
+    background-color: #f0fdfa;
+    box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.35);
+}
+.payment-option input[type="radio"]:checked ~ label {
+    color: var(--sc-primary-dark);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const radios = document.querySelectorAll('input[name="payment_method"]');
+    const txnSection = document.getElementById('txnIdSection');
+    const paymentNotice = document.getElementById('paymentInfoNotice');
+
+    function toggleTxnField() {
+        const selected = document.querySelector('input[name="payment_method"]:checked');
+        if (!selected) return;
+
+        if (selected.value === 'cash') {
+            if (txnSection) txnSection.style.display = 'none';
+            if (paymentNotice) {
+                paymentNotice.className = 'alert alert-warning small mb-4';
+                paymentNotice.innerHTML = '<i class="bi bi-cash-stack me-2"></i><strong>Cash at Counter:</strong> You can pay ৳{{ consultation_fee }} directly at the SmartCare hospital billing counter before entering the doctor\'s room.';
+            }
+        } else if (selected.value === 'card') {
+            if (txnSection) txnSection.style.display = 'block';
+            if (paymentNotice) {
+                paymentNotice.className = 'alert alert-info small mb-4';
+                paymentNotice.innerHTML = '<i class="bi bi-credit-card me-2"></i><strong>Debit/Credit Card (Visa & Mastercard):</strong> Swipe or pay via POS/online portal and enter your approval/transaction code below.';
+            }
+        } else {
+            if (txnSection) txnSection.style.display = 'block';
+            const methodTitle = selected.value === 'bkash' ? 'bKash' : (selected.value === 'nagad' ? 'Nagad' : 'Rocket');
+            if (paymentNotice) {
+                paymentNotice.className = 'alert alert-info small mb-4';
+                paymentNotice.innerHTML = '<i class="bi bi-phone me-2"></i><strong>' + methodTitle + ' Merchant Number:</strong> 01700-000000<br><span class="text-muted">Please send ৳{{ consultation_fee }} using "Make Payment" or "Send Money" and enter your TrxID below.</span>';
+            }
+        }
+    }
+
+    radios.forEach(r => r.addEventListener('change', toggleTxnField));
+    toggleTxnField();
+});
+</script>
+{% endblock %}
