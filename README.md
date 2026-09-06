@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SmartCare: ML-Based Healthcare Appointment Scheduling and Queue Management System
 
 **Course Code:** CSE-06133230  
@@ -224,3 +225,6 @@ smartcare/
 │   └── templates/ml_engine/ # admin_dashboard.html, demand_forecast.html
 └── README.md
 ```
+=======
+# smartcare
+>>>>>>> 4997f2e17535b1b9a0032a6510193d1e012560f9
