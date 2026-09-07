@@ -11,6 +11,10 @@ from .forms import DoctorConsultationForm
 def doctor_list_view(request):
     dept_id = request.GET.get('department')
     search_query = request.GET.get('q', '').strip()
+    specialization = request.GET.get('specialization', '').strip()
+    min_experience = request.GET.get('min_experience', '').strip()
+    max_fee = request.GET.get('max_fee', '').strip()
+    min_rating = request.GET.get('min_rating', '').strip()
     
     doctors = DoctorProfile.objects.filter(is_available=True).select_related('user', 'department')
     
@@ -25,6 +29,20 @@ def doctor_list_view(request):
             Q(qualification__icontains=search_query) |
             Q(department__name__icontains=search_query)
         )
+    if specialization:
+        doctors = doctors.filter(specialization__icontains=specialization)
+    if min_experience.isdigit():
+        doctors = doctors.filter(experience_years__gte=int(min_experience))
+    try:
+        if max_fee:
+            doctors = doctors.filter(consultation_fee__lte=float(max_fee))
+    except ValueError:
+        pass
+    if min_rating in {'3', '4', '5'}:
+        doctors = [
+            doctor for doctor in doctors
+            if doctor.average_rating >= int(min_rating)
+        ]
         
     departments = Department.objects.filter(is_active=True)
     
@@ -33,6 +51,10 @@ def doctor_list_view(request):
         'departments': departments,
         'selected_dept': int(dept_id) if dept_id and dept_id.isdigit() else None,
         'search_query': search_query,
+        'specialization': specialization,
+        'min_experience': min_experience,
+        'max_fee': max_fee,
+        'min_rating': min_rating,
     }
     return render(request, 'doctors/doctor_list.html', context)
 
@@ -165,4 +187,3 @@ def doctor_schedule_view(request):
         return redirect('doctors:schedule')
         
     return render(request, 'doctors/manage_schedule.html', {'doctor': doctor, 'schedules': schedules})
-

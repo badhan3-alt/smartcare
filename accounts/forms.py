@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserProfile, GENDER_CHOICES, BLOOD_GROUP_CHOICES
+from .models import (
+    UserProfile, MedicalHistory, GENDER_CHOICES, BLOOD_GROUP_CHOICES,
+)
 from doctors.models import Department
 
 class UserRegistrationForm(forms.ModelForm):
@@ -86,3 +88,16 @@ class UserRegistrationForm(forms.ModelForm):
 
         return cleaned_data
 
+
+class MedicalHistoryForm(forms.ModelForm):
+    class Meta:
+        model = MedicalHistory
+        fields = [
+            'allergies', 'current_medications', 'past_conditions',
+            'past_surgeries', 'family_history',
+        ]
+        widgets = {
+            field: forms.Textarea(attrs={
+                'class': 'form-control', 'rows': 3,
+            }) for field in fields
+        }

@@ -13,8 +13,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from smtplib import SMTPException
 from django.db import transaction
-from .models import UserProfile
-from .forms import UserRegistrationForm
+from .models import MedicalHistory, UserProfile
+from .forms import MedicalHistoryForm, UserRegistrationForm
 from doctors.models import DoctorProfile, DoctorSchedule
 
 logger = logging.getLogger(__name__)
@@ -297,3 +297,23 @@ def dashboard_view(request):
     elif user.is_superuser:
         return redirect('admin_dashboard')
     return redirect('patient_dashboard')
+
+
+@login_required
+def medical_history_view(request):
+    if hasattr(request.user, 'doctor_profile'):
+        messages.error(request, 'Only patients can edit medical history.')
+        return redirect('doctor_dashboard')
+    history, _ = MedicalHistory.objects.get_or_create(patient=request.user)
+    if request.method == 'POST':
+        form = MedicalHistoryForm(request.POST, instance=history)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your medical history has been updated.')
+            return redirect('accounts:medical_history')
+    else:
+        form = MedicalHistoryForm(instance=history)
+    return render(
+        request, 'accounts/medical_history.html',
+        {'form': form, 'history': history},
+    )

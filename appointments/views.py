@@ -8,14 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.utils import timezone
 
-from .models import Appointment, PatientFeedback, Payment
+from .models import Appointment, PatientFeedback, Payment, Waitlist
 from .forms import (
     AppointmentBookingForm, RescheduleAppointmentForm,
-    CancelAppointmentForm, PatientFeedbackForm, PaymentForm
+    CancelAppointmentForm, PatientFeedbackForm, PaymentForm, WaitlistForm
 )
 from .queue_service import get_next_token_number, calculate_patient_queue_status
 from doctors.models import DoctorProfile
@@ -54,12 +54,16 @@ def patient_dashboard_view(request):
     ).filter(
         Q(appointment_date__lt=today) | Q(status__in=['completed', 'cancelled', 'no_show'])
     ).select_related('doctor', 'doctor__department').order_by('-appointment_date', '-appointment_time')[:10]
+    waitlist_entries = Waitlist.objects.filter(
+        patient=user, status='waiting'
+    ).select_related('doctor', 'doctor__department')
     
     context = {
         'today_appointment': today_appointment,
         'today_queue_info': today_queue_info,
         'upcoming': upcoming,
         'past': past,
+        'waitlist_entries': waitlist_entries,
     }
     return render(request, 'appointments/patient_dashboard.html', context)
 
@@ -160,12 +164,77 @@ def cancel_appointment_view(request, appointment_id):
             appointment.status = 'cancelled'
             appointment.cancellation_reason = form.cleaned_data['cancellation_reason']
             appointment.save()
+            waiting_entry = Waitlist.objects.filter(
+                doctor=appointment.doctor,
+                preferred_date=appointment.appointment_date,
+                status='waiting',
+            ).select_related('patient').first()
+            if waiting_entry:
+                promoted = Appointment.objects.create(
+                    patient=waiting_entry.patient,
+                    doctor=appointment.doctor,
+                    appointment_date=appointment.appointment_date,
+                    appointment_time=appointment.appointment_time,
+                    token_number=get_next_token_number(
+                        appointment.doctor, appointment.appointment_date
+                    ),
+                    visit_type='first_visit',
+                    status='scheduled',
+                    predicted_duration_minutes=20.0,
+                )
+                waiting_entry.status = 'promoted'
+                waiting_entry.promoted_appointment = promoted
+                waiting_entry.notified_at = timezone.now()
+                waiting_entry.save(update_fields=[
+                    'status', 'promoted_appointment', 'notified_at'
+                ])
+                if waiting_entry.patient.email:
+                    try:
+                        send_mail(
+                            subject='SmartCare waitlist slot available',
+                            message=(
+                                f'An appointment is now available with {appointment.doctor.full_name} '
+                                f'on {appointment.appointment_date:%B %d, %Y} at '
+                                f'{appointment.appointment_time:%I:%M %p}. '
+                                f'Your token is #{promoted.token_number}.'
+                            ),
+                            from_email=settings.DEFAULT_FROM_EMAIL,
+                            recipient_list=[waiting_entry.patient.email],
+                            fail_silently=False,
+                        )
+                    except (SMTPException, OSError, ValueError) as error:
+                        logger.exception('Waitlist promotion email failed: %s', error)
+                messages.info(
+                    request,
+                    f"{waiting_entry.patient.get_full_name() or waiting_entry.patient.username} "
+                    "was promoted from the waitlist.",
+                )
             messages.info(request, f"Appointment #{appointment.token_number} has been cancelled.")
             return redirect('appointments:patient_dashboard')
     else:
         form = CancelAppointmentForm()
         
     return render(request, 'appointments/cancel.html', {'appointment': appointment, 'form': form})
+
+
+@login_required
+def join_waitlist_view(request):
+    if request.method == 'POST':
+        form = WaitlistForm(request.POST)
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.patient = request.user
+            entry.confirm_token = secrets.token_urlsafe(32)
+            entry.save()
+            messages.success(
+                request,
+                f"You are on the waitlist for {entry.doctor.full_name} on "
+                f"{entry.preferred_date:%b %d, %Y}.",
+            )
+            return redirect('appointments:patient_dashboard')
+    else:
+        form = WaitlistForm()
+    return render(request, 'appointments/waitlist.html', {'form': form})
 
 
 @login_required
@@ -232,6 +301,71 @@ def api_queue_status(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     status_info = calculate_patient_queue_status(appointment)
     return JsonResponse(status_info)
+
+
+def _pdf_escape(value):
+    return str(value).replace('\\', '\\\\').replace('(', '\\(').replace(')', '\\)')
+
+
+@login_required
+def prescription_pdf_view(request, appointment_id):
+    appointment = get_object_or_404(
+        Appointment.objects.select_related('patient', 'doctor', 'doctor__department'),
+        id=appointment_id, patient=request.user, status='completed',
+    )
+    if not appointment.prescription.strip():
+        messages.info(request, 'No prescription is available for this consultation.')
+        return redirect('appointments:patient_dashboard')
+
+    lines = [
+        'SMARTCARE DIGITAL PRESCRIPTION',
+        f'Patient: {appointment.patient.get_full_name() or appointment.patient.username}',
+        f'Doctor: {appointment.doctor.full_name}',
+        f'Department: {appointment.doctor.department.name}',
+        f'Date: {appointment.appointment_date:%B %d, %Y}',
+        f'Appointment token: #{appointment.token_number}',
+        '',
+        'Prescription:',
+        *appointment.prescription.splitlines(),
+        '',
+        'Doctor notes:',
+        *(appointment.doctor_notes.splitlines() or ['None']),
+    ]
+    content = ['BT', '/F1 12 Tf', '50 780 Td']
+    for index, line in enumerate(lines):
+        if index:
+            content.append('0 -18 Td')
+        content.append(f'({_pdf_escape(line)}) Tj')
+    content.append('ET')
+    body = '\n'.join(content).encode('latin-1', errors='replace')
+    objects = [
+        b'1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj',
+        b'2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj',
+        b'3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] '
+        b'/Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >> endobj',
+        b'4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj',
+        b'5 0 obj << /Length ' + str(len(body)).encode() + b' >> stream\n' +
+        body + b'\nendstream endobj',
+    ]
+    pdf = bytearray(b'%PDF-1.4\n')
+    offsets = [0]
+    for obj in objects:
+        offsets.append(len(pdf))
+        pdf.extend(obj + b'\n')
+    xref_offset = len(pdf)
+    pdf.extend(f'xref\n0 {len(objects) + 1}\n'.encode())
+    pdf.extend(b'0000000000 65535 f \n')
+    for offset in offsets[1:]:
+        pdf.extend(f'{offset:010d} 00000 n \n'.encode())
+    pdf.extend(
+        f'trailer << /Size {len(objects) + 1} /Root 1 0 R >>\n'
+        f'startxref\n{xref_offset}\n%%EOF'.encode()
+    )
+    response = HttpResponse(bytes(pdf), content_type='application/pdf')
+    response['Content-Disposition'] = (
+        f'attachment; filename="smartcare-prescription-{appointment.id}.pdf"'
+    )
+    return response
 
 
 @login_required

@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% block title %}Medical History - SmartCare{% endblock %}
+{% block content %}
+<div class="container"><div class="row justify-content-center"><div class="col-lg-8">
+<div class="card card-custom p-4">
+<h3 class="fw-bold">My Medical History</h3>
+<p class="text-muted">Keep this information current so your care team has useful context.</p>
+<form method="post">{% csrf_token %}
+{% for field in form %}
+<div class="mb-3"><label class="form-label fw-semibold">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>
+{% endfor %}
+<button class="btn btn-primary-sc">Save history</button>
+</form>
+</div></div></div></div>
+{% endblock %}

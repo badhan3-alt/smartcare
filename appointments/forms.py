@@ -1,6 +1,8 @@
 import datetime
 from django import forms
-from .models import Appointment, PatientFeedback, Payment, PAYMENT_METHOD_CHOICES
+from .models import (
+    Appointment, PatientFeedback, Payment, Waitlist, PAYMENT_METHOD_CHOICES,
+)
 from doctors.models import DoctorProfile
 
 class AppointmentBookingForm(forms.ModelForm):
@@ -98,3 +100,27 @@ class PaymentForm(forms.Form):
         if method != 'cash' and not txn_id:
             self.add_error('transaction_id', 'Transaction ID is required for online payments.')
         return cleaned_data
+
+
+class WaitlistForm(forms.ModelForm):
+    class Meta:
+        model = Waitlist
+        fields = ['doctor', 'preferred_date']
+        widgets = {
+            'doctor': forms.Select(attrs={'class': 'form-select'}),
+            'preferred_date': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'}
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['doctor'].queryset = DoctorProfile.objects.filter(
+            is_available=True
+        ).select_related('department')
+
+    def clean_preferred_date(self):
+        preferred_date = self.cleaned_data['preferred_date']
+        if preferred_date < datetime.date.today():
+            raise forms.ValidationError("Waitlist date cannot be in the past.")
+        return preferred_date

@@ -11,6 +11,7 @@ urlpatterns = [
     path('cancel/<int:appointment_id>/', views.cancel_appointment_view, name='cancel'),
     path('reschedule/<int:appointment_id>/', views.reschedule_appointment_view, name='reschedule'),
     path('feedback/<int:appointment_id>/', views.submit_feedback_view, name='feedback'),
+    path('waitlist/', views.join_waitlist_view, name='waitlist'),
+    path('prescription/<int:appointment_id>/pdf/', views.prescription_pdf_view, name='prescription_pdf'),
     path('api/queue-status/<int:appointment_id>/', views.api_queue_status, name='api_queue_status'),
 ]
-
