@@ -149,6 +149,16 @@
                                 <i class="bi bi-star me-1"></i> Rate Doctor
                             </a>
                         {% endif %}
+                        {% if appointment.telemedicine_enabled and appointment.status in 'scheduled,waiting,in_consultation' %}
+                            <a href="{% url 'appointments:telemedicine' appointment.id %}" class="btn btn-primary-sc">
+                                <i class="bi bi-camera-video me-1"></i> Join Video Visit
+                            </a>
+                        {% endif %}
+                        {% if appointment.payment.status == 'completed' %}
+                            <a href="{% url 'appointments:invoice_pdf' appointment.id %}" class="btn btn-outline-success">
+                                <i class="bi bi-receipt me-1"></i> Invoice
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -188,4 +198,3 @@
     setInterval(pollQueue, 6000);
 </script>
 {% endblock %}
-

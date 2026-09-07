@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from doctors.models import DoctorProfile
@@ -55,6 +56,8 @@ class Appointment(models.Model):
     # Reminder tracking — set True after each reminder email is sent
     reminder_24h_sent = models.BooleanField(default=False)
     reminder_2h_sent = models.BooleanField(default=False)
+    telemedicine_enabled = models.BooleanField(default=False)
+    telemedicine_room = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

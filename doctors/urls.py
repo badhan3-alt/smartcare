@@ -13,5 +13,6 @@ urlpatterns = [
     path('complete/<int:appointment_id>/', views.doctor_complete_consultation_view, name='complete_consultation'),
     path('no-show/<int:appointment_id>/', views.doctor_no_show_view, name='no_show'),
     path('schedule/', views.doctor_schedule_view, name='schedule'),
+    path('analytics/report/', views.doctor_analytics_report_view, name='analytics_report'),
+    path('telemedicine/open/<int:appointment_id>/', views.doctor_open_telemedicine_view, name='open_telemedicine'),
 ]
-

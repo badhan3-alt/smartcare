@@ -13,5 +13,7 @@ urlpatterns = [
     path('feedback/<int:appointment_id>/', views.submit_feedback_view, name='feedback'),
     path('waitlist/', views.join_waitlist_view, name='waitlist'),
     path('prescription/<int:appointment_id>/pdf/', views.prescription_pdf_view, name='prescription_pdf'),
+    path('invoice/<int:appointment_id>/pdf/', views.invoice_pdf_view, name='invoice_pdf'),
+    path('telemedicine/<int:appointment_id>/', views.telemedicine_view, name='telemedicine'),
     path('api/queue-status/<int:appointment_id>/', views.api_queue_status, name='api_queue_status'),
 ]

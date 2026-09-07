@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+{% block title %}Telemedicine Visit - SmartCare{% endblock %}
+{% block content %}
+<div class="container py-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h3 class="fw-bold mb-1">Telemedicine Visit</h3>
+            <p class="text-muted mb-0">{{ appointment.doctor.full_name }} &bull; Token #{{ appointment.token_number }}</p>
+        </div>
+        <a href="{% url 'appointments:queue_tracker' appointment.id %}" class="btn btn-outline-secondary">Back to queue</a>
+    </div>
+    <div class="card card-custom overflow-hidden">
+        <div class="ratio ratio-16x9">
+            <iframe src="https://meet.jit.si/{{ room_name }}" allow="camera; microphone; fullscreen; display-capture" title="SmartCare telemedicine room"></iframe>
+        </div>
+    </div>
+    <p class="small text-muted mt-2">Use headphones where possible. Do not share this appointment link with anyone else.</p>
+</div>
+{% endblock %}

@@ -307,6 +307,37 @@ def _pdf_escape(value):
     return str(value).replace('\\', '\\\\').replace('(', '\\(').replace(')', '\\)')
 
 
+def build_pdf_response(lines, filename):
+    content = ['BT', '/F1 12 Tf', '50 780 Td']
+    for index, line in enumerate(lines):
+        if index:
+            content.append('0 -18 Td')
+        content.append(f'({_pdf_escape(line)}) Tj')
+    content.append('ET')
+    body = '\n'.join(content).encode('latin-1', errors='replace')
+    objects = [
+        b'1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj',
+        b'2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj',
+        b'3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >> endobj',
+        b'4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj',
+        b'5 0 obj << /Length ' + str(len(body)).encode() + b' >> stream\n' + body + b'\nendstream endobj',
+    ]
+    pdf = bytearray(b'%PDF-1.4\n')
+    offsets = [0]
+    for obj in objects:
+        offsets.append(len(pdf))
+        pdf.extend(obj + b'\n')
+    xref_offset = len(pdf)
+    pdf.extend(f'xref\n0 {len(objects) + 1}\n'.encode())
+    pdf.extend(b'0000000000 65535 f \n')
+    for offset in offsets[1:]:
+        pdf.extend(f'{offset:010d} 00000 n \n'.encode())
+    pdf.extend(f'trailer << /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref_offset}\n%%EOF'.encode())
+    response = HttpResponse(bytes(pdf), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response
+
+
 @login_required
 def prescription_pdf_view(request, appointment_id):
     appointment = get_object_or_404(
@@ -331,41 +362,57 @@ def prescription_pdf_view(request, appointment_id):
         'Doctor notes:',
         *(appointment.doctor_notes.splitlines() or ['None']),
     ]
-    content = ['BT', '/F1 12 Tf', '50 780 Td']
-    for index, line in enumerate(lines):
-        if index:
-            content.append('0 -18 Td')
-        content.append(f'({_pdf_escape(line)}) Tj')
-    content.append('ET')
-    body = '\n'.join(content).encode('latin-1', errors='replace')
-    objects = [
-        b'1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj',
-        b'2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj',
-        b'3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] '
-        b'/Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >> endobj',
-        b'4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj',
-        b'5 0 obj << /Length ' + str(len(body)).encode() + b' >> stream\n' +
-        body + b'\nendstream endobj',
-    ]
-    pdf = bytearray(b'%PDF-1.4\n')
-    offsets = [0]
-    for obj in objects:
-        offsets.append(len(pdf))
-        pdf.extend(obj + b'\n')
-    xref_offset = len(pdf)
-    pdf.extend(f'xref\n0 {len(objects) + 1}\n'.encode())
-    pdf.extend(b'0000000000 65535 f \n')
-    for offset in offsets[1:]:
-        pdf.extend(f'{offset:010d} 00000 n \n'.encode())
-    pdf.extend(
-        f'trailer << /Size {len(objects) + 1} /Root 1 0 R >>\n'
-        f'startxref\n{xref_offset}\n%%EOF'.encode()
+    return build_pdf_response(
+        lines, f'smartcare-prescription-{appointment.id}.pdf'
     )
-    response = HttpResponse(bytes(pdf), content_type='application/pdf')
-    response['Content-Disposition'] = (
-        f'attachment; filename="smartcare-prescription-{appointment.id}.pdf"'
+
+
+@login_required
+def invoice_pdf_view(request, appointment_id):
+    appointment = get_object_or_404(
+        Appointment.objects.select_related('patient', 'doctor', 'doctor__department'),
+        id=appointment_id,
     )
-    return response
+    allowed = appointment.patient_id == request.user.id or appointment.doctor.user_id == request.user.id or request.user.is_staff
+    if not allowed:
+        messages.error(request, 'Access denied.')
+        return redirect('accounts:dashboard')
+    payment = getattr(appointment, 'payment', None)
+    if not payment or payment.status != 'completed':
+        messages.info(request, 'An invoice is available after payment is completed.')
+        return redirect('appointments:patient_dashboard')
+    return build_pdf_response([
+        'SMARTCARE PAYMENT INVOICE',
+        f'Invoice for appointment #{appointment.token_number}',
+        f'Patient: {appointment.patient.get_full_name() or appointment.patient.username}',
+        f'Doctor: {appointment.doctor.full_name}',
+        f'Date: {appointment.appointment_date:%B %d, %Y}',
+        f'Payment method: {payment.get_payment_method_display()}',
+        f'Transaction ID: {payment.transaction_id or "N/A"}',
+        f'Amount paid: BDT {payment.amount}',
+        f'Paid at: {payment.paid_at:%B %d, %Y %I:%M %p}',
+    ], f'smartcare-invoice-{appointment.id}.pdf')
+
+
+@login_required
+def telemedicine_view(request, appointment_id):
+    appointment = get_object_or_404(
+        Appointment.objects.select_related('patient', 'doctor'),
+        id=appointment_id,
+    )
+    if request.user.id not in {appointment.patient_id, appointment.doctor.user_id}:
+        messages.error(request, 'Access denied.')
+        return redirect('accounts:dashboard')
+    if appointment.status not in {'scheduled', 'waiting', 'in_consultation'}:
+        messages.error(request, 'This appointment is not open for telemedicine.')
+        return redirect('accounts:dashboard')
+    if not appointment.telemedicine_enabled:
+        messages.info(request, 'The doctor has not opened the telemedicine room yet.')
+        return redirect('appointments:queue_tracker', appointment_id=appointment.id)
+    return render(request, 'appointments/telemedicine.html', {
+        'appointment': appointment,
+        'room_name': f'smartcare-{appointment.telemedicine_room}',
+    })
 
 
 @login_required
