@@ -22,7 +22,7 @@
 
     <div class="row g-4">
         <!-- Active Patient Panel (Left Column) -->
-        <div class="col-lg-6">
+        <div id="active-consultation" class="col-lg-6">
             <div class="card card-custom p-4 h-100 border-top border-5" style="border-top-color: {% if queue.in_consultation %}#0d9488{% else %}#94a3b8{% endif %} !important;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold mb-0"><i class="bi bi-person-fill-gear me-2"></i>Active Consultation</h5>
@@ -97,10 +97,10 @@
         </div>
 
         <!-- Today's Patient Queue (Right Column) -->
-        <div class="col-lg-6">
+        <div id="today-queue" class="col-lg-6">
             <div class="card card-custom p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold mb-0"><i class="bi bi-list-ol me-2"></i>Today's Patient Queue ({{ queue.total_count }})</h5>
+                    <h5 id="waiting-patients" class="fw-bold mb-0"><i class="bi bi-list-ol me-2"></i>Today's Patient Queue ({{ queue.total_count }})</h5>
                     <span class="badge bg-light text-dark border">{{ queue.completed_count }} Completed</span>
                 </div>
 

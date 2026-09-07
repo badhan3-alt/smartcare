@@ -149,6 +149,105 @@ def doctor_queue_console_view(request):
     return render(request, 'doctors/queue_console.html', context)
 
 
+def _doctor_metric_context(request, metric):
+    doctor = get_object_or_404(DoctorProfile, user=request.user)
+    today = datetime.date.today()
+    appointments = Appointment.objects.filter(
+        doctor=doctor,
+        appointment_date=today,
+    ).select_related('patient', 'patient__profile').order_by('token_number')
+
+    configs = {
+        'today': {
+            'title': 'Today\'s Patients',
+            'subtitle': 'Every appointment scheduled with you today.',
+            'icon': 'bi-people',
+            'accent': 'primary',
+            'appointments': appointments,
+        },
+        'waiting': {
+            'title': 'Waiting Room',
+            'subtitle': 'Patients currently waiting for consultation.',
+            'icon': 'bi-hourglass-split',
+            'accent': 'warning',
+            'appointments': appointments.filter(status__in=['scheduled', 'waiting']),
+        },
+        'completed': {
+            'title': 'Completed Consultations',
+            'subtitle': 'Consultations completed today with recorded outcomes.',
+            'icon': 'bi-check2-circle',
+            'accent': 'success',
+            'appointments': appointments.filter(status='completed'),
+        },
+    }
+    search_query = request.GET.get('q', '').strip()
+    status_filter = request.GET.get('status', '').strip()
+    search_filter = (
+        Q(patient__first_name__icontains=search_query) |
+        Q(patient__last_name__icontains=search_query) |
+        Q(patient__username__icontains=search_query)
+    )
+    if search_query.isdigit():
+        search_filter |= Q(token_number=int(search_query))
+    if metric in configs:
+        context = configs[metric]
+        if search_query:
+            context['appointments'] = context['appointments'].filter(search_filter)
+        if status_filter and metric == 'today':
+            context['appointments'] = context['appointments'].filter(status=status_filter)
+        context.update({'doctor': doctor, 'today': today, 'metric': metric})
+        context.update({
+            'search_query': search_query,
+            'status_filter': status_filter,
+            'status_choices': Appointment._meta.get_field('status').choices,
+        })
+        return context
+
+    active_appointments = appointments.filter(status__in=['scheduled', 'waiting', 'in_consultation'])
+    if search_query:
+        active_appointments = active_appointments.filter(search_filter)
+    if status_filter:
+        active_appointments = active_appointments.filter(status=status_filter)
+    workload_minutes = sum(
+        appointment.predicted_duration_minutes for appointment in active_appointments
+    )
+    return {
+        'doctor': doctor,
+        'today': today,
+        'metric': 'workload',
+        'title': 'Remaining Workload',
+        'subtitle': 'Estimated consultation time remaining for today.',
+        'icon': 'bi-clock-history',
+        'accent': 'teal',
+        'appointments': active_appointments,
+        'workload_minutes': round(workload_minutes, 1),
+        'workload_count': active_appointments.count(),
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'status_choices': Appointment._meta.get_field('status').choices,
+    }
+
+
+@login_required
+def doctor_today_patients_view(request):
+    return render(request, 'doctors/metric_interface.html', _doctor_metric_context(request, 'today'))
+
+
+@login_required
+def doctor_waiting_patients_view(request):
+    return render(request, 'doctors/metric_interface.html', _doctor_metric_context(request, 'waiting'))
+
+
+@login_required
+def doctor_completed_consultations_view(request):
+    return render(request, 'doctors/metric_interface.html', _doctor_metric_context(request, 'completed'))
+
+
+@login_required
+def doctor_workload_view(request):
+    return render(request, 'doctors/metric_interface.html', _doctor_metric_context(request, 'workload'))
+
+
 @login_required
 def doctor_open_telemedicine_view(request, appointment_id):
     appointment = get_object_or_404(
