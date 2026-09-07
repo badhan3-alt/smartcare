@@ -1,0 +1,98 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Reception Dashboard - SmartCare{% endblock %}
+
+{% block content %}
+<style>
+    .dashboard-kpi-card { transition: transform .15s ease, box-shadow .15s ease; }
+    .dashboard-kpi-card:hover { transform: translateY(-3px); box-shadow: 0 .5rem 1rem rgba(15, 23, 42, .12); }
+</style>
+<div class="container-fluid px-lg-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <div>
+            <span class="badge mb-2" style="background:#ccfbf1;color:#0f766e;">
+                <i class="bi bi-headset me-1"></i> Reception Desk
+            </span>
+            <h3 class="fw-bold mb-1">SmartCare Reception Dashboard</h3>
+            <p class="text-muted mb-0">Patient registration, check-in, appointments, and live queue operations.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'reception:register_patient' %}" class="btn btn-primary-sc"><i class="bi bi-person-plus me-1"></i> Register Patient</a>
+            <a href="{% url 'reception:patients' %}" class="btn btn-outline-sc"><i class="bi bi-search me-1"></i> Find Patient</a>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+            <a href="{% url 'reception:appointments' %}" class="card card-custom p-3 h-100 text-decoration-none dashboard-kpi-card" aria-label="View today's appointments">
+                <div class="d-flex justify-content-between align-items-start"><div class="fs-2 fw-bold text-dark">{{ total_today }}</div><i class="bi bi-calendar-check fs-3 text-primary"></i></div>
+                <div class="small text-muted fw-semibold">Today's Appointments</div><span class="small text-primary mt-2">View queue <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a href="{% url 'reception:waiting' %}" class="card card-custom p-3 h-100 text-decoration-none border-start border-4 border-warning dashboard-kpi-card" aria-label="View waiting patients">
+                <div class="d-flex justify-content-between align-items-start"><div class="fs-2 fw-bold text-warning">{{ waiting_count }}</div><i class="bi bi-hourglass-split fs-3 text-warning"></i></div>
+                <div class="small text-muted fw-semibold">Waiting Patients</div><span class="small text-warning mt-2">Manage queue <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a href="{% url 'reception:doctors' %}" class="card card-custom p-3 h-100 text-decoration-none border-start border-4 border-success dashboard-kpi-card" aria-label="View available doctors">
+                <div class="d-flex justify-content-between align-items-start"><div class="fs-2 fw-bold text-success">{{ available_doctors|length }}</div><i class="bi bi-person-badge fs-3 text-success"></i></div>
+                <div class="small text-muted fw-semibold">Doctors Available</div><span class="small text-success mt-2">View doctors <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+        <div class="col-6 col-lg-3">
+            <a href="{% url 'reception:completed' %}" class="card card-custom p-3 h-100 text-decoration-none border-start border-4 border-info dashboard-kpi-card" aria-label="View completed appointments">
+                <div class="d-flex justify-content-between align-items-start"><div class="fs-2 fw-bold text-info">{{ completed_count }}</div><i class="bi bi-check2-circle fs-3 text-info"></i></div>
+                <div class="small text-muted fw-semibold">Completed Today</div><span class="small text-info mt-2">View appointments <i class="bi bi-arrow-right"></i></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-xl-8">
+            <div id="today-queue" class="card card-custom p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div><h5 class="fw-bold mb-1">Today's Queue</h5><small class="text-muted">{{ today|date:"F d, Y" }} · Check patients in as they arrive.</small></div>
+                    <a href="{% url 'reception:dashboard' %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-clockwise"></i></a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle small">
+                        <thead class="table-light"><tr><th>Token</th><th>Patient</th><th>Doctor</th><th>Status</th><th class="text-end">Actions</th></tr></thead>
+                        <tbody>
+                        {% for appointment in appointments %}
+                            <tr>
+                                <td><span class="badge bg-dark">#{{ appointment.token_number }}</span></td>
+                                <td><strong>{{ appointment.patient.get_full_name|default:appointment.patient.username }}</strong><br><small class="text-muted">{{ appointment.patient.profile.phone }}</small></td>
+                                <td>{{ appointment.doctor.full_name }}<br><small class="text-muted">{{ appointment.doctor.department.name }}</small></td>
+                                <td><span class="badge {% if appointment.status == 'completed' %}bg-success{% elif appointment.status == 'waiting' %}bg-warning text-dark{% elif appointment.status == 'cancelled' %}bg-danger{% else %}bg-light text-dark border{% endif %}">{{ appointment.get_status_display }}</span></td>
+                                <td class="text-end">
+                                    {% if appointment.status == 'scheduled' %}<a href="{% url 'reception:checkin' appointment.id %}" class="btn btn-sm btn-primary-sc">Check in</a>{% elif appointment.status == 'waiting' %}<a href="{% url 'reception:queue_action' appointment.id 'call' %}" class="btn btn-sm btn-outline-warning">Call</a>{% endif %}
+                                    {% if appointment.status not in 'completed,cancelled,no_show' %}<a href="{% url 'reception:queue_action' appointment.id 'cancel' %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Cancel this appointment?')">Cancel</a>{% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}<tr><td colspan="5" class="text-center text-muted py-4">No appointments scheduled today.</td></tr>{% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div id="doctors" class="card card-custom p-4 mb-4">
+                <h5 class="fw-bold mb-3">Doctor Availability</h5>
+                {% for doctor in available_doctors %}
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2"><div><strong>{{ doctor.full_name }}</strong><br><small class="text-muted">{{ doctor.department.name }} · {{ doctor.room_number }}</small></div><span class="badge bg-success-subtle text-success">Online</span></div>
+                {% empty %}<p class="text-muted small mb-0">No doctors are currently available.</p>{% endfor %}
+            </div>
+            <div class="card card-custom p-4">
+                <h5 class="fw-bold mb-3">Quick Actions</h5>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'reception:register_patient' %}" class="btn btn-outline-sc"><i class="bi bi-person-plus me-1"></i> New Patient</a>
+                    <a href="{% url 'reception:book_appointment' %}" class="btn btn-outline-sc"><i class="bi bi-calendar-plus me-1"></i> Book Appointment</a>
+                    <a href="{% url 'reception:patients' %}" class="btn btn-outline-sc"><i class="bi bi-people me-1"></i> Patient Directory</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

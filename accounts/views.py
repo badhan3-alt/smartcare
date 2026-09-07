@@ -191,10 +191,16 @@ def verify_registration_view(request):
                 request.session.pop(REGISTRATION_CODE_SESSION_KEY, None)
                 messages.error(request, 'This verification request is no longer valid.')
             else:
-                user.is_active = True
-                user.save(update_fields=['is_active'])
+                if user.profile.role in {'receptionist', 'doctor'}:
+                    messages.success(
+                        request,
+                        'Your email is verified. A SmartCare administrator must approve your account before you can sign in.',
+                    )
+                else:
+                    user.is_active = True
+                    user.save(update_fields=['is_active'])
+                    messages.success(request, 'Your account is verified. You can now sign in.')
                 request.session.pop(REGISTRATION_CODE_SESSION_KEY, None)
-                messages.success(request, 'Your account is verified. You can now sign in.')
                 return redirect('login')
 
     return render(request, 'accounts/verify_registration.html')
@@ -290,6 +296,8 @@ def dashboard_view(request):
         role = user.profile.role
         if role == 'doctor':
             return redirect('doctor_dashboard')
+        elif role == 'receptionist':
+            return redirect('reception:dashboard')
         elif role == 'admin' or user.is_superuser:
             return redirect('admin_dashboard')
         else:

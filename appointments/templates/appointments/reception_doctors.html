@@ -1,0 +1,8 @@
+{% extends 'core/base.html' %}
+{% block title %}Available Doctors - SmartCare{% endblock %}
+{% block content %}
+<div class="container-fluid px-lg-5">
+    <div class="d-flex justify-content-between align-items-center mb-4"><div><h3 class="fw-bold mb-1">Available Doctors</h3><p class="text-muted mb-0">Doctors currently available for reception bookings.</p></div><a href="{% url 'reception:dashboard' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i> Dashboard</a></div>
+    <div class="row g-3">{% for doctor in doctors %}<div class="col-md-6 col-xl-4"><div class="card card-custom p-4 h-100"><div class="d-flex justify-content-between"><div><h5 class="fw-bold mb-1">{{ doctor.full_name }}</h5><div class="text-muted">{{ doctor.department.name }}</div></div><span class="badge bg-success-subtle text-success">Online</span></div><hr><div class="small text-muted">Room: {{ doctor.room_number }}</div><div class="small text-muted">Specialization: {{ doctor.specialization }}</div></div></div>{% empty %}<div class="col-12"><div class="alert alert-info">No doctors are currently available.</div></div>{% endfor %}</div>
+</div>
+{% endblock %}

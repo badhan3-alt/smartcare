@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Request Submitted - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-custom p-5 text-center">
+                <i class="bi bi-hourglass-split display-4 text-warning mb-3"></i>
+                <h3 class="fw-bold">Request Submitted</h3>
+                <p class="text-muted">Your reception account request for <strong>{{ username }}</strong> is waiting for administrator approval.</p>
+                <p class="small text-muted">After approval, use the dedicated reception login page.</p>
+                <a href="{% url 'reception:login' %}" class="btn btn-primary-sc">Go to Reception Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

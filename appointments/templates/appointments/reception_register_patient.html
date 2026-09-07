@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+{% block title %}Register Patient - SmartCare{% endblock %}
+{% block content %}
+<div class="container"><div class="row justify-content-center"><div class="col-lg-8">
+    <div class="d-flex justify-content-between align-items-center mb-4"><div><h3 class="fw-bold mb-1">Register New Patient</h3><p class="text-muted mb-0">Create a patient record at the reception desk.</p></div><a href="{% url 'reception:dashboard' %}" class="btn btn-outline-sc">Dashboard</a></div>
+    {% if created_patient_id %}<div class="alert alert-success"><strong>Patient registered successfully.</strong><br>Patient ID: <strong>SC-{{ created_patient_id|stringformat:"05d" }}</strong>. You can now book an appointment.</div>{% endif %}
+    <div class="card card-custom p-4"><form method="post">{% csrf_token %}<div class="row g-3">
+        <div class="col-md-6"><label class="form-label">First name *</label><input name="first_name" required class="form-control"></div>
+        <div class="col-md-6"><label class="form-label">Last name</label><input name="last_name" class="form-control"></div>
+        <div class="col-md-6"><label class="form-label">Username *</label><input name="username" required class="form-control"></div>
+        <div class="col-md-6"><label class="form-label">Email *</label><input type="email" name="email" required class="form-control"></div>
+        <div class="col-md-6"><label class="form-label">Phone *</label><input name="phone" required class="form-control"></div>
+        <div class="col-md-6"><label class="form-label">Temporary password</label><input name="password" class="form-control" placeholder="Auto-generated if blank"></div>
+        <div class="col-md-4"><label class="form-label">Date of birth</label><input type="date" name="date_of_birth" class="form-control"></div>
+        <div class="col-md-4"><label class="form-label">Gender</label><select name="gender" class="form-select"><option value="M">Male</option><option value="F">Female</option><option value="O">Other</option></select></div>
+        <div class="col-12"><label class="form-label">Address</label><textarea name="address" rows="2" class="form-control"></textarea></div>
+    </div><button class="btn btn-primary-sc mt-4"><i class="bi bi-check2-circle me-1"></i> Register Patient</button></form></div>
+</div></div></div>
+{% endblock %}

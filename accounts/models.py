@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 ROLE_CHOICES = [
     ('patient', 'Patient'),
     ('doctor', 'Doctor'),
+    ('receptionist', 'Receptionist'),
 ]
 
 GENDER_CHOICES = [
@@ -76,4 +77,3 @@ class MedicalHistory(models.Model):
 
     def __str__(self):
         return f"Medical History — {self.patient.get_full_name() or self.patient.username}"
-

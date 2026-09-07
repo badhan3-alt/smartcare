@@ -4,6 +4,12 @@ from . import views
 app_name = 'appointments'
 
 urlpatterns = [
+    path('reception/', views.reception_dashboard_view, name='reception_dashboard'),
+    path('reception/patients/', views.reception_patient_search_view, name='reception_patients'),
+    path('reception/patients/register/', views.reception_register_patient_view, name='reception_register_patient'),
+    path('reception/appointments/book/', views.reception_book_appointment_view, name='reception_book_appointment'),
+    path('reception/check-in/<int:appointment_id>/', views.reception_checkin_view, name='reception_checkin'),
+    path('reception/queue/<int:appointment_id>/<str:action>/', views.reception_queue_action_view, name='reception_queue_action'),
     path('dashboard/', views.patient_dashboard_view, name='patient_dashboard'),
     path('book/', views.book_appointment_view, name='book'),
     path('payment/<int:appointment_id>/', views.payment_view, name='payment'),

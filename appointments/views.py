@@ -5,11 +5,13 @@ import time
 from smtplib import SMTPException
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
+from django.db import transaction
 from django.utils import timezone
 
 from .models import Appointment, PatientFeedback, Payment, Waitlist
@@ -19,11 +21,239 @@ from .forms import (
 )
 from .queue_service import get_next_token_number, calculate_patient_queue_status, explain_queue_status
 from doctors.models import DoctorProfile
+from accounts.models import UserProfile, MedicalHistory
 from ml_engine.ml_service import predict_consultation_duration
 
 logger = logging.getLogger(__name__)
 PAYMENT_OTP_SESSION_KEY = 'payment_otp'
 PAYMENT_OTP_TTL = 10 * 60
+
+
+def _reception_access(request):
+    if hasattr(request.user, 'profile') and request.user.profile.role == 'receptionist':
+        return None
+    messages.error(request, 'Reception desk access is required.')
+    return redirect('accounts:dashboard')
+
+
+@login_required
+def reception_dashboard_view(request):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+
+    today = datetime.date.today()
+    appointments = Appointment.objects.filter(
+        appointment_date=today
+    ).select_related('patient', 'doctor', 'doctor__department').order_by(
+        'doctor', 'token_number'
+    )
+    return render(request, 'appointments/reception_dashboard.html', {
+        'today': today,
+        'appointments': appointments,
+        'total_today': appointments.count(),
+        'waiting_count': appointments.filter(status='waiting').count(),
+        'completed_count': appointments.filter(status='completed').count(),
+        'available_doctors': DoctorProfile.objects.filter(is_available=True).select_related('department'),
+        'patient_count': UserProfile.objects.filter(role='patient').count(),
+    })
+
+
+@login_required
+def reception_appointments_view(request):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+    today = datetime.date.today()
+    appointments = Appointment.objects.filter(
+        appointment_date=today
+    ).select_related('patient', 'doctor', 'doctor__department').order_by('doctor', 'token_number')
+    return render(request, 'appointments/reception_interface.html', {
+        'title': "Today's Appointments",
+        'description': 'Review and manage every appointment scheduled for today.',
+        'appointments': appointments,
+        'today': today,
+    })
+
+
+@login_required
+def reception_waiting_view(request):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+    today = datetime.date.today()
+    appointments = Appointment.objects.filter(
+        appointment_date=today, status='waiting'
+    ).select_related('patient', 'doctor', 'doctor__department').order_by('token_number')
+    return render(request, 'appointments/reception_interface.html', {
+        'title': 'Waiting Patients',
+        'description': 'Call, check in, or cancel patients currently waiting.',
+        'appointments': appointments,
+        'today': today,
+    })
+
+
+@login_required
+def reception_completed_view(request):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+    today = datetime.date.today()
+    appointments = Appointment.objects.filter(
+        appointment_date=today, status='completed'
+    ).select_related('patient', 'doctor', 'doctor__department').order_by('token_number')
+    return render(request, 'appointments/reception_interface.html', {
+        'title': 'Completed Today',
+        'description': 'Review consultations completed by the clinic today.',
+        'appointments': appointments,
+        'today': today,
+    })
+
+
+@login_required
+def reception_doctors_view(request):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+    return render(request, 'appointments/reception_doctors.html', {
+        'doctors': DoctorProfile.objects.filter(is_available=True).select_related('department'),
+    })
+
+
+@login_required
+def reception_patient_search_view(request):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+
+    query = request.GET.get('q', '').strip()
+    patients = UserProfile.objects.filter(role='patient').select_related('user')
+    if query:
+        patients = patients.filter(
+            Q(user__username__icontains=query) |
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query) |
+            Q(phone__icontains=query)
+        )
+    return render(request, 'appointments/reception_patients.html', {
+        'patients': patients[:100],
+        'query': query,
+    })
+
+
+@login_required
+def reception_register_patient_view(request):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        email = request.POST.get('email', '').strip()
+        password = request.POST.get('password') or secrets.token_urlsafe(12)
+        if not username or not email or not request.POST.get('first_name') or not request.POST.get('phone'):
+            messages.error(request, 'Name, username, email, and phone are required.')
+        elif User.objects.filter(username=username).exists():
+            messages.error(request, 'That username is already in use.')
+        elif User.objects.filter(email__iexact=email).exists():
+            messages.error(request, 'That email is already registered.')
+        else:
+            with transaction.atomic():
+                user = User.objects.create_user(
+                    username=username,
+                    email=email,
+                    password=password,
+                    first_name=request.POST['first_name'].strip(),
+                    last_name=request.POST.get('last_name', '').strip(),
+                )
+                user.is_active = True
+                user.save(update_fields=['is_active'])
+                UserProfile.objects.create(
+                    user=user,
+                    role='patient',
+                    phone=request.POST['phone'].strip(),
+                    gender=request.POST.get('gender', 'M'),
+                    date_of_birth=request.POST.get('date_of_birth') or None,
+                    address=request.POST.get('address', '').strip(),
+                )
+                MedicalHistory.objects.create(patient=user)
+            messages.success(request, f'Patient registered successfully. Patient ID: SC-{user.id:05d}')
+            return redirect(f'{request.path}?created={user.id}')
+
+    return render(request, 'appointments/reception_register_patient.html', {
+        'created_patient_id': request.GET.get('created'),
+    })
+
+
+@login_required
+def reception_book_appointment_view(request):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+
+    selected_patient = request.GET.get('patient_id') or request.POST.get('patient_id')
+    patient = get_object_or_404(User, id=selected_patient, profile__role='patient') if selected_patient else None
+    if request.method == 'POST':
+        form = AppointmentBookingForm(request.POST)
+        if form.is_valid() and patient:
+            appointment = form.save(commit=False)
+            appointment.patient = patient
+            profile = patient.profile
+            appointment.predicted_duration_minutes = predict_consultation_duration(
+                patient_age=profile.calculated_age,
+                patient_gender=profile.gender,
+                department=appointment.doctor.department.name,
+                visit_type=appointment.visit_type,
+                symptom_severity=appointment.symptom_severity,
+                has_chronic_condition=bool(getattr(patient, 'medical_history', None)),
+                doctor_experience_years=appointment.doctor.experience_years,
+            )
+            appointment.token_number = get_next_token_number(appointment.doctor, appointment.appointment_date)
+            appointment.status = 'scheduled'
+            appointment.save()
+            messages.success(request, f'Appointment confirmed for {patient.get_full_name() or patient.username}. Token #{appointment.token_number}.')
+            return redirect('reception_dashboard')
+        if not patient:
+            messages.error(request, 'Select a patient before booking.')
+    else:
+        form = AppointmentBookingForm(initial={'appointment_date': datetime.date.today()})
+
+    return render(request, 'appointments/reception_book_appointment.html', {
+        'form': form,
+        'patient': patient,
+        'patients': User.objects.filter(profile__role='patient').order_by('first_name', 'last_name')[:200],
+    })
+
+
+@login_required
+def reception_checkin_view(request, appointment_id):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    if appointment.status == 'scheduled':
+        appointment.status = 'waiting'
+        appointment.save(update_fields=['status', 'updated_at'])
+        messages.success(request, f'Token #{appointment.token_number} checked in.')
+    return redirect('reception_dashboard')
+
+
+@login_required
+def reception_queue_action_view(request, appointment_id, action):
+    access_response = _reception_access(request)
+    if access_response:
+        return access_response
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    if action == 'call' and appointment.status == 'scheduled':
+        appointment.status = 'waiting'
+        appointment.save(update_fields=['status', 'updated_at'])
+        messages.info(request, f'Token #{appointment.token_number} moved to waiting.')
+    elif action == 'cancel' and appointment.status not in {'completed', 'cancelled'}:
+        appointment.status = 'cancelled'
+        appointment.cancellation_reason = 'Cancelled at reception desk'
+        appointment.save(update_fields=['status', 'cancellation_reason', 'updated_at'])
+        messages.warning(request, f'Token #{appointment.token_number} cancelled.')
+    return redirect('reception_dashboard')
 
 @login_required
 def patient_dashboard_view(request):

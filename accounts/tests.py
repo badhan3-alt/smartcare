@@ -99,3 +99,47 @@ class AccountsTests(TestCase):
         self.assertEqual(user.profile.role, 'doctor')
         self.assertTrue(hasattr(user, 'doctor_profile'))
         self.assertEqual(user.doctor_profile.department, self.dept)
+        self.assertFalse(user.is_active)
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+    def test_receptionist_registration_is_available_but_requires_approval(self):
+        response = self.client.get(reverse('register'))
+        self.assertContains(response, 'Receptionist')
+        self.assertNotContains(response, 'Administrator')
+
+        response = self.client.post(reverse('register'), {
+            'role': 'receptionist',
+            'username': 'testreception',
+            'first_name': 'Front',
+            'last_name': 'Desk',
+            'email': 'reception@example.com',
+            'password': 'Password123!',
+            'confirm_password': 'Password123!',
+            'phone': '01711998877',
+            'gender': 'O',
+            'address': 'Sylhet',
+        })
+        self.assertEqual(response.status_code, 302)
+        user = User.objects.get(username='testreception')
+        self.assertEqual(user.profile.role, 'receptionist')
+        self.assertFalse(user.is_active)
+
+    def test_approved_receptionist_can_use_standard_login(self):
+        user = User.objects.create_user(
+            username='approved-reception',
+            password='Password123!',
+            is_active=True,
+        )
+        UserProfile.objects.create(
+            user=user,
+            role='receptionist',
+            phone='01711998878',
+        )
+
+        response = self.client.post(reverse('login'), {
+            'username': 'approved-reception',
+            'password': 'Password123!',
+        })
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('accounts:dashboard'))

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'accounts',
     'doctors',
     'appointments',
+    'reception',
     'ml_engine',
     
     'predictor',

@@ -134,3 +134,28 @@ class AppointmentsTests(TestCase):
         self.assertContains(response, 'cash.svg')
         self.assertContains(response, 'id="txnIdSection"')
 
+    def test_reception_dashboard_and_patient_registration(self):
+        receptionist = User.objects.create_user(username='frontdesk', password='test-pass')
+        UserProfile.objects.create(user=receptionist, role='receptionist', gender='F')
+        self.client.force_login(receptionist)
+
+        response = self.client.get('/reception/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Reception Dashboard')
+        self.assertEqual(self.client.get('/appointments/reception/patients/').status_code, 200)
+        self.assertEqual(self.client.get('/appointments/reception/appointments/book/').status_code, 200)
+
+        response = self.client.post('/appointments/reception/patients/register/', {
+            'first_name': 'Nabila',
+            'last_name': 'Ahmed',
+            'username': 'nabila.ahmed',
+            'email': 'nabila@example.com',
+            'phone': '01700000000',
+            'gender': 'F',
+        })
+        registered = User.objects.get(username='nabila.ahmed')
+        self.assertRedirects(
+            response,
+            f'/appointments/reception/patients/register/?created={registered.id}',
+        )
+        self.assertEqual(registered.profile.role, 'patient')

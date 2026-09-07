@@ -51,6 +51,7 @@ urlpatterns = [
 
     # Appointments & Queue Tracking
     path("appointments/", include("appointments.urls")),
+    path("reception/", include("reception.urls")),
     path("patient/dashboard/", appointment_views.patient_dashboard_view, name="patient_dashboard"),
     path("patient/book/", appointment_views.book_appointment_view, name="book_appointment"),
     path("queue/<int:appointment_id>/", appointment_views.queue_tracker_view, name="queue_tracker"),
@@ -58,6 +59,12 @@ urlpatterns = [
     # ML Engine & Analytics
     path("analytics/", include("ml_engine.urls")),
     path("admin-portal/dashboard/", ml_views.admin_dashboard_view, name="admin_dashboard"),
+    path("admin-portal/receptionist-requests/", ml_views.receptionist_requests_view, name="admin_receptionist_requests"),
+    path("admin-portal/receptionist-requests/<int:user_id>/approve/", ml_views.approve_receptionist_view, name="approve_receptionist"),
+    path("admin-portal/receptionist-requests/<int:user_id>/reject/", ml_views.reject_receptionist_view, name="reject_receptionist"),
+    path("admin-portal/doctor-requests/", ml_views.doctor_requests_view, name="admin_doctor_requests"),
+    path("admin-portal/doctor-requests/<int:user_id>/approve/", ml_views.approve_doctor_view, name="approve_doctor"),
+    path("admin-portal/doctor-requests/<int:user_id>/reject/", ml_views.reject_doctor_view, name="reject_doctor"),
     path("admin-portal/patients/", ml_views.admin_patient_list_view, name="admin_patient_list"),
     path("admin-portal/appointments/", ml_views.admin_appointment_list_view, name="admin_appointment_list"),
     path("admin-portal/queue/", ml_views.admin_appointment_list_view, name="admin_queue"),

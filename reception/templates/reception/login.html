@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Reception Staff Login - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card card-custom p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <div class="navbar-brand-logo mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.5rem;">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h3 class="fw-bold">Reception Staff Login</h3>
+                    <p class="text-muted small mb-0">Authorized SmartCare front-desk access only</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="reception-username" class="form-label small fw-bold">Staff username</label>
+                        <input id="reception-username" type="text" name="username" class="form-control"
+                               placeholder="Enter staff username" required autofocus>
+                    </div>
+                    <div class="mb-4">
+                        <label for="reception-password" class="form-label small fw-bold">Password</label>
+                        <input id="reception-password" type="password" name="password" class="form-control"
+                               placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary-sc w-100 py-2">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Enter Reception Desk
+                    </button>
+                </form>
+
+                <div class="alert alert-light border small mt-4 mb-0">
+                    <i class="bi bi-shield-lock me-1"></i>
+                    New staff can request access. An administrator must approve the account before login.
+                </div>
+                <div class="text-center small mt-3">
+                    Need reception access?
+                    <a href="{% url 'reception:register' %}" class="fw-semibold">Request an account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

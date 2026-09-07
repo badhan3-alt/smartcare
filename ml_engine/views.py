@@ -1,9 +1,10 @@
 import json
 import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django.db.models import Count
 from django.db.models import Q
 
@@ -30,6 +31,9 @@ def admin_dashboard_view(request):
     total_patients = UserProfile.objects.filter(role='patient').count()
     total_doctors = DoctorProfile.objects.filter(is_available=True).count()
     total_appointments = Appointment.objects.count()
+    pending_staff_requests = UserProfile.objects.filter(
+        role__in=['receptionist', 'doctor'], user__is_active=False
+    ).count()
     
     today = datetime.date.today()
     today_appointments = Appointment.objects.filter(appointment_date=today).count()
@@ -66,6 +70,7 @@ def admin_dashboard_view(request):
             'total_revenue': total_revenue,
             'today_revenue': today_revenue,
             'total_payments': total_payments,
+            'pending_staff_requests': pending_staff_requests,
         },
         'today': today,
         'status_dict': json.dumps(status_dict),
@@ -75,6 +80,94 @@ def admin_dashboard_view(request):
         'recent_payments': recent_payments,
     }
     return render(request, 'ml_engine/admin_dashboard.html', context)
+
+
+@login_required
+def receptionist_requests_view(request):
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
+
+    requests = UserProfile.objects.filter(
+        role__in=['receptionist', 'doctor'], user__is_active=False
+    ).select_related('user').order_by('-created_at')
+    return render(request, 'ml_engine/receptionist_requests.html', {
+        'requests': requests,
+    })
+
+
+@login_required
+def doctor_requests_view(request):
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
+
+    requests = UserProfile.objects.filter(
+        role='doctor', user__is_active=False
+    ).select_related('user', 'user__doctor_profile').order_by('-created_at')
+    return render(request, 'ml_engine/doctor_requests.html', {
+        'requests': requests,
+    })
+
+
+@login_required
+@require_POST
+def approve_receptionist_view(request, user_id):
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
+
+    profile = get_object_or_404(
+        UserProfile, user_id=user_id, role__in=['receptionist', 'doctor']
+    )
+    profile.user.is_active = True
+    profile.user.save(update_fields=['is_active'])
+    messages.success(request, f'{profile.user.get_full_name() or profile.user.username} was approved.')
+    return redirect('admin_receptionist_requests')
+
+
+@login_required
+@require_POST
+def approve_doctor_view(request, user_id):
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
+
+    profile = get_object_or_404(UserProfile, user_id=user_id, role='doctor')
+    profile.user.is_active = True
+    profile.user.save(update_fields=['is_active'])
+    messages.success(request, f'{profile.user.get_full_name() or profile.user.username} was approved as a doctor.')
+    return redirect('admin_doctor_requests')
+
+
+@login_required
+@require_POST
+def reject_receptionist_view(request, user_id):
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
+
+    profile = get_object_or_404(
+        UserProfile, user_id=user_id, role__in=['receptionist', 'doctor']
+    )
+    name = profile.user.get_full_name() or profile.user.username
+    profile.user.delete()
+    messages.success(request, f'Receptionist request from {name} was rejected.')
+    return redirect('admin_receptionist_requests')
+
+
+@login_required
+@require_POST
+def reject_doctor_view(request, user_id):
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
+
+    profile = get_object_or_404(UserProfile, user_id=user_id, role='doctor')
+    name = profile.user.get_full_name() or profile.user.username
+    profile.user.delete()
+    messages.success(request, f'Doctor request from {name} was rejected.')
+    return redirect('admin_doctor_requests')
 
 
 @login_required

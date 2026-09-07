@@ -9,7 +9,7 @@ class UserRegistrationForm(forms.ModelForm):
     ROLE_CHOICES = [
         ('patient', 'Patient'),
         ('doctor', 'Doctor / Specialist'),
-        # ('admin', 'Administrator'),  # Admin registration disabled
+        ('receptionist', 'Receptionist'),
     ]
 
     role = forms.ChoiceField(

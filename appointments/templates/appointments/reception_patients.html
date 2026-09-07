@@ -1,0 +1,11 @@
+{% extends 'core/base.html' %}
+{% block title %}Patient Directory - SmartCare{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4"><div><h3 class="fw-bold mb-1">Patient Directory</h3><p class="text-muted mb-0">Find a patient or start a new registration.</p></div><a href="{% url 'reception:register_patient' %}" class="btn btn-primary-sc"><i class="bi bi-person-plus me-1"></i> Register Patient</a></div>
+    <form method="get" class="card card-custom p-3 mb-4"><div class="input-group"><input name="q" value="{{ query }}" class="form-control" placeholder="Search by patient ID, name, username, or phone"><button class="btn btn-primary-sc"><i class="bi bi-search"></i> Search</button></div></form>
+    <div class="card card-custom p-4"><div class="table-responsive"><table class="table table-hover align-middle"><thead class="table-light"><tr><th>Patient</th><th>Patient ID</th><th>Phone</th><th>Gender</th><th class="text-end">Action</th></tr></thead><tbody>
+    {% for profile in patients %}<tr><td><strong>{{ profile.user.get_full_name|default:profile.user.username }}</strong><br><small class="text-muted">{{ profile.user.email }}</small></td><td>SC-{{ profile.user.id|stringformat:"05d" }}</td><td>{{ profile.phone }}</td><td>{{ profile.get_gender_display }}</td><td class="text-end"><a href="{% url 'reception:book_appointment' %}?patient_id={{ profile.user.id }}" class="btn btn-sm btn-primary-sc">Book Appointment</a></td></tr>{% empty %}<tr><td colspan="5" class="text-center text-muted py-4">No patients found.</td></tr>{% endfor %}
+    </tbody></table></div></div>
+</div>
+{% endblock %}
