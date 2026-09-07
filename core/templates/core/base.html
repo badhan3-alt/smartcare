@@ -151,7 +151,6 @@
     <!-- Main Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-dark" href="{% url 'home' %}">
             <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-dark" href="{% if user.is_authenticated %}{% url 'dashboard' %}{% else %}{% url 'home' %}{% endif %}">
                 <div class="navbar-brand-logo">
                     <i class="bi bi-heart-pulse-fill"></i>
