@@ -94,6 +94,35 @@ def calculate_patient_queue_status(appointment):
 
     return status_info
 
+def explain_queue_status(appointment):
+    """Produce human-readable reasons behind the queue estimate for transparency."""
+    queue_status = calculate_patient_queue_status(appointment)
+    reasons = []
+
+    if appointment.status == 'in_consultation':
+        reasons.append('You are currently in consultation with the doctor.')
+    else:
+        if queue_status['currently_serving_token']:
+            reasons.append(f'Token #{queue_status["currently_serving_token"]} is currently being seen.')
+        if queue_status['patients_ahead_count']:
+            reasons.append(f'{queue_status["patients_ahead_count"]} patient(s) are ahead of you in the queue.')
+        else:
+            reasons.append('You are at the front of the queue.')
+
+    reasons.append(
+        f'This estimate was generated for you as a patient using your visit type and predicted length of {appointment.predicted_duration_minutes} minutes.'
+    )
+
+    if queue_status['estimated_wait_minutes'] >= 30:
+        reasons.append('The longer wait is driven by complex consultations and the current workload.')
+    elif queue_status['estimated_wait_minutes'] > 0:
+        reasons.append('The queue is moving steadily and the patient wait time is still moderate.')
+    else:
+        reasons.append('This is a very short patient wait window based on the current queue.')
+
+    return reasons
+
+
 def get_doctor_live_queue_summary(doctor, date=None):
     """
     Returns full queue breakdown for doctor's console on a given date (defaults to today).

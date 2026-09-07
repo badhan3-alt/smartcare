@@ -9,6 +9,7 @@ from django.utils import timezone
 
 from .models import Department, DoctorProfile, DoctorSchedule
 from .forms import DoctorConsultationForm
+from .recommendation_service import get_recommended_doctors
 from appointments.models import Appointment
 
 def doctor_list_view(request):
@@ -18,12 +19,12 @@ def doctor_list_view(request):
     min_experience = request.GET.get('min_experience', '').strip()
     max_fee = request.GET.get('max_fee', '').strip()
     min_rating = request.GET.get('min_rating', '').strip()
-    
+
     doctors = DoctorProfile.objects.filter(is_available=True).select_related('user', 'department')
-    
+
     if dept_id:
         doctors = doctors.filter(department_id=dept_id)
-        
+
     if search_query:
         doctors = doctors.filter(
             Q(user__first_name__icontains=search_query) |
@@ -46,9 +47,27 @@ def doctor_list_view(request):
             doctor for doctor in doctors
             if doctor.average_rating >= int(min_rating)
         ]
-        
+
+    if request.user.is_authenticated and hasattr(request.user, 'profile') and request.user.profile.role == 'patient':
+        rank_data = get_recommended_doctors(
+            request.user,
+            doctors,
+            department_id=int(dept_id) if dept_id and dept_id.isdigit() else None,
+            appointment_date=datetime.date.today(),
+            limit=len(doctors) if isinstance(doctors, list) else None,
+        )
+        for item in rank_data:
+            doctor = item['doctor']
+            doctor.recommendation_score = item['score']
+            doctor.recommendation_reasons = item['reasons']
+            doctor.is_recommended = True
+        if isinstance(doctors, list):
+            doctors = [item['doctor'] for item in rank_data]
+        else:
+            doctors = [item['doctor'] for item in rank_data]
+
     departments = Department.objects.filter(is_active=True)
-    
+
     context = {
         'doctors': doctors,
         'departments': departments,

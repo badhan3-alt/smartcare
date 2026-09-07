@@ -47,18 +47,23 @@
                     Based on projected appointment loads, SmartCare algorithms recommend scheduling doctor coverage to avoid excessive queues:
                 </p>
                 <div class="row g-2 small">
-                    <div class="col-sm-6">
-                        <div class="p-2 bg-light rounded border">
-                            <i class="bi bi-check-circle-fill text-success me-1"></i>
-                            <strong>Peak Specialty:</strong> Cardiology & General Medicine expect the highest volume. Ensure minimum 2 specialists on duty.
+                    {% if staffing_recommendations %}
+                        {% for recommendation in staffing_recommendations %}
+                            <div class="col-sm-6">
+                                <div class="p-2 bg-light rounded border">
+                                    <i class="bi {{ recommendation.icon }} text-{{ recommendation.level }} me-1"></i>
+                                    <strong>{{ recommendation.title }}:</strong> {{ recommendation.message }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <div class="p-2 bg-light rounded border">
+                                <i class="bi bi-info-circle-fill text-primary me-1"></i>
+                                <strong>No staffing alerts:</strong> projected demand appears stable for the selected window.
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="p-2 bg-light rounded border">
-                            <i class="bi bi-info-circle-fill text-primary me-1"></i>
-                            <strong>Mid-Week Surge:</strong> Wednesday & Thursday project elevated visits (~25% above baseline).
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

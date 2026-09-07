@@ -58,6 +58,9 @@ urlpatterns = [
     # ML Engine & Analytics
     path("analytics/", include("ml_engine.urls")),
     path("admin-portal/dashboard/", ml_views.admin_dashboard_view, name="admin_dashboard"),
+    path("admin-portal/patients/", ml_views.admin_patient_list_view, name="admin_patient_list"),
+    path("admin-portal/appointments/", ml_views.admin_appointment_list_view, name="admin_appointment_list"),
+    path("admin-portal/queue/", ml_views.admin_appointment_list_view, name="admin_queue"),
     path("admin-portal/demand-forecast/", ml_views.admin_demand_forecast_view, name="admin_demand_forecast"),
     path("api/predict-duration/", ml_views.api_predict_duration, name="api_predict_duration"),
 

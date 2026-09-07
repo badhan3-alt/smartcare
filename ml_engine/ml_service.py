@@ -109,7 +109,7 @@ def forecast_appointment_demand(start_date=None, days_ahead=7):
 
             daily_summaries[date_str]['total_projected_visits'] += predicted_count
             daily_summaries[date_str]['dept_breakdown'][dept] = predicted_count
-            
+
             forecasts.append({
                 'date': curr_date,
                 'department': dept,
@@ -121,4 +121,65 @@ def forecast_appointment_demand(start_date=None, days_ahead=7):
         'daily_summaries': daily_summaries,
         'total_projected': sum(d['total_projected_visits'] for d in daily_summaries.values())
     }
+
+
+def get_staffing_recommendations(forecast_data):
+    """Build human-readable staffing recommendations from a demand forecast."""
+    daily_summaries = forecast_data.get('daily_summaries', {})
+    if not daily_summaries:
+        return []
+
+    day_totals = [entry['total_projected_visits'] for entry in daily_summaries.values()]
+    peak_day = max(daily_summaries.values(), key=lambda item: item['total_projected_visits'])
+    peak_total = peak_day['total_projected_visits']
+    avg_daily_total = sum(day_totals) / max(1, len(day_totals))
+
+    dept_totals = {}
+    for item in forecast_data.get('forecasts', []):
+        dept_totals[item['department']] = dept_totals.get(item['department'], 0) + item['predicted_visits']
+
+    dominant_dept, dominant_total = max(dept_totals.items(), key=lambda pair: pair[1]) if dept_totals else ('General Medicine', 0)
+
+    recommendations = []
+
+    if peak_total >= 120:
+        recommendations.append({
+            'title': 'High-volume alert',
+            'message': f"{peak_day['date'].strftime('%b %d')} is forecast to be the busiest day with {peak_total} projected visits.",
+            'level': 'danger',
+            'icon': 'bi-exclamation-triangle-fill',
+        })
+    elif peak_total >= 90:
+        recommendations.append({
+            'title': 'Busy clinic day',
+            'message': f"{peak_day['date'].strftime('%b %d')} may require extra staffing to keep wait times under control.",
+            'level': 'warning',
+            'icon': 'bi-lightbulb-fill',
+        })
+    else:
+        recommendations.append({
+            'title': 'Stable workload',
+            'message': 'Projected demand is moderate and the current staffing plan is likely sufficient.',
+            'level': 'success',
+            'icon': 'bi-check-circle-fill',
+        })
+
+    if dominant_total > 0:
+        recommended_staff = 2 if dominant_total >= 80 else 1
+        recommendations.append({
+            'title': f'{dominant_dept} surge expected',
+            'message': f"{dominant_dept} is forecast to carry {dominant_total} visits in the next window. Recommended staffing: {recommended_staff} specialist(s) on duty.",
+            'level': 'primary',
+            'icon': 'bi-people-fill',
+        })
+
+    if avg_daily_total > 50:
+        recommendations.append({
+            'title': 'Coverage planning',
+            'message': 'Average daily patient load is above baseline; consider staggered shifts or cross-cover support.',
+            'level': 'info',
+            'icon': 'bi-clipboard-data',
+        })
+
+    return recommendations[:4]
 

@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from ml_engine.ml_service import predict_consultation_duration, forecast_appointment_demand
+from ml_engine.ml_service import predict_consultation_duration, forecast_appointment_demand, get_staffing_recommendations
 
 class MLEngineTests(TestCase):
     def setUp(self):
@@ -25,6 +25,13 @@ class MLEngineTests(TestCase):
         self.assertIn('total_projected', forecast)
         self.assertGreater(forecast['total_projected'], 0)
         self.assertEqual(len(forecast['daily_summaries']), 7)
+
+    def test_staffing_recommendations_are_generated(self):
+        forecast = forecast_appointment_demand(days_ahead=7)
+        recommendations = get_staffing_recommendations(forecast)
+        self.assertTrue(recommendations)
+        self.assertIn('title', recommendations[0])
+        self.assertIn('message', recommendations[0])
 
     def test_api_predict_duration(self):
         response = self.client.get(reverse('api_predict_duration'), {

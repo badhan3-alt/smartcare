@@ -41,6 +41,13 @@
         {% endfor %}
     </div>
 
+    {% if request.user.is_authenticated and request.user.profile.role == 'patient' %}
+        <div class="alert alert-primary border-0 mb-4" style="background-color: #ecfeff; color: #0f172a;">
+            <i class="bi bi-stars me-2"></i>
+            SmartCare AI recommends doctors based on your specialty match, rating, experience, and queue load.
+        </div>
+    {% endif %}
+
     <!-- Doctor Cards Grid -->
     <div class="row g-4">
         {% for doctor in doctors %}
@@ -73,6 +80,17 @@
                             <span class="fw-bold text-teal" style="color: var(--sc-primary);">৳ {{ doctor.consultation_fee|floatformat:0 }}</span>
                         </div>
                     </div>
+
+                    {% if doctor.recommendation_score %}
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge bg-primary-subtle text-primary border">AI Match {{ doctor.recommendation_score }}/100</span>
+                        </div>
+                        <div class="small text-primary mb-3">
+                            {% for reason in doctor.recommendation_reasons %}
+                                <div>• {{ reason }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
                     <p class="text-muted small mb-3 flex-grow-1" style="line-height: 1.4;">
                         {{ doctor.specialization }}

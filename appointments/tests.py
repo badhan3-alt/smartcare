@@ -7,7 +7,7 @@ from accounts.models import UserProfile
 from doctors.models import Department, DoctorProfile
 from appointments.models import Appointment
 from appointments.models import Payment
-from appointments.queue_service import get_next_token_number, calculate_patient_queue_status
+from appointments.queue_service import get_next_token_number, calculate_patient_queue_status, explain_queue_status
 
 class AppointmentsTests(TestCase):
     def setUp(self):
@@ -71,6 +71,10 @@ class AppointmentsTests(TestCase):
         status_p2 = calculate_patient_queue_status(appt2)
         self.assertEqual(status_p2['currently_serving_token'], 1)
         self.assertGreaterEqual(status_p2['estimated_wait_minutes'], 10)
+
+        explanation = explain_queue_status(appt2)
+        self.assertTrue(explanation)
+        self.assertIn('patient', ' '.join(explanation).lower())
 
     @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
     def test_payment_requires_email_otp_before_completion(self):

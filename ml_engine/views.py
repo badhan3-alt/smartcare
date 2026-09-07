@@ -5,20 +5,30 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Count
+from django.db.models import Q
 
 from accounts.models import UserProfile
 from doctors.models import DoctorProfile
 from appointments.models import Appointment, Payment
-from .ml_service import predict_consultation_duration, forecast_appointment_demand
+from .ml_service import predict_consultation_duration, forecast_appointment_demand, get_staffing_recommendations
+
+
+def _require_admin(request):
+    if request.user.is_superuser or (
+        hasattr(request.user, 'profile') and request.user.profile.role == 'admin'
+    ):
+        return None
+    messages.error(request, "Administrator privileges required.")
+    return redirect('accounts:dashboard')
 
 @login_required
 def admin_dashboard_view(request):
-    if not (request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role == 'admin')):
-        messages.error(request, "Administrator privileges required.")
-        return redirect('accounts:dashboard')
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
         
     total_patients = UserProfile.objects.filter(role='patient').count()
-    total_doctors = DoctorProfile.objects.count()
+    total_doctors = DoctorProfile.objects.filter(is_available=True).count()
     total_appointments = Appointment.objects.count()
     
     today = datetime.date.today()
@@ -57,6 +67,7 @@ def admin_dashboard_view(request):
             'today_revenue': today_revenue,
             'total_payments': total_payments,
         },
+        'today': today,
         'status_dict': json.dumps(status_dict),
         'dept_labels': json.dumps(dept_labels),
         'dept_values': json.dumps(dept_values),
@@ -67,10 +78,71 @@ def admin_dashboard_view(request):
 
 
 @login_required
+def admin_patient_list_view(request):
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
+
+    search_query = request.GET.get('q', '').strip()
+    patients = UserProfile.objects.filter(role='patient').select_related('user').order_by(
+        'user__first_name', 'user__last_name', 'user__username'
+    )
+    if search_query:
+        patients = patients.filter(
+            Q(user__first_name__icontains=search_query) |
+            Q(user__last_name__icontains=search_query) |
+            Q(user__username__icontains=search_query) |
+            Q(phone__icontains=search_query)
+        )
+
+    return render(request, 'ml_engine/admin_patient_list.html', {
+        'patients': patients,
+        'search_query': search_query,
+    })
+
+
+@login_required
+def admin_appointment_list_view(request):
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
+
+    selected_date = request.GET.get('date', '').strip()
+    selected_status = request.GET.get('status', '').strip()
+    search_query = request.GET.get('q', '').strip()
+    appointments = Appointment.objects.select_related(
+        'patient', 'doctor', 'doctor__department'
+    ).order_by('-appointment_date', 'doctor', 'token_number')
+
+    if selected_date:
+        appointments = appointments.filter(appointment_date=selected_date)
+    if selected_status:
+        appointments = appointments.filter(status=selected_status)
+    if search_query:
+        appointments = appointments.filter(
+            Q(patient__first_name__icontains=search_query) |
+            Q(patient__last_name__icontains=search_query) |
+            Q(patient__username__icontains=search_query) |
+            Q(doctor__user__first_name__icontains=search_query) |
+            Q(doctor__user__last_name__icontains=search_query)
+        )
+
+    return render(request, 'ml_engine/admin_appointment_list.html', {
+        'appointments': appointments,
+        'selected_date': selected_date,
+        'selected_status': selected_status,
+        'search_query': search_query,
+        'status_choices': Appointment._meta.get_field('status').choices,
+        'today': datetime.date.today(),
+        'queue_view': selected_date == datetime.date.today().isoformat(),
+    })
+
+
+@login_required
 def admin_demand_forecast_view(request):
-    if not (request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role == 'admin')):
-        messages.error(request, "Administrator privileges required.")
-        return redirect('accounts:dashboard')
+    access_response = _require_admin(request)
+    if access_response:
+        return access_response
         
     days = int(request.GET.get('days', 7))
     forecast_data = forecast_appointment_demand(days_ahead=days)
@@ -89,9 +161,12 @@ def admin_demand_forecast_view(request):
     chart_dept_names = list(dept_totals.keys())
     chart_dept_totals = list(dept_totals.values())
     
+    staffing_recommendations = get_staffing_recommendations(forecast_data)
+
     context = {
         'days': days,
         'forecast_data': forecast_data,
+        'staffing_recommendations': staffing_recommendations,
         'chart_dates': json.dumps(chart_dates),
         'chart_daily_totals': json.dumps(chart_daily_totals),
         'chart_dept_names': json.dumps(chart_dept_names),
@@ -123,4 +198,3 @@ def api_predict_duration(request):
     )
     
     return JsonResponse({'predicted_duration': pred_mins})
-

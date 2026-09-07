@@ -17,7 +17,7 @@ from .forms import (
     AppointmentBookingForm, RescheduleAppointmentForm,
     CancelAppointmentForm, PatientFeedbackForm, PaymentForm, WaitlistForm
 )
-from .queue_service import get_next_token_number, calculate_patient_queue_status
+from .queue_service import get_next_token_number, calculate_patient_queue_status, explain_queue_status
 from doctors.models import DoctorProfile
 from ml_engine.ml_service import predict_consultation_duration
 
@@ -142,10 +142,12 @@ def queue_tracker_view(request, appointment_id):
         return redirect('accounts:dashboard')
         
     queue_status = calculate_patient_queue_status(appointment)
-    
+    queue_explanation = explain_queue_status(appointment)
+
     context = {
         'appointment': appointment,
         'queue_status': queue_status,
+        'queue_explanation': queue_explanation,
     }
     return render(request, 'appointments/queue_tracker.html', context)
 
