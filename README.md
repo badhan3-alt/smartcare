@@ -1,17 +1,7 @@
 
 # SmartCare: ML-Based Healthcare Appointment Scheduling and Queue Management System
 
-**Course Code:** CSE-06133230  
-**Course Name:** Project Work II  
-**Institution:** North East University Bangladesh (NEUB)  
-**Submitted to:** Mr. Rana M Luthfur Rahman Pir  
 
-**Prepared by:**
-- **Joyashis Das** (ID: 0562410005101003)
-- **F. Tabassum Haq Khan** (ID: 0562410005101016)
-- **Atiya Mahjabin Maishah** (ID: 0562410005101023)
-
----
 
 ## 1. Project Overview
 
