@@ -48,6 +48,60 @@ class AppointmentBookingForm(forms.ModelForm):
             raise forms.ValidationError("Appointment date cannot be in the past.")
         return appt_date
 
+    def clean(self):
+        cleaned_data = super().clean()
+        doctor = cleaned_data.get('doctor')
+        appointment_date = cleaned_data.get('appointment_date')
+        appointment_time = cleaned_data.get('appointment_time')
+
+        if not doctor or not appointment_date or not appointment_time:
+            return cleaned_data
+
+        schedule = doctor.schedules.filter(
+            day_of_week=appointment_date.weekday(),
+            is_active=True,
+        ).first()
+        if not doctor.is_available or not schedule:
+            self.add_error(
+                'appointment_date',
+                'This doctor is not available on the selected date.',
+            )
+            return cleaned_data
+
+        if not schedule.start_time <= appointment_time < schedule.end_time:
+            self.add_error(
+                'appointment_time',
+                f'Choose a time between {schedule.start_time.strftime("%I:%M %p")} '
+                f'and {schedule.end_time.strftime("%I:%M %p")}.',
+            )
+            return cleaned_data
+
+        start_minutes = schedule.start_time.hour * 60 + schedule.start_time.minute
+        selected_minutes = appointment_time.hour * 60 + appointment_time.minute
+        if (selected_minutes - start_minutes) % schedule.slot_duration_minutes:
+            self.add_error(
+                'appointment_time',
+                f'Choose one of the {schedule.slot_duration_minutes}-minute slots shown below.',
+            )
+            return cleaned_data
+
+        if appointment_date == datetime.date.today() and appointment_time <= datetime.datetime.now().time():
+            self.add_error('appointment_time', 'Choose a future time for today.')
+            return cleaned_data
+
+        if Appointment.objects.filter(
+            doctor=doctor,
+            appointment_date=appointment_date,
+            appointment_time=appointment_time,
+            status__in=['scheduled', 'waiting', 'in_consultation'],
+        ).exists():
+            self.add_error(
+                'appointment_time',
+                'This time has just been booked. Please choose another slot.',
+            )
+
+        return cleaned_data
+
 class RescheduleAppointmentForm(forms.Form):
     appointment_date = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})

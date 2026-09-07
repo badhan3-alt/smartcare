@@ -136,6 +136,9 @@
                         <i class="bi bi-cpu me-2"></i>
                         <strong>AI Queue Explanation</strong>
                     </div>
+                    <div id="queueNotification" class="alert alert-success d-none mb-4" role="alert" aria-live="assertive">
+                        <i class="bi bi-bell me-2"></i><span id="queueNotificationText"></span>
+                    </div>
                     <ul class="mb-0 ps-3 small">
                         {% for reason in queue_explanation %}
                             <li>{{ reason }}</li>
@@ -181,11 +184,48 @@
 
 <script>
     const appointmentId = {{ appointment.id }};
+    let previousStatus = '{{ appointment.status }}';
+    let previousServingToken = {{ queue_status.currently_serving_token|default:0 }};
+    let notificationPermissionRequested = false;
+
+    function showQueueNotification(message) {
+        const notification = document.getElementById('queueNotification');
+        document.getElementById('queueNotificationText').innerText = message;
+        notification.classList.remove('d-none');
+        if ('Notification' in window && Notification.permission === 'granted') {
+            new Notification('SmartCare queue update', { body: message });
+        }
+    }
+
+    function requestNotificationPermission() {
+        if (
+            !notificationPermissionRequested
+            && 'Notification' in window
+            && Notification.permission === 'default'
+        ) {
+            notificationPermissionRequested = true;
+            Notification.requestPermission();
+        }
+    }
+
     function pollQueue() {
         fetch(`/appointments/api/queue-status/${appointmentId}/`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Queue status unavailable');
+                return res.json();
+            })
             .then(data => {
                 if (data) {
+                    if (data.status !== previousStatus) {
+                        showQueueNotification(`Appointment status changed to ${data.status_display}.`);
+                        previousStatus = data.status;
+                    } else if (
+                        data.currently_serving_token
+                        && data.currently_serving_token !== previousServingToken
+                    ) {
+                        showQueueNotification(`Token #${data.currently_serving_token} is now being served.`);
+                        previousServingToken = data.currently_serving_token;
+                    }
                     if (data.currently_serving_token) {
                         document.getElementById('currentServingToken').innerText = '#' + data.currently_serving_token;
                     }
@@ -207,6 +247,7 @@
             .catch(err => console.error("Error polling queue status:", err));
     }
 
+    requestNotificationPermission();
     setInterval(pollQueue, 6000);
 </script>
 {% endblock %}

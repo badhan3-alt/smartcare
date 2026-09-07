@@ -46,6 +46,10 @@
                             {{ form.appointment_time.errors }}
                         </div>
                     </div>
+                    <div id="availabilityPanel" class="alert alert-light border small mb-3" role="status" aria-live="polite">
+                        Select a doctor and date to see available time slots.
+                    </div>
+                    <div id="slotList" class="d-flex flex-wrap gap-2 mb-3" aria-label="Available appointment slots"></div>
 
                     <h6 class="fw-bold border-bottom pb-2 mt-4 mb-3 text-secondary">
                         <i class="bi bi-heart-pulse me-1"></i> Clinical Factors for Machine Learning Duration Estimation
@@ -114,7 +118,8 @@
 
 <script>
     const patientAge = {{ user_age|default:30 }};
-    const patientGender = "{{ user_gender|default:'M' }}";
+    const patientGender = "{{ user_gender|default:'M'|escapejs }}";
+    const slotsUrl = "{% url 'appointments:available_slots' %}";
 
     function updateEstimatedDuration() {
         const doctorSelect = document.getElementById('id_doctor');
@@ -122,19 +127,15 @@
         const severity = document.getElementById('id_symptom_severity').value;
         const hasChronic = document.getElementById('id_has_chronic_condition').checked ? '1' : '0';
 
-        let department = "General Medicine";
-        if (doctorSelect.selectedIndex > 0) {
-            const selectedText = doctorSelect.options[doctorSelect.selectedIndex].text;
-            if (selectedText.includes('Cardiology')) department = 'Cardiology';
-            else if (selectedText.includes('Pediatrics')) department = 'Pediatrics';
-            else if (selectedText.includes('Dermatology')) department = 'Dermatology';
-            else if (selectedText.includes('Orthopedics')) department = 'Orthopedics';
-            else if (selectedText.includes('Neurology')) department = 'Neurology';
-            else if (selectedText.includes('ENT')) department = 'ENT';
-            else if (selectedText.includes('Gynecology')) department = 'Gynecology';
-        }
+        if (!doctorSelect.value) return;
+        const selectedOption = doctorSelect.options[doctorSelect.selectedIndex];
+        const selectedText = selectedOption.text;
+        const department = selectedText.includes(' - ')
+            ? selectedText.split(' - ').pop().trim()
+            : "General Medicine";
+        const experience = "8";
 
-        const url = `/api/predict-duration/?age=${patientAge}&gender=${patientGender}&department=${encodeURIComponent(department)}&visit_type=${visitType}&severity=${severity}&chronic=${hasChronic}&doctor_experience=8`;
+        const url = `/api/predict-duration/?age=${patientAge}&gender=${patientGender}&department=${encodeURIComponent(department)}&visit_type=${visitType}&severity=${severity}&chronic=${hasChronic}&doctor_experience=${experience}`;
 
         fetch(url)
             .then(res => res.json())
@@ -146,15 +147,62 @@
             .catch(err => console.error("Error predicting duration:", err));
     }
 
+    function loadAvailableSlots() {
+        const doctor = document.getElementById('id_doctor').value;
+        const date = document.getElementById('id_appointment_date').value;
+        const panel = document.getElementById('availabilityPanel');
+        const slotList = document.getElementById('slotList');
+        slotList.innerHTML = '';
+        if (!doctor || !date) {
+            panel.textContent = 'Select a doctor and date to see available time slots.';
+            return;
+        }
+
+        panel.textContent = 'Loading available slots...';
+        fetch(`${slotsUrl}?doctor=${encodeURIComponent(doctor)}&date=${encodeURIComponent(date)}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Unable to load availability');
+                return response.json();
+            })
+            .then(data => {
+                const availableSlots = data.slots.filter(slot => slot.available);
+                panel.textContent = availableSlots.length
+                    ? 'Choose an available slot below. The selected time is checked again when you submit.'
+                    : 'No slots are available for this doctor on the selected date.';
+                data.slots.forEach(slot => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = `btn btn-sm ${slot.available ? 'btn-outline-primary' : 'btn-outline-secondary'}`;
+                    button.textContent = slot.label;
+                    button.disabled = !slot.available;
+                    button.addEventListener('click', () => {
+                        document.getElementById('id_appointment_time').value = slot.value;
+                        document.querySelectorAll('#slotList button').forEach(item => item.classList.remove('active'));
+                        button.classList.add('active');
+                    });
+                    slotList.appendChild(button);
+                });
+            })
+            .catch(() => {
+                panel.textContent = 'Availability could not be loaded. You can still enter a time and it will be validated when submitted.';
+            });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+        const doctorSelect = document.getElementById('id_doctor');
+        ['id_doctor', 'id_appointment_date'].forEach(id => {
+            document.getElementById(id).addEventListener('change', loadAvailableSlots);
+        });
         ['id_doctor', 'id_visit_type', 'id_symptom_severity', 'id_has_chronic_condition'].forEach(id => {
             const el = document.getElementById(id);
             if (el) {
                 el.addEventListener('change', updateEstimatedDuration);
             }
         });
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('id_appointment_date').min = today;
+        loadAvailableSlots();
         updateEstimatedDuration();
     });
 </script>
 {% endblock %}
-

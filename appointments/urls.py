@@ -22,4 +22,5 @@ urlpatterns = [
     path('invoice/<int:appointment_id>/pdf/', views.invoice_pdf_view, name='invoice_pdf'),
     path('telemedicine/<int:appointment_id>/', views.telemedicine_view, name='telemedicine'),
     path('api/queue-status/<int:appointment_id>/', views.api_queue_status, name='api_queue_status'),
+    path('api/available-slots/', views.appointment_slots_api, name='available_slots'),
 ]

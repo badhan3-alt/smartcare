@@ -153,6 +153,8 @@ EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'False').lower() == 'true'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '').strip()
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '').replace(' ', '').strip()
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') or EMAIL_HOST_USER or 'no-reply@smartcare.local'
+# Optional SMS provider webhook. The endpoint must accept JSON: {"to": "...", "message": "..."}.
+SMARTCARE_SMS_WEBHOOK_URL = os.getenv('SMARTCARE_SMS_WEBHOOK_URL', '').strip()
 
 # SmartCare Authentication Settings
 LOGIN_URL = 'login'

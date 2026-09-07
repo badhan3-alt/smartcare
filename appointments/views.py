@@ -21,12 +21,69 @@ from .forms import (
 )
 from .queue_service import get_next_token_number, calculate_patient_queue_status, explain_queue_status
 from doctors.models import DoctorProfile
+from doctors.models import DoctorSchedule
 from accounts.models import UserProfile, MedicalHistory
 from ml_engine.ml_service import predict_consultation_duration
 
 logger = logging.getLogger(__name__)
 PAYMENT_OTP_SESSION_KEY = 'payment_otp'
 PAYMENT_OTP_TTL = 10 * 60
+
+
+def _available_slots(doctor, appointment_date):
+    schedule = DoctorSchedule.objects.filter(
+        doctor=doctor,
+        day_of_week=appointment_date.weekday(),
+        is_active=True,
+    ).first()
+    if not doctor.is_available or not schedule:
+        return []
+
+    booked_times = set(
+        Appointment.objects.filter(
+            doctor=doctor,
+            appointment_date=appointment_date,
+            status__in=['scheduled', 'waiting', 'in_consultation'],
+        ).values_list('appointment_time', flat=True)
+    )
+    slots = []
+    current = datetime.datetime.combine(appointment_date, schedule.start_time)
+    end = datetime.datetime.combine(appointment_date, schedule.end_time)
+    step = datetime.timedelta(minutes=schedule.slot_duration_minutes)
+    while current + step <= end:
+        slot_time = current.time()
+        is_available = slot_time not in booked_times
+        if appointment_date == datetime.date.today() and slot_time <= datetime.datetime.now().time():
+            is_available = False
+        slots.append({
+            'value': slot_time.strftime('%H:%M'),
+            'label': slot_time.strftime('%I:%M %p').lstrip('0'),
+            'available': is_available,
+        })
+        current += step
+    return slots
+
+
+@login_required
+def appointment_slots_api(request):
+    doctor_id = request.GET.get('doctor')
+    date_value = request.GET.get('date')
+    if not doctor_id or not date_value:
+        return JsonResponse({'error': 'Doctor and date are required.'}, status=400)
+
+    try:
+        appointment_date = datetime.date.fromisoformat(date_value)
+    except ValueError:
+        return JsonResponse({'error': 'Enter a valid appointment date.'}, status=400)
+
+    doctor = get_object_or_404(
+        DoctorProfile.objects.only('id', 'is_available'),
+        id=doctor_id,
+    )
+    return JsonResponse({
+        'date': date_value,
+        'slots': _available_slots(doctor, appointment_date),
+    })
 
 
 def _reception_access(request):
@@ -526,11 +583,20 @@ def submit_feedback_view(request, appointment_id):
     return render(request, 'appointments/feedback.html', {'appointment': appointment, 'form': form})
 
 
+@login_required
 def api_queue_status(request, appointment_id):
     """
     AJAX endpoint called by queue tracker to poll real-time queue position and remaining wait time.
     """
-    appointment = get_object_or_404(Appointment, id=appointment_id)
+    appointment = get_object_or_404(
+        Appointment.objects.select_related('doctor', 'doctor__department', 'patient'),
+        id=appointment_id,
+    )
+    if appointment.patient != request.user and not (
+        hasattr(request.user, 'profile')
+        and request.user.profile.role in ['doctor', 'admin']
+    ):
+        return JsonResponse({'error': 'Access denied.'}, status=403)
     status_info = calculate_patient_queue_status(appointment)
     return JsonResponse(status_info)
 

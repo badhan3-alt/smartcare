@@ -2,10 +2,11 @@ import datetime
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.core.mail import send_mail
+from smtplib import SMTPException
 from django.utils import timezone
 
 from appointments.models import Appointment
+from appointments.notification_service import send_appointment_notification
 
 
 class Command(BaseCommand):
@@ -14,6 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         now = timezone.localtime()
         sent = 0
+        failed = 0
         for appointment in Appointment.objects.filter(
             status__in=['scheduled', 'waiting'],
             appointment_date__gte=now.date(),
@@ -31,22 +33,41 @@ class Command(BaseCommand):
                 field, label = 'reminder_24h_sent', '24 hours'
             elif 1 <= hours <= 3 and not appointment.reminder_2h_sent:
                 field, label = 'reminder_2h_sent', '2 hours'
-            if not field or not appointment.patient.email:
+            if not field or not (
+                appointment.patient.email
+                or (
+                    hasattr(appointment.patient, 'profile')
+                    and appointment.patient.profile.phone
+                    and getattr(settings, 'SMARTCARE_SMS_WEBHOOK_URL', '')
+                )
+            ):
                 continue
-            send_mail(
-                subject=f'SmartCare appointment reminder ({label})',
-                message=(
-                    f'Your appointment with {appointment.doctor.full_name} is in {label}.\n'
-                    f'Date: {appointment.appointment_date:%B %d, %Y}\n'
-                    f'Time: {appointment.appointment_time:%I:%M %p}\n'
-                    f'Token: #{appointment.token_number}\n'
-                    f'Room: {appointment.doctor.room_number}\n'
-                ),
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[appointment.patient.email],
-                fail_silently=False,
-            )
+            try:
+                send_appointment_notification(
+                    subject=f'SmartCare appointment reminder ({label})',
+                    message=(
+                        f'Your appointment with {appointment.doctor.full_name} is in {label}.\n'
+                        f'Date: {appointment.appointment_date:%B %d, %Y}\n'
+                        f'Time: {appointment.appointment_time:%I:%M %p}\n'
+                        f'Token: #{appointment.token_number}\n'
+                        f'Room: {appointment.doctor.room_number}\n'
+                    ),
+                    patient=appointment.patient,
+                )
+            except (SMTPException, OSError, RuntimeError, ValueError) as error:
+                failed += 1
+                self.stderr.write(
+                    self.style.ERROR(
+                        f'Could not send {label} reminder for appointment '
+                        f'#{appointment.id}: {error}'
+                    )
+                )
+                continue
             setattr(appointment, field, True)
             appointment.save(update_fields=[field, 'updated_at'])
             sent += 1
-        self.stdout.write(self.style.SUCCESS(f'Sent {sent} appointment reminder(s).'))
+        self.stdout.write(
+            self.style.SUCCESS(
+                f'Sent {sent} appointment reminder(s); {failed} failed.'
+            )
+        )

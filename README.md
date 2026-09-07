@@ -158,6 +158,25 @@ template and is not loaded automatically. Restart the development server after
 creating or changing `.env`. OTP emails will be sent from that Gmail account.
 Never commit `.env` or the app password to the repository.
 
+### Appointment reminders and SMS
+
+Run the reminder command from a scheduler every few minutes:
+
+```powershell
+python manage.py send_appointment_reminders
+```
+
+The command sends one-time email reminders 24 hours and 2 hours before each
+appointment. To also send SMS messages, configure
+`SMARTCARE_SMS_WEBHOOK_URL` in `.env`. The webhook receives:
+
+```json
+{"to": "patient-phone-number", "message": "SmartCare appointment reminder ..."}
+```
+
+The webhook should return a successful 2xx response. Reminder flags are only
+marked after the configured notification channels complete successfully.
+
 For testing existing clinical queues and historical charts, pre-seeded accounts are also available:
 
 | Role | Username | Password | Notes |
