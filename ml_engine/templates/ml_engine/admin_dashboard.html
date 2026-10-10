@@ -6,8 +6,8 @@
 <div class="container">
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
         <div>
-            <h3 class="fw-bold mb-1">Hospital Administrator Dashboard</h3>
-            <p class="text-muted mb-0">System health, appointment metrics, and clinical load</p>
+            <h3 class="fw-bold mb-1">Hospital overview</h3>
+            <p class="text-muted mb-0">See how appointments, queues, and departments are doing today.</p>
         </div>
         <div class="d-flex gap-2">
             <a href="{% url 'admin_receptionist_requests' %}" class="btn btn-outline-primary position-relative">
@@ -20,7 +20,7 @@
                 <i class="bi bi-heart-pulse me-1"></i> Doctor Requests
             </a>
             <a href="{% url 'admin_demand_forecast' %}" class="btn btn-primary-sc">
-                <i class="bi bi-graph-up-arrow me-1"></i> Open ML Demand Forecaster
+                <i class="bi bi-graph-up-arrow me-1"></i> View demand forecast
             </a>
             <a href="/admin/" target="_blank" class="btn btn-outline-secondary">
                 <i class="bi bi-gear me-1"></i> Django Admin Site
@@ -99,7 +99,7 @@
         <!-- Department Volume Distribution Bar Chart -->
         <div class="col-lg-7">
             <div class="card card-custom p-4 h-100">
-                <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart me-2" style="color: var(--sc-primary);"></i>Department-Wise Patient Distribution</h5>
+                <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart me-2" style="color: var(--sc-primary);"></i>Patients by department</h5>
                 <div style="position: relative; height: 260px;">
                     <canvas id="deptChart"></canvas>
                 </div>
@@ -110,7 +110,7 @@
     <!-- Recent Appointments Master Table -->
     <div id="recent-appointments" class="card card-custom p-4 mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0"><i class="bi bi-list-check me-2" style="color: var(--sc-primary);"></i>Recent Appointments Log</h5>
+            <h5 class="fw-bold mb-0"><i class="bi bi-list-check me-2" style="color: var(--sc-primary);"></i>Recent appointments</h5>
             <span class="badge bg-light text-dark border">Live Log</span>
         </div>
 
@@ -123,7 +123,7 @@
                         <th>Doctor & Department</th>
                         <th>Date & Time</th>
                         <th>Visit Type</th>
-                        <th>ML Duration</th>
+                        <th>Visit duration</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -148,7 +148,7 @@
                             </td>
                             <td>{{ appt.get_visit_type_display }}</td>
                             <td>
-                                <span class="badge bg-teal-subtle text-teal border" style="background-color: #ccfbf1; color: #0f766e;">
+                                <span class="badge bg-teal-subtle text-teal border" style="background-color: var(--sc-primary-light); color: var(--sc-primary-dark);">
                                     {{ appt.predicted_duration_minutes }}m
                                 </span>
                             </td>

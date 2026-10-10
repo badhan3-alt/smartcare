@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Live Queue Tracker - Token #{{ appointment.token_number }} - SmartCare{% endblock %}
+{% block title %}Your place in the queue - Token #{{ appointment.token_number }} - SmartCare{% endblock %}
 
 {% block content %}
 <div class="container py-2">
@@ -10,10 +10,10 @@
                 
                 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
                     <div>
-                        <span class="badge bg-teal-subtle text-teal border mb-1" style="background-color: #ccfbf1; color: #0f766e;">
+                        <span class="badge bg-teal-subtle text-teal border mb-1" style="background-color: var(--sc-primary-light); color: var(--sc-primary-dark);">
                             <span class="live-pulse me-1"></span> Live SmartCare Queue Console
                         </span>
-                        <h3 class="fw-bold mb-0">Live Queue Tracker</h3>
+                        <h3 class="fw-bold mb-0">Your place in the queue</h3>
                     </div>
                     <div class="text-end">
                         <div class="small text-muted">Auto-refreshes every 6s</div>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="p-3 rounded-4 border h-100" style="background-color: #f0fdfa;">
+                        <div class="p-3 rounded-4 border h-100" style="background-color: var(--sc-primary-light);">
                             <div class="text-muted small fw-semibold text-uppercase mb-1">Currently In Consultation</div>
                             <div class="display-3 fw-bold text-dark" id="currentServingToken">
                                 {% if queue_status.currently_serving_token %}
@@ -52,7 +52,7 @@
                 </div>
 
                 <!-- Live Dynamic Wait Time & Ahead Count -->
-                <div class="card p-4 mb-4 border-0 text-white rounded-4 shadow-sm" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #0284c7 100%);">
+                <div class="card p-4 mb-4 border-0 text-white rounded-4 shadow-sm" style="background: var(--sc-primary);">
                     <div class="row align-items-center">
                         <div class="col-md-6 mb-3 mb-md-0">
                             <div class="small text-white-50 text-uppercase fw-bold mb-1">Estimated Remaining Wait</div>
@@ -76,7 +76,7 @@
                                     <strong id="patientsAheadCount">{{ queue_status.patients_ahead_count }}</strong>
                                 </div>
                                 <div class="d-flex justify-content-between mb-1 small">
-                                    <span>ML Consultation Est:</span>
+                                    <span>Estimated consultation:</span>
                                     <strong>{{ appointment.predicted_duration_minutes }} mins</strong>
                                 </div>
                                 <div class="d-flex justify-content-between small">
@@ -131,7 +131,7 @@
                     </div>
                 </div>
 
-                <div class="alert alert-info border-0 mb-4" style="background-color: #e0f2fe; color: #0f172a;">
+                <div class="alert alert-info border-0 mb-4" style="background-color: var(--sc-info-bg); color: var(--sc-dark);">
                     <div class="d-flex align-items-center mb-2">
                         <i class="bi bi-cpu me-2"></i>
                         <strong>AI Queue Explanation</strong>

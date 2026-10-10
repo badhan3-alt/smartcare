@@ -5,15 +5,15 @@
 {% block content %}
 <style>
     .dashboard-kpi-card { transition: transform .15s ease, box-shadow .15s ease; }
-    .dashboard-kpi-card:hover { transform: translateY(-3px); box-shadow: 0 .5rem 1rem rgba(15, 23, 42, .12); }
+    .dashboard-kpi-card:hover {  box-shadow: 0 .5rem 1rem rgba(15, 23, 42, .12); }
 </style>
 <div class="container-fluid px-lg-5">
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
         <div>
-            <span class="badge mb-2" style="background:#ccfbf1;color:#0f766e;">
+            <span class="badge mb-2" style="background:var(--sc-primary-light);color:var(--sc-primary-dark);">
                 <i class="bi bi-headset me-1"></i> Reception Desk
             </span>
-            <h3 class="fw-bold mb-1">SmartCare Reception Dashboard</h3>
+            <h3 class="fw-bold mb-1">Reception dashboard</h3>
             <p class="text-muted mb-0">Patient registration, check-in, appointments, and live queue operations.</p>
         </div>
         <div class="d-flex gap-2">

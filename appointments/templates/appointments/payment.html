@@ -182,23 +182,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #10b981, #059669);
+    background: var(--sc-primary);
     color: #fff;
     font-size: 1.5rem;
 }
 .payment-option:hover {
     border-color: var(--sc-primary) !important;
-    background-color: #f0fdfa;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.12);
+    background-color: var(--sc-primary-light);
+
+    box-shadow: 0 4px 12px rgba(36, 107, 89, 0.12);
 }
 .payment-option:hover .payment-logo {
-    transform: scale(1.04);
+
 }
 .payment-option:has(input:checked) {
     border-color: var(--sc-primary) !important;
-    background-color: #f0fdfa;
-    box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.35);
+    background-color: var(--sc-primary-light);
+    box-shadow: 0 0 0 2px rgba(36, 107, 89, 0.35);
 }
 .payment-option input[type="radio"]:checked ~ label {
     color: var(--sc-primary-dark);

@@ -9,7 +9,7 @@
             <div class="card card-custom p-4">
                 <div class="text-warning mb-3 fs-2"><i class="bi bi-star-fill"></i></div>
                 <h4 class="fw-bold mb-1">Rate Your Consultation</h4>
-                <p class="text-muted small">Your feedback helps improve doctor queue accuracy and healthcare service</p>
+                <p class="text-muted small">How was your visit? Your feedback helps us improve your experience.</p>
 
                 <div class="bg-light p-3 rounded-3 mb-4 small border">
                     <div>Doctor: <strong>{{ appointment.doctor.full_name }}</strong></div>
@@ -20,12 +20,12 @@
                 <form method="post">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label class="form-label small fw-bold">Overall Rating (1 to 5 Stars) *</label>
+                        <label class="form-label small fw-bold" for="{{ form.rating.id_for_label }}">Overall Rating (1 to 5 Stars) *</label>
                         {{ form.rating }}
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label small fw-bold">Review & Experience Comments</label>
+                        <label class="form-label small fw-bold" for="{{ form.comment.id_for_label }}">Review & Experience Comments</label>
                         {{ form.comment }}
                     </div>
 

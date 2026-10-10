@@ -11,8 +11,8 @@
                     <div class="navbar-brand-logo mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
                         <i class="bi bi-person-plus-fill"></i>
                     </div>
-                    <h3 class="fw-bold">Create SmartCare Account</h3>
-                    <p class="text-muted small">Select your role to register as a Patient, Doctor, or Receptionist</p>
+                    <h3 class="fw-bold">Create your account</h3>
+                    <p class="text-muted small">Tell us whether you are a patient, doctor, or receptionist to get started.</p>
                 </div>
 
                 <form method="post" id="registrationForm">
@@ -33,7 +33,7 @@
 
                     <!-- Role Dropdown Selector -->
                     <div class="mb-4 p-3 bg-light rounded-3 border">
-                        <label class="form-label small fw-bold text-dark d-flex align-items-center gap-1">
+                        <label class="form-label small fw-bold text-dark d-flex align-items-center gap-1" for="{{ form.role.id_for_label }}">
                             <i class="bi bi-person-badge-fill text-teal" style="color: var(--sc-primary);"></i>
                             <span>Register As (Account Role) *</span>
                         </label>
@@ -48,12 +48,12 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">First Name *</label>
+                            <label class="form-label small fw-bold" for="{{ form.first_name.id_for_label }}">First Name *</label>
                             {{ form.first_name }}
                             {{ form.first_name.errors }}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Last Name *</label>
+                            <label class="form-label small fw-bold" for="{{ form.last_name.id_for_label }}">Last Name *</label>
                             {{ form.last_name }}
                             {{ form.last_name.errors }}
                         </div>
@@ -61,12 +61,12 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Username *</label>
+                            <label class="form-label small fw-bold" for="{{ form.username.id_for_label }}">Username *</label>
                             {{ form.username }}
                             {{ form.username.errors }}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Email Address *</label>
+                            <label class="form-label small fw-bold" for="{{ form.email.id_for_label }}">Email Address *</label>
                             {{ form.email }}
                             {{ form.email.errors }}
                         </div>
@@ -74,12 +74,12 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Password *</label>
+                            <label class="form-label small fw-bold" for="{{ form.password.id_for_label }}">Password *</label>
                             {{ form.password }}
                             {{ form.password.errors }}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Confirm Password *</label>
+                            <label class="form-label small fw-bold" for="{{ form.confirm_password.id_for_label }}">Confirm Password *</label>
                             {{ form.confirm_password }}
                             {{ form.confirm_password.errors }}
                         </div>
@@ -87,31 +87,31 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Phone Number *</label>
+                            <label class="form-label small fw-bold" for="{{ form.phone.id_for_label }}">Phone Number *</label>
                             {{ form.phone }}
                             {{ form.phone.errors }}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Gender *</label>
+                            <label class="form-label small fw-bold" for="{{ form.gender.id_for_label }}">Gender *</label>
                             {{ form.gender }}
                             {{ form.gender.errors }}
                         </div>
                     </div>
 
                     <!-- Doctor Specific Fields (Visible only when role == 'doctor') -->
-                    <div id="doctorFieldsSection" class="p-3 mb-4 rounded-3 border" style="background-color: #f0fdfa; border-color: #99f6e4 !important; display: none;">
+                    <div id="doctorFieldsSection" class="p-3 mb-4 rounded-3 border" style="background-color: var(--sc-primary-light); border-color: var(--sc-accent-border) !important; display: none;">
                         <h6 class="fw-bold text-teal mb-3" style="color: var(--sc-primary);">
                             <i class="bi bi-hospital me-1"></i> Doctor / Specialist Credentials
                         </h6>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Department / Specialty *</label>
+                                <label class="form-label small fw-bold" for="{{ form.department.id_for_label }}">Department / Specialty *</label>
                                 {{ form.department }}
                                 {{ form.department.errors }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Qualifications *</label>
+                                <label class="form-label small fw-bold" for="{{ form.qualification.id_for_label }}">Qualifications *</label>
                                 {{ form.qualification }}
                                 {{ form.qualification.errors }}
                             </div>
@@ -119,12 +119,12 @@
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Specialization Area *</label>
+                                <label class="form-label small fw-bold" for="{{ form.specialization.id_for_label }}">Specialization Area *</label>
                                 {{ form.specialization }}
                                 {{ form.specialization.errors }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Years of Experience</label>
+                                <label class="form-label small fw-bold" for="{{ form.experience_years.id_for_label }}">Years of Experience</label>
                                 {{ form.experience_years }}
                                 {{ form.experience_years.errors }}
                             </div>
@@ -132,12 +132,12 @@
 
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Consultation Fee (BDT)</label>
+                                <label class="form-label small fw-bold" for="{{ form.consultation_fee.id_for_label }}">Consultation Fee (BDT)</label>
                                 {{ form.consultation_fee }}
                                 {{ form.consultation_fee.errors }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Consultation Room / Office</label>
+                                <label class="form-label small fw-bold" for="{{ form.room_number.id_for_label }}">Consultation Room / Office</label>
                                 {{ form.room_number }}
                                 {{ form.room_number.errors }}
                             </div>
@@ -152,19 +152,19 @@
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Date of Birth</label>
+                                <label class="form-label small fw-bold" for="{{ form.date_of_birth.id_for_label }}">Date of Birth</label>
                                 {{ form.date_of_birth }}
                                 {{ form.date_of_birth.errors }}
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label small fw-bold">Blood Group</label>
+                                <label class="form-label small fw-bold" for="{{ form.blood_group.id_for_label }}">Blood Group</label>
                                 {{ form.blood_group }}
                                 {{ form.blood_group.errors }}
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label small fw-bold">Residential Address</label>
+                            <label class="form-label small fw-bold" for="{{ form.address.id_for_label }}">Residential Address</label>
                             {{ form.address }}
                             {{ form.address.errors }}
                         </div>

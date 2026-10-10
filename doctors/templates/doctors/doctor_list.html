@@ -6,22 +6,22 @@
 <div class="container">
     <div class="row mb-4 align-items-center">
         <div class="col-md-6">
-            <h2 class="fw-bold mb-1">Our Doctors & Specialists</h2>
-            <p class="text-muted">Choose your specialist and book with intelligent queue management</p>
+            <h2 class="fw-bold mb-1">Find a doctor</h2>
+            <p class="text-muted">Find a specialist, compare profiles, and choose a time for your visit.</p>
         </div>
         <div class="col-md-6">
-            <form method="get" class="d-flex gap-2 flex-wrap">
-                <input type="text" name="q" value="{{ search_query }}" class="form-control" placeholder="Search doctor name, specialty, qualification...">
-                <input type="text" name="specialization" value="{{ specialization }}" class="form-control" placeholder="Specialization">
-                <input type="number" name="min_experience" value="{{ min_experience }}" class="form-control" min="0" placeholder="Min years">
-                <input type="number" name="max_fee" value="{{ max_fee }}" class="form-control" min="0" placeholder="Max fee">
-                <select name="min_rating" class="form-select">
+            <form method="get" class="doctor-filters">
+                <input type="text" aria-label="Search doctors" name="q" value="{{ search_query }}" class="form-control filter-search" placeholder="Name, specialty, or qualification">
+                <input type="text" aria-label="Specialization" name="specialization" value="{{ specialization }}" class="form-control" placeholder="Specialization">
+                <input type="number" aria-label="Minimum years of experience" name="min_experience" value="{{ min_experience }}" class="form-control" min="0" placeholder="Minimum experience">
+                <input type="number" aria-label="Maximum consultation fee" name="max_fee" value="{{ max_fee }}" class="form-control" min="0" placeholder="Maximum fee (৳)">
+                <select aria-label="Minimum rating" name="min_rating" class="form-select">
                     <option value="">Any rating</option>
                     <option value="3" {% if min_rating == '3' %}selected{% endif %}>3+ stars</option>
                     <option value="4" {% if min_rating == '4' %}selected{% endif %}>4+ stars</option>
                     <option value="5" {% if min_rating == '5' %}selected{% endif %}>5 stars</option>
                 </select>
-                <button type="submit" class="btn btn-primary-sc"><i class="bi bi-search"></i></button>
+                <button type="submit" class="btn btn-primary-sc"><i class="bi bi-search me-1" aria-hidden="true"></i> Search</button>
                 {% if search_query or selected_dept or specialization or min_experience or max_fee or min_rating %}
                     <a href="{% url 'doctor_list' %}" class="btn btn-outline-secondary">Reset</a>
                 {% endif %}
@@ -42,7 +42,7 @@
     </div>
 
     {% if request.user.is_authenticated and request.user.profile.role == 'patient' %}
-        <div class="alert alert-primary border-0 mb-4" style="background-color: #ecfeff; color: #0f172a;">
+        <div class="alert alert-primary border-0 mb-4" style="background-color: var(--sc-info-bg); color: var(--sc-dark);">
             <i class="bi bi-stars me-2"></i>
             SmartCare AI recommends doctors based on your specialty match, rating, experience, and queue load.
         </div>
@@ -54,12 +54,12 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card card-custom h-100 p-3 d-flex flex-column">
                     <div class="d-flex gap-3 align-items-start mb-3">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-4 flex-shrink-0" style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--sc-primary), var(--sc-secondary));">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-4 flex-shrink-0" style="width: 60px; height: 60px; background: var(--sc-primary);">
                             <i class="bi bi-person-fill"></i>
                         </div>
                         <div>
                             <h5 class="fw-bold mb-0 text-dark">{{ doctor.full_name }}</h5>
-                            <span class="badge bg-teal-subtle text-teal border my-1" style="background-color: #ccfbf1; color: #0f766e;">
+                            <span class="badge bg-teal-subtle text-teal border my-1" style="background-color: var(--sc-primary-light); color: var(--sc-primary-dark);">
                                 {{ doctor.department.name }}
                             </span>
                             <div class="small text-muted fw-semibold">{{ doctor.qualification }}</div>

@@ -9,11 +9,11 @@
             <div class="card card-custom p-4 p-md-5">
                 <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
                     <div>
-                        <h3 class="fw-bold mb-1">Book Healthcare Appointment</h3>
-                        <p class="text-muted small mb-0">Select your doctor and input symptoms for intelligent queue slotting</p>
+                        <h3 class="fw-bold mb-1">Book an appointment</h3>
+                        <p class="text-muted small mb-0">Choose your doctor and time, then tell us a little about your visit.</p>
                     </div>
-                    <span class="badge bg-teal-subtle text-teal border px-3 py-2" style="background-color: #ccfbf1; color: #0f766e;">
-                        <i class="bi bi-cpu me-1"></i> ML-Assisted
+                    <span class="badge bg-teal-subtle text-teal border px-3 py-2" style="background-color: var(--sc-primary-light); color: var(--sc-primary-dark);">
+                        <i class="bi bi-cpu me-1"></i> Estimated visit time
                     </span>
                 </div>
 
@@ -28,7 +28,7 @@
 
                     <!-- Doctor Selection -->
                     <div class="mb-3">
-                        <label class="form-label small fw-bold">Select Specialist / Doctor *</label>
+                        <label class="form-label small fw-bold" for="{{ form.doctor.id_for_label }}">Select Specialist / Doctor *</label>
                         {{ form.doctor }}
                         {{ form.doctor.errors }}
                     </div>
@@ -36,12 +36,12 @@
                     <!-- Date & Time -->
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Appointment Date *</label>
+                            <label class="form-label small fw-bold" for="{{ form.appointment_date.id_for_label }}">Appointment Date *</label>
                             {{ form.appointment_date }}
                             {{ form.appointment_date.errors }}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Preferred Time *</label>
+                            <label class="form-label small fw-bold" for="{{ form.appointment_time.id_for_label }}">Preferred Time *</label>
                             {{ form.appointment_time }}
                             {{ form.appointment_time.errors }}
                         </div>
@@ -52,19 +52,19 @@
                     <div id="slotList" class="d-flex flex-wrap gap-2 mb-3" aria-label="Available appointment slots"></div>
 
                     <h6 class="fw-bold border-bottom pb-2 mt-4 mb-3 text-secondary">
-                        <i class="bi bi-heart-pulse me-1"></i> Clinical Factors for Machine Learning Duration Estimation
+                        <i class="bi bi-heart-pulse me-1"></i> About your visit
                     </h6>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Visit Type *</label>
+                            <label class="form-label small fw-bold" for="{{ form.visit_type.id_for_label }}">Visit Type *</label>
                             {{ form.visit_type }}
                             <div class="form-text small">First visits usually require more comprehensive review.</div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Symptom Severity *</label>
+                            <label class="form-label small fw-bold" for="{{ form.symptom_severity.id_for_label }}">Symptom Severity *</label>
                             {{ form.symptom_severity }}
-                            <div class="form-text small">Helps queue estimator allocate appropriate buffer.</div>
+                            <div class="form-text small">This helps us estimate how much time your visit may need.</div>
                         </div>
                     </div>
 
@@ -78,24 +78,24 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-bold">Primary Symptom / Chief Complaint</label>
+                        <label class="form-label small fw-bold" for="{{ form.primary_symptom.id_for_label }}">What brings you in?</label>
                         {{ form.primary_symptom }}
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label small fw-bold">Additional Patient Notes</label>
+                        <label class="form-label small fw-bold" for="{{ form.patient_notes.id_for_label }}">Anything else you would like your doctor to know?</label>
                         {{ form.patient_notes }}
                     </div>
 
-                    <!-- Live ML Duration Predictor Card -->
-                    <div class="p-3 rounded-3 mb-4 border" style="background-color: #f0fdfa; border-color: #99f6e4 !important;">
+                    <!-- Live Visit duration Predictor Card -->
+                    <div class="p-3 rounded-3 mb-4 border" style="background-color: var(--sc-primary-light); border-color: var(--sc-accent-border) !important;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <span class="badge bg-white text-teal border fw-semibold mb-1" style="color: var(--sc-primary);">
-                                    <i class="bi bi-robot me-1"></i> SmartCare ML Engine
+                                    <i class="bi bi-robot me-1"></i> Visit estimate
                                 </span>
                                 <div class="fw-bold text-dark">Estimated Consultation Duration:</div>
-                                <div class="small text-muted">Dynamically calculated by RandomForestRegressor model</div>
+                                <div class="small text-muted">An estimate based on your visit details. Actual times may vary.</div>
                             </div>
                             <div class="text-end">
                                 <span id="mlDurationBadge" class="display-6 fw-bold" style="color: var(--sc-primary);">20.0</span>
@@ -107,7 +107,7 @@
                     <div class="d-flex gap-3">
                         <a href="{% url 'patient_dashboard' %}" class="btn btn-light border flex-fill py-2">Cancel</a>
                         <button type="submit" class="btn btn-primary-sc flex-fill py-2 fw-bold">
-                            <i class="bi bi-check2-circle me-1"></i> Confirm & Generate Queue Token
+                            <i class="bi bi-check2-circle me-1"></i> Confirm appointment
                         </button>
                     </div>
                 </form>

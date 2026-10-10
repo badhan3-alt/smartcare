@@ -20,13 +20,13 @@
                 <form method="post">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label class="form-label small fw-bold">New Date *</label>
+                        <label class="form-label small fw-bold" for="{{ form.appointment_date.id_for_label }}">New Date *</label>
                         {{ form.appointment_date }}
                         {{ form.appointment_date.errors }}
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label small fw-bold">New Preferred Time *</label>
+                        <label class="form-label small fw-bold" for="{{ form.appointment_time.id_for_label }}">New Preferred Time *</label>
                         {{ form.appointment_time }}
                         {{ form.appointment_time.errors }}
                     </div>

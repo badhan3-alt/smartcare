@@ -76,7 +76,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h5 class="fw-bold mb-0">Today's Appointment Queue &bull; {{ queue.date|date:"F d, Y" }}</h5>
-                <span class="small text-muted">Intelligent queue powered by ML duration prediction</span>
+                <span class="small text-muted">Manage today’s visits and keep the queue moving.</span>
             </div>
             <a href="{% url 'doctors:queue_console' %}" class="btn btn-sm btn-outline-sc">
                 Open Fullscreen Console &rarr;
@@ -91,7 +91,7 @@
                         <th>Patient Name</th>
                         <th>Age/Gender</th>
                         <th>Visit Type</th>
-                        <th>ML Est. Duration</th>
+                        <th>Estimated duration</th>
                         <th>Status</th>
                         <th class="text-end">Actions</th>
                     </tr>
@@ -111,7 +111,7 @@
                                 <span class="badge bg-light text-dark border">{{ appt.get_visit_type_display }}</span>
                             </td>
                             <td>
-                                <span class="badge bg-teal-subtle text-teal border" style="background-color: #ccfbf1; color: #0f766e;">
+                                <span class="badge bg-teal-subtle text-teal border" style="background-color: var(--sc-primary-light); color: var(--sc-primary-dark);">
                                     <i class="bi bi-cpu me-1"></i>{{ appt.predicted_duration_minutes }} Mins
                                 </span>
                             </td>
@@ -170,7 +170,7 @@
                     <tr>
                         <th>Date & Token</th>
                         <th>Patient</th>
-                        <th>ML Predicted</th>
+                        <th>Estimated duration</th>
                         <th>Actual Duration</th>
                         <th>Prescription & Diagnosis</th>
                     </tr>

@@ -2,7 +2,7 @@
 {% block title %}Register Patient - SmartCare{% endblock %}
 {% block content %}
 <div class="container"><div class="row justify-content-center"><div class="col-lg-8">
-    <div class="d-flex justify-content-between align-items-center mb-4"><div><h3 class="fw-bold mb-1">Register New Patient</h3><p class="text-muted mb-0">Create a patient record at the reception desk.</p></div><a href="{% url 'reception:dashboard' %}" class="btn btn-outline-sc">Dashboard</a></div>
+    <div class="d-flex justify-content-between align-items-center mb-4"><div><h3 class="fw-bold mb-1">Add a patient</h3><p class="text-muted mb-0">Create a patient record at the reception desk.</p></div><a href="{% url 'reception:dashboard' %}" class="btn btn-outline-sc">Dashboard</a></div>
     {% if created_patient_id %}<div class="alert alert-success"><strong>Patient registered successfully.</strong><br>Patient ID: <strong>SC-{{ created_patient_id|stringformat:"05d" }}</strong>. You can now book an appointment.</div>{% endif %}
     <div class="card card-custom p-4"><form method="post">{% csrf_token %}<div class="row g-3">
         <div class="col-md-6"><label class="form-label">First name *</label><input name="first_name" required class="form-control"></div>
