@@ -32,7 +32,7 @@ def admin_dashboard_view(request):
     total_doctors = DoctorProfile.objects.filter(is_available=True).count()
     total_appointments = Appointment.objects.count()
     pending_staff_requests = UserProfile.objects.filter(
-        role__in=['receptionist', 'doctor'], user__is_active=False
+        role__in=['receptionist', 'doctor', 'hospital'], user__is_active=False, email_verified=True
     ).count()
     
     today = datetime.date.today()
@@ -89,7 +89,7 @@ def receptionist_requests_view(request):
         return access_response
 
     requests = UserProfile.objects.filter(
-        role__in=['receptionist', 'doctor'], user__is_active=False
+        role__in=['receptionist', 'doctor', 'hospital'], user__is_active=False, email_verified=True
     ).select_related('user').order_by('-created_at')
     return render(request, 'ml_engine/receptionist_requests.html', {
         'requests': requests,
@@ -103,7 +103,7 @@ def doctor_requests_view(request):
         return access_response
 
     requests = UserProfile.objects.filter(
-        role='doctor', user__is_active=False
+        role='doctor', user__is_active=False, email_verified=True
     ).select_related('user', 'user__doctor_profile').order_by('-created_at')
     return render(request, 'ml_engine/doctor_requests.html', {
         'requests': requests,
@@ -118,10 +118,11 @@ def approve_receptionist_view(request, user_id):
         return access_response
 
     profile = get_object_or_404(
-        UserProfile, user_id=user_id, role__in=['receptionist', 'doctor']
+        UserProfile, user_id=user_id, role__in=['receptionist', 'doctor', 'hospital'], user__is_active=False, email_verified=True
     )
     profile.user.is_active = True
     profile.user.save(update_fields=['is_active'])
+    DoctorProfile.objects.filter(user=profile.user).update(is_available=True)
     messages.success(request, f'{profile.user.get_full_name() or profile.user.username} was approved.')
     return redirect('admin_receptionist_requests')
 
@@ -133,9 +134,10 @@ def approve_doctor_view(request, user_id):
     if access_response:
         return access_response
 
-    profile = get_object_or_404(UserProfile, user_id=user_id, role='doctor')
+    profile = get_object_or_404(UserProfile, user_id=user_id, role='doctor', user__is_active=False, email_verified=True)
     profile.user.is_active = True
     profile.user.save(update_fields=['is_active'])
+    DoctorProfile.objects.filter(user=profile.user).update(is_available=True)
     messages.success(request, f'{profile.user.get_full_name() or profile.user.username} was approved as a doctor.')
     return redirect('admin_doctor_requests')
 
@@ -148,11 +150,11 @@ def reject_receptionist_view(request, user_id):
         return access_response
 
     profile = get_object_or_404(
-        UserProfile, user_id=user_id, role__in=['receptionist', 'doctor']
+        UserProfile, user_id=user_id, role__in=['receptionist', 'doctor', 'hospital'], user__is_active=False, email_verified=True
     )
     name = profile.user.get_full_name() or profile.user.username
     profile.user.delete()
-    messages.success(request, f'Receptionist request from {name} was rejected.')
+    messages.success(request, f'Staff request from {name} was rejected.')
     return redirect('admin_receptionist_requests')
 
 
@@ -163,7 +165,7 @@ def reject_doctor_view(request, user_id):
     if access_response:
         return access_response
 
-    profile = get_object_or_404(UserProfile, user_id=user_id, role='doctor')
+    profile = get_object_or_404(UserProfile, user_id=user_id, role='doctor', user__is_active=False, email_verified=True)
     name = profile.user.get_full_name() or profile.user.username
     profile.user.delete()
     messages.success(request, f'Doctor request from {name} was rejected.')

@@ -55,7 +55,7 @@ class MLEngineTests(TestCase):
             username='pending-reception', email='pending@example.com',
             password='test-pass', is_active=False,
         )
-        UserProfile.objects.create(user=applicant, role='receptionist', phone='01800000000')
+        UserProfile.objects.create(user=applicant, role='receptionist', phone='01800000000', email_verified=True)
         self.client.force_login(admin)
 
         response = self.client.get(reverse('admin_receptionist_requests'))
@@ -74,7 +74,7 @@ class MLEngineTests(TestCase):
             username='pending-doctor', email='doctor@example.com',
             password='test-pass', is_active=False,
         )
-        UserProfile.objects.create(user=applicant, role='doctor', phone='01800000001')
+        UserProfile.objects.create(user=applicant, role='doctor', phone='01800000001', email_verified=True)
         self.client.force_login(admin)
 
         response = self.client.get(reverse('admin_receptionist_requests'))
@@ -92,7 +92,7 @@ class MLEngineTests(TestCase):
             username='doctor-request', email='doctor-request@example.com',
             password='test-pass', is_active=False,
         )
-        UserProfile.objects.create(user=applicant, role='doctor', phone='01800000002')
+        UserProfile.objects.create(user=applicant, role='doctor', phone='01800000002', email_verified=True)
         self.client.force_login(admin)
 
         response = self.client.get(reverse('admin_doctor_requests'))

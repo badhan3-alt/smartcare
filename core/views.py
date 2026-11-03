@@ -1,16 +1,13 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import logout
 from django.db.models import Count
 from doctors.models import Department, DoctorProfile
 from appointments.models import Appointment
 from accounts.models import UserProfile
 
 def home_view(request):
-    # Signed-in users go straight to their dashboard
-    # When entering the site at the root URL, forget any previous logged-in session
+    # Visiting a public page must not change an authenticated session.
     if request.user.is_authenticated:
         return redirect('accounts:dashboard')
-        logout(request)
     departments = Department.objects.filter(is_active=True).annotate(
         doc_count=Count('doctors')
     )

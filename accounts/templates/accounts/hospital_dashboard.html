@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Hospital Reports - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <span class="badge mb-2" style="background-color: var(--sc-primary-light); color: var(--sc-primary-dark);"><i class="bi bi-hospital me-1"></i>Hospital Portal</span>
+            <h3 class="fw-bold mb-1">Upload Patient Reports</h3>
+            <p class="fw-semibold mb-1">{{ user.profile.display_name|default:user.username }}</p>
+            <p class="text-muted mb-0">Find a patient and upload a PDF for their consultation.</p>
+        </div>
+    </div>
+
+    <div class="card card-custom p-3 mb-4">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-10">
+                <label for="hospital-patient-search" class="form-label fw-semibold">Find a patient</label>
+                <input id="hospital-patient-search" type="search" name="q" value="{{ query }}" class="form-control" placeholder="Search by patient ID, name, username, or phone">
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary-sc"><i class="bi bi-search me-1"></i>Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card card-custom p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-people me-2"></i>Patient Directory</h5>
+        <p class="small text-muted">PDF reports are available only to the patient and the doctor who treated them. You can manage the reports you upload.</p>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light"><tr><th>Patient</th><th>Patient ID</th><th>Phone</th><th class="text-end">Reports</th></tr></thead>
+                <tbody>
+                    {% for profile in patients %}
+                    <tr>
+                        <td><strong>{{ profile.user.get_full_name|default:profile.user.username }}</strong><br><small class="text-muted">@{{ profile.user.username }}</small></td>
+                        <td>SC-{{ profile.user.id|stringformat:"05d" }}</td>
+                        <td>{{ profile.phone }}</td>
+                        <td class="text-end"><a href="{% url 'accounts:patient_reports' profile.user.id %}" class="btn btn-sm btn-primary-sc"><i class="bi bi-cloud-arrow-up me-1"></i>Upload Reports</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" class="text-center text-muted py-5">No patients match your search. Try a name, phone number, or patient ID.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

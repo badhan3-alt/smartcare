@@ -3,11 +3,30 @@
 {% block title %}SmartCare — Find a doctor and plan your visit{% endblock %}
 {% block content %}
 <div class="container home-page">
+    <section class="home-welcome" aria-labelledby="home-welcome-title">
+        <div class="welcome-copy">
+            <p class="home-eyebrow">Appointments at SmartCare</p>
+            <h1 id="home-welcome-title">Find a doctor.<span>Plan your visit.</span></h1>
+            <p class="home-description">Compare specialists, check their visiting hours and fees, and book a time that works for you.</p>
+            <p class="welcome-account-note"><i class="bi bi-person-check" aria-hidden="true"></i><span>Your patient account keeps your appointments, queue updates and hospital reports together.</span></p>
+        </div>
+        <aside class="visit-guide" aria-labelledby="visit-guide-title">
+            <div class="visit-guide-heading">
+                <span class="visit-guide-mark" aria-hidden="true"><i class="bi bi-clipboard-check"></i></span>
+                <h2 id="visit-guide-title">Before your appointment</h2>
+            </div>
+            <ul class="previsit-checklist" role="list">
+                <li><i class="bi bi-check2" aria-hidden="true"></i><div><h3>Keep your token handy</h3><p>You'll find your appointment details on your dashboard.</p></div></li>
+                <li><i class="bi bi-check2" aria-hidden="true"></i><div><h3>Bring your previous reports</h3><p>Have any test results and prescriptions ready for your doctor.</p></div></li>
+                <li><i class="bi bi-check2" aria-hidden="true"></i><div><h3>Check the queue before you leave</h3><p>Your queue tracker shows the latest estimated wait.</p></div></li>
+            </ul>
+        </aside>
+    </section>
+
     <!-- Doctor profile slideshow -->
     <section class="mb-5" aria-labelledby="home-doctors-title">
         <div class="d-flex justify-content-between align-items-end mb-4">
             <div><p class="home-eyebrow mb-2">Meet your care team</p><h2 id="home-doctors-title" class="mb-0">Find a familiar face for your next visit.</h2></div>
-            <a href="{% url 'doctor_list' %}" class="btn btn-outline-sc btn-sm">All doctors &rarr;</a>
         </div>
         {% if featured_doctors %}
         <div id="homeDoctorSlider" class="carousel slide doctor-slider" data-bs-touch="true" data-bs-keyboard="true" data-bs-interval="3000" data-bs-pause="false" data-bs-ride="carousel" role="region" aria-roledescription="carousel" aria-label="Featured doctor profiles">
@@ -60,38 +79,6 @@
         {% endif %}
     </section>
 
-    <section class="home-welcome mb-5">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-7">
-                <p class="home-eyebrow">Welcome to SmartCare</p>
-                <h1>Care that fits<br>into your day.</h1>
-                <p class="home-description">Find a doctor, choose a time that works for you, and keep track of your place in the queue. Your next visit starts here.</p>
-                <div class="d-flex flex-wrap gap-2 mt-4">
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'dashboard' %}" class="btn btn-primary-sc">My dashboard</a>
-                    {% if user.profile.role == 'patient' %}<a href="{% url 'book_appointment' %}" class="btn btn-outline-sc">Book an appointment</a>{% endif %}
-                    {% else %}
-                    <a href="{% url 'doctor_list' %}" class="btn btn-primary-sc">Find a doctor</a>
-                    <a href="{% url 'register' %}" class="btn btn-outline-sc">Create an account</a>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <aside class="visit-guide" aria-labelledby="visit-guide-title">
-                    <div class="visit-guide-mark" aria-hidden="true"><i class="bi bi-heart-pulse"></i></div>
-                    <p class="home-eyebrow">Your next visit</p>
-                    <h2 id="visit-guide-title">A clear path<br>to better care.</h2>
-                    <p>Everything you need to plan your appointment, in one place.</p>
-                    <a href="{% url 'doctor_list' %}" class="visit-guide-link">Explore our doctors <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
-                </aside>
-            </div>
-        </div>
-        <ol class="visit-path" aria-label="How to plan your visit">
-            <li><span class="visit-path-number" aria-hidden="true">01</span><div><h3>Find your doctor</h3><p>Compare specialties, profiles, and fees.</p></div></li>
-            <li><span class="visit-path-number" aria-hidden="true">02</span><div><h3>Choose your time</h3><p>Pick a slot and tell us about your visit.</p></div></li>
-            <li><span class="visit-path-number" aria-hidden="true">03</span><div><h3>Follow your queue</h3><p>Check your token and estimated wait.</p></div></li>
-        </ol>
-    </section>
     <!-- Medical Departments -->
     <section class="mb-5">
         <div class="d-flex justify-content-between align-items-end mb-4">
@@ -99,7 +86,6 @@
                 <span class="text-uppercase fw-bold small" style="color: var(--sc-primary);">Specialties</span>
                 <h2 class="fw-bold mb-0">Browse specialties</h2>
             </div>
-            <a href="{% url 'doctor_list' %}" class="btn btn-outline-sc btn-sm">View All Doctors &rarr;</a>
         </div>
 
         <div class="row g-3">

@@ -13,7 +13,7 @@ class HomeViewSessionTests(TestCase):
         )
         UserProfile.objects.create(user=self.user, role='patient')
 
-    def test_entering_site_at_home_forgets_previous_login(self):
+    def test_entering_site_at_home_preserves_authenticated_session(self):
         # Log the user in
         login_success = self.client.login(username='testuser', password='Password123!')
         self.assertTrue(login_success)
@@ -22,21 +22,14 @@ class HomeViewSessionTests(TestCase):
         response = self.client.get(reverse('accounts:dashboard'))
         self.assertEqual(response.status_code, 302)  # Redirects to role-specific dashboard
 
-        # Enter into the site (home page '/')
+        # A GET to the home page redirects without mutating authentication.
         response = self.client.get(reverse('home'))
-        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('accounts:dashboard'), fetch_redirect_response=False)
+        self.assertEqual(int(self.client.session['_auth_user_id']), self.user.pk)
 
-        # Confirm user is now logged out
-        self.assertFalse(response.context['user'].is_authenticated)
-
-        # Visiting dashboard now redirects to login instead of allowing access
-        response = self.client.get(reverse('accounts:dashboard'))
-        self.assertEqual(response.status_code, 302)
-        self.assertIn(reverse('login'), response.url)
-
-    def test_visiting_login_forgets_previous_login(self):
+    def test_visiting_login_preserves_authenticated_session(self):
         self.client.login(username='testuser', password='Password123!')
         response = self.client.get(reverse('login'))
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(response.context['user'].is_authenticated)
+        self.assertRedirects(response, reverse('accounts:dashboard'), fetch_redirect_response=False)
+        self.assertEqual(int(self.client.session['_auth_user_id']), self.user.pk)
 

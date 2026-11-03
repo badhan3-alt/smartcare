@@ -31,9 +31,6 @@
 
     <!-- Department Filter Pills -->
     <div class="d-flex flex-wrap gap-2 mb-4 pb-2 border-bottom">
-        <a href="{% url 'doctor_list' %}" class="btn btn-sm {% if not selected_dept %}btn-dark{% else %}btn-light border{% endif %}">
-            All Specialties
-        </a>
         {% for dept in departments %}
             <a href="{% url 'doctor_list' %}?department={{ dept.id }}" class="btn btn-sm {% if selected_dept == dept.id %}btn-dark{% else %}btn-light border{% endif %}">
                 <i class="bi {{ dept.icon|default:'bi-heart-pulse' }} me-1"></i>{{ dept.name }}
@@ -120,7 +117,6 @@
                 <i class="bi bi-search text-muted fs-1 mb-3"></i>
                 <h5>No doctors matched your criteria</h5>
                 <p class="text-muted">Try selecting a different specialty or clearing your search filters.</p>
-                <a href="{% url 'doctor_list' %}" class="btn btn-outline-sc btn-sm">Clear All Filters</a>
             </div>
         {% endfor %}
     </div>

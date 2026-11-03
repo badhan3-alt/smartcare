@@ -11,9 +11,6 @@
             <p class="text-muted mb-0">Your appointments, visit notes, and queue updates in one place.</p>
         </div>
         <div class="dashboard-actions">
-        <a href="{% url 'book_appointment' %}" class="btn btn-primary-sc">
-            <i class="bi bi-calendar-plus me-1"></i> Book New Appointment
-        </a>
         <a href="{% url 'accounts:medical_history' %}" class="btn btn-outline-sc">
             <i class="bi bi-file-medical me-1"></i> Medical History
         </a>
@@ -58,6 +55,23 @@
             </div>
         </div>
     {% endif %}
+
+    <div class="card card-custom p-4 mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <h5 class="fw-bold mb-0"><i class="bi bi-file-earmark-medical me-2" style="color: var(--sc-primary);"></i>Hospital Reports</h5>
+        </div>
+        {% for report in recent_reports %}
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 border rounded-3 p-3 {% if not forloop.last %}mb-2{% endif %}">
+                <div style="min-width: 0;">
+                    <div class="fw-semibold text-break">{{ report.title }}</div>
+                    <div class="small text-muted">{% if report.report_date %}Report date: {{ report.report_date|date:"M d, Y" }}{% else %}Uploaded {{ report.created_at|date:"M d, Y" }}{% endif %}{% if report.consultation %} &bull; {{ report.consultation.doctor.full_name }}{% endif %}</div>
+                </div>
+                <a href="{% url 'accounts:report_download' report.id %}" class="btn btn-outline-sc btn-sm" aria-label="Download PDF: {{ report.title }}"><i class="bi bi-download me-1"></i>Download PDF</a>
+            </div>
+        {% empty %}
+            <p class="text-muted small mb-0">Your hospital reports will appear here when they are uploaded. You can download each PDF directly from this page.</p>
+        {% endfor %}
+    </div>
 
     <!-- Upcoming Appointments -->
     <div class="card card-custom p-4 mb-4">
@@ -123,9 +137,6 @@
             <div class="text-center py-4 text-muted">
                 <i class="bi bi-calendar-x fs-2 mb-2 d-block"></i>
                 You have no upcoming visits. Book an appointment when you are ready.
-                <div class="mt-2">
-                    <a href="{% url 'book_appointment' %}" class="btn btn-primary-sc btn-sm">Book an Appointment</a>
-                </div>
             </div>
         {% endif %}
     </div>

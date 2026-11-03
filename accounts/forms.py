@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from .models import (
     UserProfile, MedicalHistory, GENDER_CHOICES, BLOOD_GROUP_CHOICES,
 )
@@ -10,6 +12,7 @@ class UserRegistrationForm(forms.ModelForm):
         ('patient', 'Patient'),
         ('doctor', 'Doctor / Specialist'),
         ('receptionist', 'Receptionist'),
+        ('hospital', 'Hospital / Report Upload'),
     ]
 
     role = forms.ChoiceField(
@@ -29,6 +32,28 @@ class UserRegistrationForm(forms.ModelForm):
     date_of_birth = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
     blood_group = forms.ChoiceField(choices=[('', 'Select Blood Group')] + BLOOD_GROUP_CHOICES, required=False, widget=forms.Select(attrs={'class': 'form-select'}))
     address = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Address'}), required=False)
+
+    # Organization fields are required only for the Hospital role.
+    hospital_name = forms.CharField(
+        max_length=200, required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Hospital name'}),
+    )
+    registration_number = forms.CharField(
+        max_length=100, required=False, label='Hospital registration / license number',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Registration or license number'}),
+    )
+    hospital_address = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Full hospital address'}),
+    )
+    contact_person = forms.CharField(
+        max_length=150, required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Contact person (optional)'}),
+    )
+    website = forms.URLField(
+        required=False, label='Hospital website',
+        widget=forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'https://example.com'}),
+    )
 
     # Doctor-specific fields (used when role == 'doctor')
     department = forms.ModelChoiceField(
@@ -70,12 +95,47 @@ class UserRegistrationForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Choose Username'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        selected_role = self.data.get('role') if self.is_bound else self.initial.get('role', 'patient')
+        is_hospital = selected_role == 'hospital'
+        for name in ('first_name', 'last_name', 'gender'):
+            self.fields[name].required = not is_hospital
+        for name in ('hospital_name', 'registration_number', 'hospital_address'):
+            self.fields[name].required = is_hospital
+        if selected_role != 'doctor':
+            for name in (
+                'department', 'qualification', 'specialization', 'experience_years',
+                'consultation_fee', 'room_number',
+            ):
+                self.fields[name].disabled = True
+        if is_hospital:
+            # Ignore stale personal fields when switching from another role.
+            for name in ('first_name', 'last_name', 'gender', 'date_of_birth', 'blood_group', 'address'):
+                self.fields[name].disabled = True
+            self.fields['email'].label = 'Official email address'
+            self.fields['phone'].label = 'Official phone number'
+        else:
+            for name in ('hospital_name', 'registration_number', 'hospital_address', 'contact_person', 'website'):
+                self.fields[name].disabled = True
+
     def clean(self):
         cleaned_data = super().clean()
         p1 = cleaned_data.get('password')
         p2 = cleaned_data.get('confirm_password')
         if p1 and p2 and p1 != p2:
             self.add_error('confirm_password', 'Passwords do not match.')
+        if p1:
+            candidate = User(
+                username=cleaned_data.get('username', ''),
+                email=cleaned_data.get('email', ''),
+                first_name=cleaned_data.get('first_name', ''),
+                last_name=cleaned_data.get('last_name', ''),
+            )
+            try:
+                validate_password(p1, candidate)
+            except ValidationError as error:
+                self.add_error('password', error)
 
         role = cleaned_data.get('role')
         if role == 'doctor':
@@ -87,6 +147,18 @@ class UserRegistrationForm(forms.ModelForm):
                 self.add_error('specialization', 'Specialization is required for Doctor registration.')
 
         return cleaned_data
+
+    def clean_username(self):
+        username = self.cleaned_data['username'].strip()
+        if User.objects.filter(username__iexact=username).exists():
+            raise ValidationError('An account with these details already exists.')
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].strip().lower()
+        if User.objects.filter(email__iexact=email).exists():
+            raise ValidationError('An account with these details already exists.')
+        return email
 
 
 class MedicalHistoryForm(forms.ModelForm):

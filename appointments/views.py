@@ -1,33 +1,49 @@
 import datetime
 import logging
 import secrets
-import time
 from smtplib import SMTPException
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
-from django.db import transaction
+from django.db import IntegrityError, OperationalError, transaction
 from django.utils import timezone
+from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
 from .models import Appointment, PatientFeedback, Payment, Waitlist
 from .forms import (
     AppointmentBookingForm, RescheduleAppointmentForm,
-    CancelAppointmentForm, PatientFeedbackForm, PaymentForm, WaitlistForm
+    CancelAppointmentForm, PatientFeedbackForm, PaymentForm, WaitlistForm,
+    ReceptionPatientRegistrationForm,
 )
-from .queue_service import get_next_token_number, calculate_patient_queue_status, explain_queue_status
+from .queue_service import get_next_token_number, calculate_patient_queue_status, explain_queue_status, save_booked_appointment
 from doctors.models import DoctorProfile
 from doctors.models import DoctorSchedule
-from accounts.models import UserProfile, MedicalHistory
+from accounts.models import UserProfile, MedicalHistory, MedicalReport
 from ml_engine.ml_service import predict_consultation_duration
 
 logger = logging.getLogger(__name__)
 PAYMENT_OTP_SESSION_KEY = 'payment_otp'
-PAYMENT_OTP_TTL = 10 * 60
+
+
+def _require_patient(user):
+    if not user.is_active or getattr(getattr(user, 'profile', None), 'role', None) != 'patient':
+        raise PermissionDenied('Patient access is required.')
+
+
+def _can_access_appointment(user, appointment):
+    if appointment.patient_id == user.pk:
+        return True
+    return (
+        user.is_active
+        and getattr(getattr(user, 'profile', None), 'role', None) == 'doctor'
+        and appointment.doctor.user_id == user.pk
+    )
 
 
 def _available_slots(doctor, appointment_date):
@@ -36,7 +52,7 @@ def _available_slots(doctor, appointment_date):
         day_of_week=appointment_date.weekday(),
         is_active=True,
     ).first()
-    if not doctor.is_available or not schedule:
+    if not doctor.is_available or not schedule or schedule.slot_duration_minutes <= 0:
         return []
 
     booked_times = set(
@@ -65,10 +81,11 @@ def _available_slots(doctor, appointment_date):
 
 
 @login_required
+@require_GET
 def appointment_slots_api(request):
     doctor_id = request.GET.get('doctor')
     date_value = request.GET.get('date')
-    if not doctor_id or not date_value:
+    if not doctor_id or not doctor_id.isdigit() or not date_value:
         return JsonResponse({'error': 'Doctor and date are required.'}, status=400)
 
     try:
@@ -77,7 +94,7 @@ def appointment_slots_api(request):
         return JsonResponse({'error': 'Enter a valid appointment date.'}, status=400)
 
     doctor = get_object_or_404(
-        DoctorProfile.objects.only('id', 'is_available'),
+        DoctorProfile.objects.filter(user__is_active=True, user__profile__role='doctor').only('id', 'is_available'),
         id=doctor_id,
     )
     return JsonResponse({
@@ -111,7 +128,7 @@ def reception_dashboard_view(request):
         'total_today': appointments.count(),
         'waiting_count': appointments.filter(status='waiting').count(),
         'completed_count': appointments.filter(status='completed').count(),
-        'available_doctors': DoctorProfile.objects.filter(is_available=True).select_related('department'),
+        'available_doctors': DoctorProfile.objects.filter(is_available=True, user__is_active=True, user__profile__role='doctor').select_related('department'),
         'patient_count': UserProfile.objects.filter(role='patient').count(),
     })
 
@@ -173,7 +190,7 @@ def reception_doctors_view(request):
     if access_response:
         return access_response
     return render(request, 'appointments/reception_doctors.html', {
-        'doctors': DoctorProfile.objects.filter(is_available=True).select_related('department'),
+        'doctors': DoctorProfile.objects.filter(is_available=True, user__is_active=True, user__profile__role='doctor').select_related('department'),
     })
 
 
@@ -204,41 +221,30 @@ def reception_register_patient_view(request):
     if access_response:
         return access_response
 
-    if request.method == 'POST':
-        username = request.POST.get('username', '').strip()
-        email = request.POST.get('email', '').strip()
-        password = request.POST.get('password') or secrets.token_urlsafe(12)
-        if not username or not email or not request.POST.get('first_name') or not request.POST.get('phone'):
-            messages.error(request, 'Name, username, email, and phone are required.')
-        elif User.objects.filter(username=username).exists():
-            messages.error(request, 'That username is already in use.')
-        elif User.objects.filter(email__iexact=email).exists():
-            messages.error(request, 'That email is already registered.')
-        else:
-            with transaction.atomic():
-                user = User.objects.create_user(
-                    username=username,
-                    email=email,
-                    password=password,
-                    first_name=request.POST['first_name'].strip(),
-                    last_name=request.POST.get('last_name', '').strip(),
-                )
-                user.is_active = True
-                user.save(update_fields=['is_active'])
-                UserProfile.objects.create(
-                    user=user,
-                    role='patient',
-                    phone=request.POST['phone'].strip(),
-                    gender=request.POST.get('gender', 'M'),
-                    date_of_birth=request.POST.get('date_of_birth') or None,
-                    address=request.POST.get('address', '').strip(),
-                )
-                MedicalHistory.objects.create(patient=user)
-            messages.success(request, f'Patient registered successfully. Patient ID: SC-{user.id:05d}')
-            return redirect(f'{request.path}?created={user.id}')
+    form = ReceptionPatientRegistrationForm(request.POST if request.method == 'POST' else None)
+    if request.method == 'POST' and form.is_valid():
+        data = form.cleaned_data
+        with transaction.atomic():
+            user = User.objects.create_user(
+                username=data['username'], email=data['email'],
+                password=data['password'] or None,
+                first_name=data['first_name'], last_name=data['last_name'],
+            )
+            user.is_active = True
+            user.save(update_fields=['is_active'])
+            UserProfile.objects.create(
+                user=user,
+                role='patient',
+                phone=data['phone'], gender=data['gender'],
+                date_of_birth=data['date_of_birth'], address=data['address'],
+            )
+            MedicalHistory.objects.create(patient=user)
+        messages.success(request, f'Patient registered successfully. Patient ID: SC-{user.id:05d}')
+        return redirect(f'{request.path}?created={user.id}')
 
     return render(request, 'appointments/reception_register_patient.html', {
         'created_patient_id': request.GET.get('created'),
+        'form': form,
     })
 
 
@@ -265,11 +271,15 @@ def reception_book_appointment_view(request):
                 has_chronic_condition=bool(getattr(patient, 'medical_history', None)),
                 doctor_experience_years=appointment.doctor.experience_years,
             )
-            appointment.token_number = get_next_token_number(appointment.doctor, appointment.appointment_date)
-            appointment.status = 'scheduled'
-            appointment.save()
-            messages.success(request, f'Appointment confirmed for {patient.get_full_name() or patient.username}. Token #{appointment.token_number}.')
-            return redirect('reception_dashboard')
+            try:
+                save_booked_appointment(appointment)
+            except ValidationError as error:
+                form.add_error('appointment_time', error)
+            except (IntegrityError, OperationalError):
+                form.add_error('appointment_time', 'The schedule changed while booking. Please choose an available slot and try again.')
+            else:
+                messages.success(request, f'Appointment confirmed. Token #{appointment.token_number}.')
+                return redirect('reception:dashboard')
         if not patient:
             messages.error(request, 'Select a patient before booking.')
     else:
@@ -283,38 +293,47 @@ def reception_book_appointment_view(request):
 
 
 @login_required
+@require_POST
 def reception_checkin_view(request, appointment_id):
     access_response = _reception_access(request)
     if access_response:
         return access_response
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    if appointment.status == 'scheduled':
-        appointment.status = 'waiting'
-        appointment.save(update_fields=['status', 'updated_at'])
+    changed = Appointment.objects.filter(pk=appointment.pk, status='scheduled').update(
+        status='waiting', updated_at=timezone.now(),
+    )
+    if changed:
         messages.success(request, f'Token #{appointment.token_number} checked in.')
-    return redirect('reception_dashboard')
+    return redirect('reception:dashboard')
 
 
 @login_required
+@require_POST
 def reception_queue_action_view(request, appointment_id, action):
     access_response = _reception_access(request)
     if access_response:
         return access_response
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    if action == 'call' and appointment.status == 'scheduled':
-        appointment.status = 'waiting'
-        appointment.save(update_fields=['status', 'updated_at'])
-        messages.info(request, f'Token #{appointment.token_number} moved to waiting.')
-    elif action == 'cancel' and appointment.status not in {'completed', 'cancelled'}:
-        appointment.status = 'cancelled'
-        appointment.cancellation_reason = 'Cancelled at reception desk'
-        appointment.save(update_fields=['status', 'cancellation_reason', 'updated_at'])
-        messages.warning(request, f'Token #{appointment.token_number} cancelled.')
-    return redirect('reception_dashboard')
+    if action == 'call':
+        changed = Appointment.objects.filter(pk=appointment.pk, status='scheduled').update(
+            status='waiting', updated_at=timezone.now(),
+        )
+        if changed:
+            messages.info(request, f'Token #{appointment.token_number} moved to waiting.')
+    elif action == 'cancel':
+        changed = Appointment.objects.filter(pk=appointment.pk, status__in=['scheduled', 'waiting']).update(
+            status='cancelled', cancellation_reason='Cancelled at reception desk',
+            telemedicine_enabled=False, updated_at=timezone.now(),
+        )
+        if changed:
+            messages.warning(request, f'Token #{appointment.token_number} cancelled.')
+    return redirect('reception:dashboard')
 
 @login_required
 def patient_dashboard_view(request):
     user = request.user
+    if not hasattr(user, 'profile') or user.profile.role != 'patient':
+        return redirect('accounts:dashboard')
     today = datetime.date.today()
     
     # Active appointment today (for live queue banner)
@@ -351,6 +370,9 @@ def patient_dashboard_view(request):
         'upcoming': upcoming,
         'past': past,
         'waitlist_entries': waitlist_entries,
+        'recent_reports': MedicalReport.objects.filter(patient=user).select_related(
+            'consultation__doctor__user'
+        )[:5],
     }
     return render(request, 'appointments/patient_dashboard.html', context)
 
@@ -359,7 +381,7 @@ def patient_dashboard_view(request):
 def book_appointment_view(request):
     # Only patients can book appointments
     user = request.user
-    if hasattr(user, 'profile') and user.profile.role in ['admin', 'doctor']:
+    if not hasattr(user, 'profile') or user.profile.role != 'patient':
         messages.warning(request, "Only patients can book appointments.")
         return redirect('accounts:dashboard')
     if user.is_superuser:
@@ -389,16 +411,15 @@ def book_appointment_view(request):
                 doctor_experience_years=doc.experience_years
             )
             appointment.predicted_duration_minutes = pred_duration
-            appointment.token_number = get_next_token_number(doc, appointment.appointment_date)
-            appointment.status = 'scheduled'
-            appointment.save()
-            
-            messages.success(
-                request,
-                f"Appointment booked! Token #{appointment.token_number}. "
-                f"ML estimated duration: {pred_duration} mins. Please complete payment."
-            )
-            return redirect('appointments:payment', appointment_id=appointment.id)
+            try:
+                save_booked_appointment(appointment)
+            except ValidationError as error:
+                form.add_error('appointment_time', error)
+            except (IntegrityError, OperationalError):
+                form.add_error('appointment_time', 'The schedule changed while booking. Please choose an available slot and try again.')
+            else:
+                messages.success(request, f'Appointment booked! Token #{appointment.token_number}. Please submit payment details for billing review.')
+                return redirect('appointments:payment', appointment_id=appointment.id)
     else:
         initial = {}
         if initial_doctor:
@@ -406,7 +427,7 @@ def book_appointment_view(request):
         initial['appointment_date'] = datetime.date.today()
         form = AppointmentBookingForm(initial=initial)
         
-    doctors = DoctorProfile.objects.filter(is_available=True).select_related('department')
+    doctors = DoctorProfile.objects.filter(is_available=True, user__is_active=True, user__profile__role='doctor').select_related('department')
     
     context = {
         'form': form,
@@ -418,15 +439,15 @@ def book_appointment_view(request):
 
 
 @login_required
+@require_GET
 def queue_tracker_view(request, appointment_id):
     appointment = get_object_or_404(
         Appointment.objects.select_related('doctor', 'doctor__department', 'patient'),
         id=appointment_id
     )
     
-    if appointment.patient != request.user and not (hasattr(request.user, 'profile') and request.user.profile.role in ['doctor', 'admin']):
-        messages.error(request, "Access denied.")
-        return redirect('accounts:dashboard')
+    if not _can_access_appointment(request.user, appointment):
+        raise PermissionDenied('Access denied.')
         
     queue_status = calculate_patient_queue_status(appointment)
     queue_explanation = explain_queue_status(appointment)
@@ -440,10 +461,16 @@ def queue_tracker_view(request, appointment_id):
 
 
 @login_required
+@require_http_methods(['GET', 'POST'])
+@transaction.atomic
 def cancel_appointment_view(request, appointment_id):
+    _require_patient(request.user)
     appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
+    if request.method == 'POST':
+        DoctorProfile.objects.select_for_update().get(pk=appointment.doctor_id)
+        appointment = get_object_or_404(Appointment.objects.select_for_update(), id=appointment_id, patient=request.user)
     
-    if appointment.status in ['completed', 'cancelled']:
+    if appointment.status not in {'scheduled', 'waiting'}:
         messages.warning(request, "This appointment cannot be cancelled.")
         return redirect('appointments:patient_dashboard')
         
@@ -453,10 +480,11 @@ def cancel_appointment_view(request, appointment_id):
             appointment.status = 'cancelled'
             appointment.cancellation_reason = form.cleaned_data['cancellation_reason']
             appointment.save()
-            waiting_entry = Waitlist.objects.filter(
+            waiting_entry = Waitlist.objects.select_for_update().filter(
                 doctor=appointment.doctor,
                 preferred_date=appointment.appointment_date,
                 status='waiting',
+                patient__is_active=True,
             ).select_related('patient').first()
             if waiting_entry:
                 promoted = Appointment.objects.create(
@@ -493,11 +521,6 @@ def cancel_appointment_view(request, appointment_id):
                         )
                     except (SMTPException, OSError, ValueError) as error:
                         logger.exception('Waitlist promotion email failed: %s', error)
-                messages.info(
-                    request,
-                    f"{waiting_entry.patient.get_full_name() or waiting_entry.patient.username} "
-                    "was promoted from the waitlist.",
-                )
             messages.info(request, f"Appointment #{appointment.token_number} has been cancelled.")
             return redirect('appointments:patient_dashboard')
     else:
@@ -507,14 +530,17 @@ def cancel_appointment_view(request, appointment_id):
 
 
 @login_required
+@require_http_methods(['GET', 'POST'])
 def join_waitlist_view(request):
+    _require_patient(request.user)
     if request.method == 'POST':
         form = WaitlistForm(request.POST)
         if form.is_valid():
-            entry = form.save(commit=False)
-            entry.patient = request.user
-            entry.confirm_token = secrets.token_urlsafe(32)
-            entry.save()
+            entry, created = Waitlist.objects.get_or_create(
+                patient=request.user, doctor=form.cleaned_data['doctor'],
+                preferred_date=form.cleaned_data['preferred_date'],
+                defaults={'confirm_token': secrets.token_urlsafe(32)},
+            )
             messages.success(
                 request,
                 f"You are on the waitlist for {entry.doctor.full_name} on "
@@ -527,29 +553,34 @@ def join_waitlist_view(request):
 
 
 @login_required
+@require_http_methods(['GET', 'POST'])
 def reschedule_appointment_view(request, appointment_id):
+    _require_patient(request.user)
     appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
     
-    if appointment.status in ['completed', 'cancelled']:
+    if appointment.status not in {'scheduled', 'waiting'}:
         messages.warning(request, "Completed or cancelled appointments cannot be rescheduled.")
         return redirect('appointments:patient_dashboard')
         
     if request.method == 'POST':
-        form = RescheduleAppointmentForm(request.POST)
+        form = RescheduleAppointmentForm(request.POST, appointment=appointment)
         if form.is_valid():
             new_date = form.cleaned_data['appointment_date']
             new_time = form.cleaned_data['appointment_time']
             
             appointment.appointment_date = new_date
             appointment.appointment_time = new_time
-            appointment.token_number = get_next_token_number(appointment.doctor, new_date)
-            appointment.status = 'scheduled'
-            appointment.save()
-            
-            messages.success(request, f"Appointment rescheduled to {new_date} with new Token #{appointment.token_number}.")
-            return redirect('appointments:queue_tracker', appointment_id=appointment.id)
+            try:
+                save_booked_appointment(appointment)
+            except ValidationError as error:
+                form.add_error('appointment_time', error)
+            except (IntegrityError, OperationalError):
+                form.add_error('appointment_time', 'The schedule changed. Choose an available slot and try again.')
+            else:
+                messages.success(request, f'Appointment rescheduled to {new_date}. Token #{appointment.token_number}.')
+                return redirect('appointments:queue_tracker', appointment_id=appointment.id)
     else:
-        form = RescheduleAppointmentForm(initial={
+        form = RescheduleAppointmentForm(appointment=appointment, initial={
             'appointment_date': appointment.appointment_date,
             'appointment_time': appointment.appointment_time
         })
@@ -558,7 +589,9 @@ def reschedule_appointment_view(request, appointment_id):
 
 
 @login_required
+@require_http_methods(['GET', 'POST'])
 def submit_feedback_view(request, appointment_id):
+    _require_patient(request.user)
     appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
     
     if appointment.status != 'completed':
@@ -584,6 +617,7 @@ def submit_feedback_view(request, appointment_id):
 
 
 @login_required
+@require_GET
 def api_queue_status(request, appointment_id):
     """
     AJAX endpoint called by queue tracker to poll real-time queue position and remaining wait time.
@@ -592,10 +626,7 @@ def api_queue_status(request, appointment_id):
         Appointment.objects.select_related('doctor', 'doctor__department', 'patient'),
         id=appointment_id,
     )
-    if appointment.patient != request.user and not (
-        hasattr(request.user, 'profile')
-        and request.user.profile.role in ['doctor', 'admin']
-    ):
+    if not _can_access_appointment(request.user, appointment):
         return JsonResponse({'error': 'Access denied.'}, status=403)
     status_info = calculate_patient_queue_status(appointment)
     return JsonResponse(status_info)
@@ -671,7 +702,7 @@ def invoice_pdf_view(request, appointment_id):
         Appointment.objects.select_related('patient', 'doctor', 'doctor__department'),
         id=appointment_id,
     )
-    allowed = appointment.patient_id == request.user.id or appointment.doctor.user_id == request.user.id or request.user.is_staff
+    allowed = _can_access_appointment(request.user, appointment)
     if not allowed:
         messages.error(request, 'Access denied.')
         return redirect('accounts:dashboard')
@@ -698,7 +729,7 @@ def telemedicine_view(request, appointment_id):
         Appointment.objects.select_related('patient', 'doctor'),
         id=appointment_id,
     )
-    if request.user.id not in {appointment.patient_id, appointment.doctor.user_id}:
+    if not _can_access_appointment(request.user, appointment):
         messages.error(request, 'Access denied.')
         return redirect('accounts:dashboard')
     if appointment.status not in {'scheduled', 'waiting', 'in_consultation'}:
@@ -714,128 +745,49 @@ def telemedicine_view(request, appointment_id):
 
 
 @login_required
+@require_http_methods(['GET', 'POST'])
 def payment_view(request, appointment_id):
+    _require_patient(request.user)
     appointment = get_object_or_404(Appointment, id=appointment_id, patient=request.user)
-
-    # If already paid, go to queue tracker
-    if hasattr(appointment, 'payment') and appointment.payment.status == 'completed':
-        messages.info(request, "Payment already completed for this appointment.")
+    if appointment.status not in {'scheduled', 'waiting', 'completed'}:
+        raise PermissionDenied('Payment cannot be submitted for this appointment.')
+    # A patient-supplied reference or email code never proves that funds arrived.
+    # Only trusted billing staff or a verified gateway integration may settle it.
+    request.session.pop(PAYMENT_OTP_SESSION_KEY, None)
+    existing_payment = getattr(appointment, 'payment', None)
+    if existing_payment and existing_payment.status == 'completed':
+        messages.info(request, 'Payment was already confirmed by billing.')
         return redirect('appointments:queue_tracker', appointment_id=appointment.id)
 
     consultation_fee = appointment.doctor.consultation_fee
-
-    if request.method == 'POST':
-        if request.POST.get('action') == 'verify_otp':
-            otp_data = request.session.get(PAYMENT_OTP_SESSION_KEY)
-            submitted_otp = request.POST.get('otp', '').strip()
-            if (
-                not otp_data
-                or otp_data.get('appointment_id') != appointment.id
-                or int(time.time()) > otp_data.get('expires_at', 0)
-            ):
-                request.session.pop(PAYMENT_OTP_SESSION_KEY, None)
-                messages.error(request, 'This payment OTP has expired. Please request a new one.')
-            elif not secrets.compare_digest(submitted_otp, otp_data.get('code', '')):
-                messages.error(request, 'The payment OTP is invalid.')
-            else:
-                payment = get_object_or_404(Payment, appointment=appointment, patient=request.user)
-                payment.status = 'completed'
-                payment.paid_at = timezone.now()
-                payment.save(update_fields=['status', 'paid_at'])
-                request.session.pop(PAYMENT_OTP_SESSION_KEY, None)
-                try:
-                    send_mail(
-                        subject='SmartCare payment confirmation',
-                        message=(
-                            f'Hello {request.user.get_full_name() or request.user.username},\n\n'
-                            f'Your payment of ৳{consultation_fee} for appointment '
-                            f'#{appointment.token_number} has been confirmed.\n'
-                            f'Doctor: {appointment.doctor.full_name}\n'
-                            f'Date: {appointment.appointment_date}\n'
-                            f'Payment method: {payment.get_payment_method_display()}\n'
-                            f'Transaction ID: {payment.transaction_id or "N/A"}\n\n'
-                            'Thank you,\nSmartCare'
-                        ),
-                        from_email=settings.DEFAULT_FROM_EMAIL,
-                        recipient_list=[request.user.email],
-                        fail_silently=False,
-                    )
-                except (SMTPException, OSError, ValueError) as error:
-                    logger.exception('Payment confirmation email failed: %s', error)
-                    messages.warning(
-                        request,
-                        f"Payment of ৳{consultation_fee} completed successfully, "
-                        "but the confirmation email could not be sent.",
-                    )
-                else:
-                    messages.success(
-                        request,
-                        f"Payment of ৳{consultation_fee} completed successfully! "
-                        "Your appointment is confirmed. A confirmation email has been sent.",
-                    )
-                return redirect('appointments:queue_tracker', appointment_id=appointment.id)
-        else:
-            form = PaymentForm(request.POST)
-            if form.is_valid():
-                payment, _ = Payment.objects.get_or_create(
-                    appointment=appointment,
-                    defaults={
-                        'patient': request.user,
-                        'amount': consultation_fee,
-                    }
-                )
+    form = PaymentForm(request.POST if request.method == 'POST' else None)
+    if request.method == 'POST' and request.POST.get('action') == 'verify_otp':
+        form.add_error(None, 'Email codes cannot verify a payment. Submit your payment reference for billing review.')
+    elif request.method == 'POST' and form.is_valid():
+        with transaction.atomic():
+            # Serialize against trusted billing changes to avoid reverting a settled payment.
+            appointment = get_object_or_404(
+                Appointment.objects.select_for_update(), id=appointment_id, patient=request.user,
+            )
+            payment, _ = Payment.objects.select_for_update().get_or_create(
+                appointment=appointment,
+                defaults={'patient': request.user, 'amount': consultation_fee},
+            )
+            if payment.status != 'completed':
                 payment.payment_method = form.cleaned_data['payment_method']
                 payment.transaction_id = form.cleaned_data.get('transaction_id', '')
                 payment.amount = consultation_fee
                 payment.status = 'pending'
                 payment.paid_at = None
                 payment.save(update_fields=[
-                    'payment_method', 'transaction_id', 'amount', 'status', 'paid_at'
+                    'payment_method', 'transaction_id', 'amount', 'status', 'paid_at',
                 ])
+        messages.info(request, 'Payment details submitted. Payment remains pending until hospital billing verifies receipt.')
+        return redirect('appointments:queue_tracker', appointment_id=appointment.id)
 
-                if not request.user.email:
-                    messages.error(request, 'Add an email address to your account before confirming payment.')
-                else:
-                    code = f'{secrets.randbelow(1000000):06d}'
-                    request.session[PAYMENT_OTP_SESSION_KEY] = {
-                        'appointment_id': appointment.id,
-                        'code': code,
-                        'expires_at': int(time.time()) + PAYMENT_OTP_TTL,
-                    }
-                    request.session.modified = True
-                    try:
-                        send_mail(
-                            subject='Your SmartCare payment verification code',
-                            message=(
-                                f'Hello {request.user.get_full_name() or request.user.username},\n\n'
-                                f'Your SmartCare payment verification code is: {code}\n\n'
-                                'This code expires in 10 minutes. '
-                                'Do not share this code with anyone.\n\n'
-                                'Thank you,\nSmartCare'
-                            ),
-                            from_email=settings.DEFAULT_FROM_EMAIL,
-                            recipient_list=[request.user.email],
-                            fail_silently=False,
-                        )
-                        messages.info(
-                            request,
-                            f'A payment verification OTP was sent to {request.user.email}.',
-                        )
-                    except (SMTPException, OSError, ValueError) as error:
-                        logger.exception('Payment OTP email failed: %s', error)
-                        request.session.pop(PAYMENT_OTP_SESSION_KEY, None)
-                        messages.error(
-                            request,
-                            'We could not send the payment OTP. Check your email configuration and try again.',
-                        )
-    else:
-        form = PaymentForm()
-
-    otp_pending = request.session.get(PAYMENT_OTP_SESSION_KEY, {}).get('appointment_id') == appointment.id
-    context = {
+    return render(request, 'appointments/payment.html', {
         'appointment': appointment,
         'form': form,
         'consultation_fee': consultation_fee,
-        'otp_pending': otp_pending,
-    }
-    return render(request, 'appointments/payment.html', context)
+        'payment': existing_payment,
+    })

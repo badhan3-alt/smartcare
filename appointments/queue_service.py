@@ -1,7 +1,33 @@
 import datetime
 from django.utils import timezone
 from django.db.models import Max
+from django.db import transaction
 from .models import Appointment
+
+
+@transaction.atomic
+def save_booked_appointment(appointment):
+    """Recheck availability while serializing bookings for this doctor."""
+    from django.core.exceptions import ValidationError
+    from doctors.models import DoctorProfile
+    from .forms import validate_appointment_slot
+
+    doctor = DoctorProfile.objects.select_for_update().select_related('user', 'user__profile').get(pk=appointment.doctor_id)
+    if appointment.pk:
+        current = Appointment.objects.select_for_update().get(pk=appointment.pk)
+        if current.status not in {'scheduled', 'waiting'}:
+            raise ValidationError('This appointment can no longer be rescheduled.')
+    validate_appointment_slot(
+        doctor, appointment.appointment_date, appointment.appointment_time, exclude_id=appointment.pk,
+    )
+    appointment.doctor = doctor
+    appointment.token_number = get_next_token_number(doctor, appointment.appointment_date)
+    appointment.status = 'scheduled'
+    appointment.reminder_24h_sent = False
+    appointment.reminder_2h_sent = False
+    appointment.telemedicine_enabled = False
+    appointment.save()
+    return appointment
 
 def get_next_token_number(doctor, appointment_date):
     """

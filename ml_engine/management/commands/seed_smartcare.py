@@ -1,6 +1,10 @@
 import datetime
 import random
-from django.core.management.base import BaseCommand
+import os
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from accounts.models import UserProfile
 from doctors.models import Department, DoctorProfile, DoctorSchedule
@@ -10,7 +14,17 @@ from ml_engine.ml_service import predict_consultation_duration
 class Command(BaseCommand):
     help = "Seeds SmartCare with realistic departments, specialist doctors, patients, and appointment queues."
 
+    def add_arguments(self, parser):
+        parser.add_argument('--allow-demo-data', action='store_true')
+
     def handle(self, *args, **kwargs):
+        if not settings.DEBUG or not kwargs.get('allow_demo_data'):
+            raise CommandError('Demo seeding requires local DEBUG mode and --allow-demo-data.')
+        demo_password = os.getenv('SMARTCARE_DEMO_PASSWORD', '')
+        try:
+            validate_password(demo_password)
+        except ValidationError as error:
+            raise CommandError('Set SMARTCARE_DEMO_PASSWORD to a strong local-only password.') from error
         self.stdout.write("Seeding SmartCare database for NEUB Project Work II...")
 
         # 1. Create Administrator
@@ -25,13 +39,13 @@ class Command(BaseCommand):
             }
         )
         if created:
-            admin_user.set_password('admin123')
+            admin_user.set_password(demo_password)
             admin_user.save()
         UserProfile.objects.get_or_create(
             user=admin_user,
-            defaults={'role': 'admin', 'phone': '01700000000', 'gender': 'M'}
+            defaults={'role': 'admin', 'phone': '01700000000', 'gender': 'M', 'email_verified': True}
         )
-        self.stdout.write(self.style.SUCCESS(" [OK] Administrator ready: admin / admin123"))
+        self.stdout.write(self.style.SUCCESS(" [OK] Demo administrator ready"))
 
         # 2. Departments
         departments_data = [
@@ -71,12 +85,12 @@ class Command(BaseCommand):
                 defaults={'first_name': first, 'last_name': last, 'email': f"{username}@smartcare.local"}
             )
             if created:
-                user.set_password('doctor123')
+                user.set_password(demo_password)
                 user.save()
 
             UserProfile.objects.get_or_create(
                 user=user,
-                defaults={'role': 'doctor', 'phone': f"01711{random.randint(100000, 999999)}", 'gender': 'M' if 'dr.rahim' in username or 'dr.kamal' in username or 'dr.tanvir' in username else 'F'}
+                defaults={'role': 'doctor', 'phone': f"01711{random.randint(100000, 999999)}", 'gender': 'M' if 'dr.rahim' in username or 'dr.kamal' in username or 'dr.tanvir' in username else 'F', 'email_verified': True}
             )
 
             doc_profile, _ = DoctorProfile.objects.get_or_create(
@@ -125,7 +139,7 @@ class Command(BaseCommand):
                 defaults={'first_name': first, 'last_name': last, 'email': email}
             )
             if created:
-                user.set_password('patient123')
+                user.set_password(demo_password)
                 user.save()
 
             dob = datetime.date.today() - datetime.timedelta(days=int(age * 365.25))
@@ -133,6 +147,7 @@ class Command(BaseCommand):
                 user=user,
                 defaults={
                     'role': 'patient',
+                    'email_verified': True,
                     'gender': gender,
                     'date_of_birth': dob,
                     'blood_group': bg,

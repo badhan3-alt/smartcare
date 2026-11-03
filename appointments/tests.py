@@ -19,6 +19,7 @@ class AppointmentsTests(TestCase):
     def setUp(self):
         self.dept = Department.objects.create(name="Cardiology", code="cardiology")
         self.doc_user = User.objects.create_user(username="dr.cardio", password="password123")
+        UserProfile.objects.create(user=self.doc_user, role='doctor', phone='01700000001')
         self.doctor = DoctorProfile.objects.create(
             user=self.doc_user,
             department=self.dept,
@@ -180,42 +181,31 @@ class AppointmentsTests(TestCase):
         self.assertEqual(response.status_code, 403)
 
     @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
-    def test_payment_requires_email_otp_before_completion(self):
-        self.patient.email = 'patient@example.com'
-        self.patient.save(update_fields=['email'])
+    def test_patient_reference_or_legacy_otp_never_settles_payment(self):
         appointment = Appointment.objects.create(
-            patient=self.patient,
-            doctor=self.doctor,
-            appointment_date=datetime.date.today(),
-            appointment_time=datetime.time(10, 0),
+            patient=self.patient, doctor=self.doctor,
+            appointment_date=datetime.date.today(), appointment_time=datetime.time(10),
             token_number=1,
-            status='scheduled',
-            predicted_duration_minutes=20.0,
         )
         self.client.force_login(self.patient)
-
-        response = self.client.post(
-            f'/appointments/payment/{appointment.id}/',
-            {'payment_method': 'bkash', 'transaction_id': 'TXN-123'},
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(mail.outbox), 1)
+        response = self.client.post(reverse('appointments:payment', args=[appointment.pk]), {
+            'payment_method': 'bkash', 'transaction_id': 'UNVERIFIED-REFERENCE',
+        })
+        self.assertRedirects(response, reverse('appointments:queue_tracker', args=[appointment.pk]))
         payment = Payment.objects.get(appointment=appointment)
         self.assertEqual(payment.status, 'pending')
-        code = mail.outbox[0].body.split('code is: ')[1].splitlines()[0]
-        self.assertContains(response, 'Verify OTP')
-
-        response = self.client.post(
-            f'/appointments/payment/{appointment.id}/',
-            {'action': 'verify_otp', 'otp': code},
-        )
-        self.assertRedirects(response, f'/appointments/queue/{appointment.id}/')
+        self.assertIsNone(payment.paid_at)
+        self.assertEqual(len(mail.outbox), 0)
+        session = self.client.session
+        session['payment_otp'] = {'appointment_id': appointment.pk, 'code': '123456', 'expires_at': 9999999999}
+        session.save()
+        self.client.post(reverse('appointments:payment', args=[appointment.pk]), {
+            'action': 'verify_otp', 'otp': '123456', 'status': 'completed',
+        })
         payment.refresh_from_db()
-        self.assertEqual(payment.status, 'completed')
-        self.assertIsNotNone(payment.paid_at)
-        self.assertEqual(len(mail.outbox), 2)
-        self.assertIn('payment confirmation', mail.outbox[1].subject.lower())
-        self.assertIn('has been confirmed', mail.outbox[1].body)
+        self.assertEqual(payment.status, 'pending')
+        self.assertIsNone(payment.paid_at)
+        self.assertNotIn('payment_otp', self.client.session)
 
     def test_payment_page_renders_payment_method_logos(self):
         appointment = Appointment.objects.create(

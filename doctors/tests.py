@@ -12,6 +12,7 @@ class DoctorsTests(TestCase):
         self.client = Client()
         self.dept = Department.objects.create(name="Pediatrics", code="pediatrics")
         self.doc_user = User.objects.create_user(username="dr.pediatrician", password="password123")
+        UserProfile.objects.create(user=self.doc_user, role='doctor', phone='01700000001')
         self.doctor = DoctorProfile.objects.create(
             user=self.doc_user,
             department=self.dept,

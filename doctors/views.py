@@ -1,16 +1,26 @@
 import datetime
 import json
+from decimal import Decimal, InvalidOperation
 from django.db.models import Avg, Count, Sum
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
+from django.views.decorators.http import require_http_methods, require_POST
 
 from .models import Department, DoctorProfile, DoctorSchedule
 from .forms import DoctorConsultationForm
 from .recommendation_service import get_recommended_doctors
 from appointments.models import Appointment
+
+
+def _approved_doctor(request):
+    if not request.user.is_active or getattr(getattr(request.user, 'profile', None), 'role', None) != 'doctor':
+        raise PermissionDenied('Approved doctor access is required.')
+    return get_object_or_404(DoctorProfile, user=request.user, user__is_active=True)
 
 def doctor_list_view(request):
     dept_id = request.GET.get('department')
@@ -20,9 +30,11 @@ def doctor_list_view(request):
     max_fee = request.GET.get('max_fee', '').strip()
     min_rating = request.GET.get('min_rating', '').strip()
 
-    doctors = DoctorProfile.objects.filter(is_available=True).select_related('user', 'department')
+    doctors = DoctorProfile.objects.filter(
+        is_available=True, user__is_active=True, user__profile__role='doctor',
+    ).select_related('user', 'department')
 
-    if dept_id:
+    if dept_id and dept_id.isdigit():
         doctors = doctors.filter(department_id=dept_id)
 
     if search_query:
@@ -35,12 +47,14 @@ def doctor_list_view(request):
         )
     if specialization:
         doctors = doctors.filter(specialization__icontains=specialization)
-    if min_experience.isdigit():
+    if min_experience.isdigit() and len(min_experience) <= 3:
         doctors = doctors.filter(experience_years__gte=int(min_experience))
     try:
-        if max_fee:
-            doctors = doctors.filter(consultation_fee__lte=float(max_fee))
-    except ValueError:
+        if max_fee and len(max_fee) <= 20:
+            amount = Decimal(max_fee)
+            if amount.is_finite() and 0 <= amount <= Decimal('999999.99'):
+                doctors = doctors.filter(consultation_fee__lte=amount)
+    except (ValueError, InvalidOperation):
         pass
     if min_rating in {'3', '4', '5'}:
         doctors = [
@@ -82,7 +96,10 @@ def doctor_list_view(request):
 
 
 def doctor_detail_view(request, doctor_id):
-    doctor = get_object_or_404(DoctorProfile.objects.select_related('user', 'department'), id=doctor_id)
+    doctor = get_object_or_404(
+        DoctorProfile.objects.select_related('user', 'department'), id=doctor_id,
+        user__is_active=True, user__profile__role='doctor',
+    )
     schedules = doctor.schedules.filter(is_active=True).order_by('day_of_week')
     
     from appointments.models import PatientFeedback
@@ -98,7 +115,7 @@ def doctor_detail_view(request, doctor_id):
 
 @login_required
 def doctor_dashboard_view(request):
-    doctor = get_object_or_404(DoctorProfile, user=request.user)
+    doctor = _approved_doctor(request)
     today = datetime.date.today()
     
     from appointments.queue_service import get_doctor_live_queue_summary
@@ -134,7 +151,7 @@ def doctor_dashboard_view(request):
 
 @login_required
 def doctor_queue_console_view(request):
-    doctor = get_object_or_404(DoctorProfile, user=request.user)
+    doctor = _approved_doctor(request)
     today = datetime.date.today()
     
     from appointments.queue_service import get_doctor_live_queue_summary
@@ -150,7 +167,7 @@ def doctor_queue_console_view(request):
 
 
 def _doctor_metric_context(request, metric):
-    doctor = get_object_or_404(DoctorProfile, user=request.user)
+    doctor = _approved_doctor(request)
     today = datetime.date.today()
     appointments = Appointment.objects.filter(
         doctor=doctor,
@@ -249,9 +266,12 @@ def doctor_workload_view(request):
 
 
 @login_required
+@require_POST
+@transaction.atomic
 def doctor_open_telemedicine_view(request, appointment_id):
+    doctor = _approved_doctor(request)
     appointment = get_object_or_404(
-        Appointment, id=appointment_id, doctor__user=request.user,
+        Appointment.objects.select_for_update(), id=appointment_id, doctor=doctor,
     )
     if appointment.status not in {'scheduled', 'waiting', 'in_consultation'}:
         messages.error(request, 'Telemedicine is only available for active appointments.')
@@ -263,72 +283,99 @@ def doctor_open_telemedicine_view(request, appointment_id):
 
 
 @login_required
+@require_POST
+@transaction.atomic
 def doctor_call_patient_view(request, appointment_id):
-    from appointments.models import Appointment
-    appointment = get_object_or_404(Appointment, id=appointment_id, doctor__user=request.user)
-    appointment.status = 'waiting'
-    appointment.save()
-    messages.info(request, f"Called patient Token #{appointment.token_number} ({appointment.patient.get_full_name() or appointment.patient.username}).")
+    doctor = _approved_doctor(request)
+    appointment = get_object_or_404(
+        Appointment.objects.select_for_update(), id=appointment_id, doctor=doctor,
+    )
+    if appointment.status == 'scheduled':
+        appointment.status = 'waiting'
+        appointment.save(update_fields=['status', 'updated_at'])
+        messages.info(request, f'Called patient Token #{appointment.token_number}.')
+    else:
+        messages.error(request, 'Only a scheduled appointment can be called.')
     return redirect('doctors:queue_console')
 
 
 @login_required
+@require_POST
+@transaction.atomic
 def doctor_start_consultation_view(request, appointment_id):
-    from appointments.models import Appointment
-    doctor = get_object_or_404(DoctorProfile, user=request.user)
-    
-    ongoing = Appointment.objects.filter(doctor=doctor, status='in_consultation').first()
-    if ongoing and ongoing.id != appointment_id:
-        messages.warning(request, f"Token #{ongoing.token_number} is already in consultation. Please complete it first.")
+    doctor = _approved_doctor(request)
+    DoctorProfile.objects.select_for_update().get(pk=doctor.pk)
+    appointment = get_object_or_404(
+        Appointment.objects.select_for_update(), id=appointment_id, doctor=doctor,
+    )
+    if appointment.status not in {'scheduled', 'waiting'}:
+        messages.error(request, 'Only a scheduled or waiting appointment can be started.')
         return redirect('doctors:queue_console')
-        
-    appointment = get_object_or_404(Appointment, id=appointment_id, doctor=doctor)
+    ongoing = Appointment.objects.filter(doctor=doctor, status='in_consultation').exists()
+    if ongoing:
+        messages.warning(request, 'Complete the ongoing consultation first.')
+        return redirect('doctors:queue_console')
     appointment.status = 'in_consultation'
     appointment.consultation_started_at = timezone.now()
-    appointment.save()
-    
-    messages.success(request, f"Consultation started with Token #{appointment.token_number}!")
+    appointment.save(update_fields=['status', 'consultation_started_at', 'updated_at'])
+    messages.success(request, f'Consultation started with Token #{appointment.token_number}.')
     return redirect('doctors:queue_console')
 
 
 @login_required
+@require_POST
+@transaction.atomic
 def doctor_complete_consultation_view(request, appointment_id):
-    from appointments.models import Appointment
-    appointment = get_object_or_404(Appointment, id=appointment_id, doctor__user=request.user)
-    
-    if request.method == 'POST':
-        form = DoctorConsultationForm(request.POST)
-        if form.is_valid():
-            appointment.status = 'completed'
-            appointment.actual_duration_minutes = form.cleaned_data['actual_duration_minutes']
-            appointment.doctor_notes = form.cleaned_data['doctor_notes']
-            appointment.prescription = form.cleaned_data['prescription']
-            appointment.consultation_ended_at = timezone.now()
-            appointment.save()
-            
-            messages.success(request, f"Consultation for Token #{appointment.token_number} completed and recorded!")
-            return redirect('doctors:queue_console')
-    
-    messages.error(request, "Invalid submission.")
+    doctor = _approved_doctor(request)
+    appointment = get_object_or_404(
+        Appointment.objects.select_for_update(), id=appointment_id, doctor=doctor,
+    )
+    form = DoctorConsultationForm(request.POST)
+    if appointment.status != 'in_consultation':
+        messages.error(request, 'Only an ongoing consultation can be completed.')
+    elif form.is_valid():
+        appointment.status = 'completed'
+        appointment.actual_duration_minutes = form.cleaned_data['actual_duration_minutes']
+        appointment.doctor_notes = form.cleaned_data['doctor_notes']
+        appointment.prescription = form.cleaned_data['prescription']
+        appointment.consultation_ended_at = timezone.now()
+        appointment.telemedicine_enabled = False
+        appointment.save(update_fields=[
+            'status', 'actual_duration_minutes', 'doctor_notes', 'prescription',
+            'consultation_ended_at', 'telemedicine_enabled', 'updated_at',
+        ])
+        messages.success(request, f'Consultation for Token #{appointment.token_number} completed and recorded.')
+    else:
+        messages.error(request, 'Enter a valid consultation duration between 0.5 and 480 minutes.')
     return redirect('doctors:queue_console')
 
 
 @login_required
+@require_POST
+@transaction.atomic
 def doctor_no_show_view(request, appointment_id):
-    from appointments.models import Appointment
-    appointment = get_object_or_404(Appointment, id=appointment_id, doctor__user=request.user)
-    appointment.status = 'no_show'
-    appointment.save()
-    messages.warning(request, f"Token #{appointment.token_number} marked as No-Show.")
+    doctor = _approved_doctor(request)
+    appointment = get_object_or_404(
+        Appointment.objects.select_for_update(), id=appointment_id, doctor=doctor,
+    )
+    if appointment.status in {'scheduled', 'waiting'}:
+        appointment.status = 'no_show'
+        appointment.telemedicine_enabled = False
+        appointment.save(update_fields=['status', 'telemedicine_enabled', 'updated_at'])
+        messages.warning(request, f'Token #{appointment.token_number} marked as No-Show.')
+    else:
+        messages.error(request, 'Only a scheduled or waiting appointment can be marked as no-show.')
     return redirect('doctors:queue_console')
 
 
 @login_required
+@require_http_methods(['GET', 'POST'])
+@transaction.atomic
 def doctor_schedule_view(request):
-    doctor = get_object_or_404(DoctorProfile, user=request.user)
+    doctor = _approved_doctor(request)
     schedules = doctor.schedules.all().order_by('day_of_week')
 
-    if not schedules.exists():
+    if request.method == 'POST' and not schedules.exists():
         default_days = list(range(5))
         for day_idx in default_days:
             DoctorSchedule.objects.get_or_create(
@@ -362,15 +409,18 @@ def doctor_schedule_view(request):
                 end_time = datetime.datetime.strptime(end_value, '%H:%M').time()
                 slot_duration = int(duration_value)
             except ValueError:
+                transaction.set_rollback(True)
                 messages.error(request, f'Please enter valid times for {schedule.get_day_of_week_display()}.')
                 return redirect('doctors:schedule')
 
             if start_time >= end_time:
+                transaction.set_rollback(True)
                 messages.error(request, f'End time must be after start time for {schedule.get_day_of_week_display()}.')
                 return redirect('doctors:schedule')
 
-            if slot_duration <= 0:
-                messages.error(request, f'Slot duration must be greater than zero for {schedule.get_day_of_week_display()}.')
+            if slot_duration <= 0 or slot_duration > 480:
+                transaction.set_rollback(True)
+                messages.error(request, f'Slot duration must be between 1 and 480 minutes for {schedule.get_day_of_week_display()}.')
                 return redirect('doctors:schedule')
 
             schedule.start_time = start_time
@@ -387,7 +437,7 @@ def doctor_schedule_view(request):
 
 @login_required
 def doctor_analytics_report_view(request):
-    doctor = get_object_or_404(DoctorProfile, user=request.user)
+    doctor = _approved_doctor(request)
     from appointments.views import build_pdf_response
     today = datetime.date.today()
     start = today - datetime.timedelta(days=30)

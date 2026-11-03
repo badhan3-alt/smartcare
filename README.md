@@ -89,6 +89,14 @@ Traditional healthcare appointment systems rely on static, fixed-duration slots 
   - "Mark No-Show"
 - **Schedule Management:** Toggle daily clinic availability and working hours.
 
+### Hospital Patient Reports
+- **Hospital role:** Register with **Hospital / Report Upload** using the hospital name, registration/license number, address, official email and phone. Contact person and website are optional; personal names and gender are not requested for this role. Complete the email verification step and request administrator approval through **Staff Requests**. Approved Hospital accounts have a dedicated patient search and upload dashboard.
+- **PDF uploads:** Find a patient, select their in-progress or completed consultation, enter a title, and upload a PDF up to 10 MB. Report date and notes are optional. The selected consultation determines which doctor can access the PDF.
+- **Patient access:** Patients see their recent reports and PDF download buttons directly on the patient dashboard. **My Reports** shows the full list with PDF viewing and downloading. Patients cannot upload or delete reports.
+- **Doctor access:** Doctors open **Patient Reports** or a consultation's **Reports** link. A doctor can view and download only reports linked to their own in-progress or completed consultations with that patient. Other doctors, receptionists, administrators, and hospital uploaders cannot download these files.
+- **Private files:** Reports are stored in `private_media/`, excluded from Git, and downloaded through authenticated views. Keep this folder out of public static/media mappings and include it in backups alongside the database.
+- **Hospital management:** Hospital accounts can see upload details and delete their own uploads. Each upload records its uploader and timestamp. Hospital accounts cannot read another hospital account's uploads.
+
 ### Administrator Portal
 - **Executive Analytics:** High-level KPIs, total revenue/consultation load, status breakdown doughnut chart, department workload bar chart.
 - **ML Demand Forecasting Dashboard:** 7-day and 14-day forward projections with automated staffing recommendations (e.g. alert when high volume requires multiple doctors on duty).
@@ -108,6 +116,14 @@ macOS / Linux:
 source venv/bin/activate
 ```
 
+Before starting, copy `.env.example` to `.env` and set `DJANGO_SECRET_KEY` to a unique random value. Generate it with:
+
+```powershell
+python -c "import secrets; print(secrets.token_urlsafe(64))"
+```
+
+Keep `.env`, the local database, and uploaded reports out of Git. Production requires `DJANGO_DEBUG=False`, explicit `DJANGO_ALLOWED_HOSTS`, and HTTPS. The local `.env.example` enables development mode.
+
 ### Step 2: (Optional) Retrain Machine Learning Models
 Pre-trained models are already included, but can be retrained at any time:
 ```bash
@@ -119,12 +135,12 @@ python ml/train_demand_model.py
 ```bash
 python manage.py makemigrations
 python manage.py migrate
-python manage.py seed_smartcare
+python manage.py seed_smartcare --allow-demo-data
 ```
 
 ### Step 4: Run Automated Tests
 ```bash
-python manage.py test smartcare
+python manage.py test
 ```
 
 ### Step 5: Start the Development Server
@@ -137,7 +153,7 @@ Open **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)** in your web browser.
 
 ## 6. Pre-Configured Accounts & Registration
 
-Users can register new accounts with any role (**Patient**, **Doctor / Specialist**, or **Administrator**) directly on the [Registration Page](http://127.0.0.1:8000/register/).
+Users can register new accounts with any role (**Patient**, **Doctor / Specialist**, **Receptionist**, or **Hospital / Report Upload**) directly on the [Registration Page](http://127.0.0.1:8000/register/).
 
 ### Email OTP Configuration
 
@@ -177,13 +193,7 @@ appointment. To also send SMS messages, configure
 The webhook should return a successful 2xx response. Reminder flags are only
 marked after the configured notification channels complete successfully.
 
-For testing existing clinical queues and historical charts, pre-seeded accounts are also available:
-
-| Role | Username | Password | Notes |
-|---|---|---|---|
-| **Patient** | `patient1` | `patient123` | Joyashis Das (Has active Token #3 in Dr. Rahim's live queue today!) |
-| **Doctor** | `dr.rahim` | `doctor123` | Dr. Abdur Rahim (Cardiologist with active live queue and console) |
-| **Administrator** | `admin` | `admin123` | System Administrator (Full access to ML Demand Forecaster and Django Admin) |
+Demo seeding is available only in local development with `--allow-demo-data`. Set a strong `SMARTCARE_DEMO_PASSWORD` in your local environment before seeding. It is used for newly created demo accounts; no public default password is built in.
 
 ---
 
@@ -234,6 +244,6 @@ smartcare/
 │   └── templates/ml_engine/ # admin_dashboard.html, demand_forecast.html
 └── README.md
 ```
-=======
-# smartcare
->>>>>>> 4997f2e17535b1b9a0032a6510193d1e012560f9
+
+
+Payment references submitted by patients remain pending until trusted hospital billing verifies receipt. An emailed code is not proof of payment.

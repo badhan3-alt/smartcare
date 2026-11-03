@@ -14,9 +14,6 @@
         </div>
         <div class="d-flex gap-2 align-items-center">
             <span class="badge bg-light text-dark border p-2"><i class="bi bi-clock me-1"></i>Remaining Queue: ~{{ queue.pending_minutes }} Mins</span>
-            <a href="{% url 'doctors:dashboard' %}" class="btn btn-outline-secondary btn-sm">
-                <i class="bi bi-arrow-left me-1"></i> Exit Console
-            </a>
         </div>
     </div>
 
@@ -55,8 +52,11 @@
                                     <div class="text-muted mt-1"><em>"{{ appt.patient_notes }}"</em></div>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'doctors:open_telemedicine' appt.id %}" class="btn btn-outline-primary btn-sm mt-3">
+                            <form method="post" action="{% url 'doctors:open_telemedicine' appt.id %}" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-outline-primary btn-sm mt-3">
                                 <i class="bi bi-camera-video me-1"></i> Open Telemedicine Room
+                            </button></form>
+                            <a href="{% url 'accounts:consultation_reports' appt.id %}" class="btn btn-outline-sc btn-sm mt-3">
+                                <i class="bi bi-file-earmark-medical me-1"></i> Patient Reports
                             </a>
                         </div>
 
@@ -141,24 +141,29 @@
                             {% endif %}
 
                             <!-- Actions for Doctor -->
-                            <div class="d-flex gap-2 justify-content-end mt-2">
+                            <div class="d-flex flex-wrap gap-2 justify-content-end mt-2">
+                                {% if appt.status == 'completed' %}
+                                    <a href="{% url 'accounts:consultation_reports' appt.id %}" class="btn btn-outline-sc btn-sm">
+                                        <i class="bi bi-file-earmark-medical me-1"></i> Reports
+                                    </a>
+                                {% endif %}
                                 {% if appt.status == 'scheduled' %}
-                                    <a href="{% url 'doctors:call_patient' appt.id %}" class="btn btn-outline-warning btn-sm">
+                                    <form method="post" action="{% url 'doctors:call_patient' appt.id %}" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-outline-warning btn-sm">
                                         <i class="bi bi-bell me-1"></i> Call to Room
-                                    </a>
-                                    <a href="{% url 'doctors:start_consultation' appt.id %}" class="btn btn-primary-sc btn-sm">
+                                    </button></form>
+                                    <form method="post" action="{% url 'doctors:start_consultation' appt.id %}" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-primary-sc btn-sm">
                                         <i class="bi bi-play-fill me-1"></i> Start Consult
-                                    </a>
-                                    <a href="{% url 'doctors:no_show' appt.id %}" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Mark as No-Show?')">
+                                    </button></form>
+                                    <form method="post" action="{% url 'doctors:no_show' appt.id %}" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Mark as No-Show?')">
                                         No-Show
-                                    </a>
+                                    </button></form>
                                 {% elif appt.status == 'waiting' %}
-                                    <a href="{% url 'doctors:start_consultation' appt.id %}" class="btn btn-primary-sc btn-sm">
+                                    <form method="post" action="{% url 'doctors:start_consultation' appt.id %}" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-primary-sc btn-sm">
                                         <i class="bi bi-play-fill me-1"></i> Start Consult
-                                    </a>
-                                    <a href="{% url 'doctors:no_show' appt.id %}" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Mark as No-Show?')">
+                                    </button></form>
+                                    <form method="post" action="{% url 'doctors:no_show' appt.id %}" class="d-inline">{% csrf_token %}<button type="submit" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Mark as No-Show?')">
                                         No-Show
-                                    </a>
+                                    </button></form>
                                 {% elif appt.status == 'completed' %}
                                     <span class="small text-success"><i class="bi bi-check-circle me-1"></i>Done ({{ appt.actual_duration_minutes|default:appt.predicted_duration_minutes }}m)</span>
                                 {% endif %}

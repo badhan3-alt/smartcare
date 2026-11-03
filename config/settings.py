@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 import os
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,16 +27,50 @@ if env_file.exists():
             os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
+def env_bool(name, default=False):
+    return os.getenv(name, str(default)).strip().lower() in {'1', 'true', 'yes'}
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u^i7vp6=tc&^26%l4^ap*6$(uq0(09_frfdvu@hhap-ch!j=%1'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Development must be explicitly enabled in the local, untracked .env file.
+DEBUG = env_bool('DJANGO_DEBUG')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '')
+if len(SECRET_KEY) < 50 or SECRET_KEY.startswith('django-insecure-'):
+    raise ImproperlyConfigured('Set DJANGO_SECRET_KEY to a long random value in your environment.')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [host.strip() for host in os.getenv(
+    'DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,[::1]'
+).split(',') if host.strip()]
+if '*' in ALLOWED_HOSTS:
+    raise ImproperlyConfigured('DJANGO_ALLOWED_HOSTS must list explicit hostnames.')
+
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv(
+    'DJANGO_CSRF_TRUSTED_ORIGINS', ''
+).split(',') if origin.strip()]
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SECURE_HSTS_SECONDS = 0 if DEBUG else 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = 'same-origin'
+X_FRAME_OPTIONS = 'DENY'
+
+SMARTCARE_MAX_REQUEST_BYTES = 12 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 12 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024
+DATA_UPLOAD_MAX_NUMBER_FILES = 1
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 100
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.SessionAuthentication'],
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
+    'DEFAULT_THROTTLE_CLASSES': ['rest_framework.throttling.UserRateThrottle'],
+    'DEFAULT_THROTTLE_RATES': {'user': '60/minute'},
+}
 
 
 # Application definition
@@ -48,7 +83,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    # SmartCare Modular Healthcare Apps
     'core',
     'accounts',
     'doctors',
@@ -62,6 +96,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'config.middleware.RequestSizeLimitMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -137,6 +172,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Reports are served only by authenticated views; do not expose this directory
+# through a public MEDIA_URL or a web-server static-file mapping.
+SMARTCARE_REPORT_ROOT = BASE_DIR / 'private_media'
 
 
 # Email
@@ -152,6 +192,7 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
 EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'False').lower() == 'true'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '').strip()
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '').replace(' ', '').strip()
+EMAIL_TIMEOUT = 10
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') or EMAIL_HOST_USER or 'no-reply@smartcare.local'
 # Optional SMS provider webhook. The endpoint must accept JSON: {"to": "...", "message": "..."}.
 SMARTCARE_SMS_WEBHOOK_URL = os.getenv('SMARTCARE_SMS_WEBHOOK_URL', '').strip()

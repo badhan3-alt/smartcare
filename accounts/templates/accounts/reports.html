@@ -1,0 +1,101 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{% if can_manage or consultation or not patient %}Patient Reports{% else %}My Reports{% endif %} - SmartCare{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+        <div>
+            <h3 class="fw-bold mb-1">{% if can_manage or consultation or not patient %}Patient Reports{% else %}My Reports{% endif %}</h3>
+            <p class="text-muted mb-0">{% if can_manage %}Upload PDF reports for the patient and their treating doctor.{% elif consultation or not patient %}View reports from your patient consultations.{% else %}View and download the reports uploaded by your hospital.{% endif %}</p>
+        </div>
+    </div>
+
+    {% if patient %}
+    <div class="card card-custom p-3 mb-4">
+        <div class="d-flex flex-wrap align-items-center gap-3">
+            <i class="bi bi-person-circle fs-2" style="color: var(--sc-primary);"></i>
+            <div>
+                <div class="fw-bold">{{ patient.get_full_name|default:patient.username }}</div>
+                <div class="text-muted small">Patient ID: <strong>SC-{{ patient.id|stringformat:"05d" }}</strong> &bull; @{{ patient.username }}</div>
+                {% if consultation %}<div class="text-muted small mt-1">Consultation: {{ consultation.appointment_date|date:"M d, Y" }} &bull; Token #{{ consultation.token_number }}</div>{% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row g-4">
+        {% if can_manage %}
+        <div class="col-lg-4">
+            <div class="card card-custom p-4">
+                <h5 class="fw-bold mb-2"><i class="bi bi-cloud-arrow-up me-2"></i>Upload Report</h5>
+                <p class="small text-muted">Confirm the patient above, then choose their consultation. Only this patient and the doctor who treated them can view or download the PDF.</p>
+                {% if not form.fields.consultation.queryset %}
+                <div class="alert alert-info small" role="status">No eligible consultations are available for this patient. A consultation must be in progress or completed before you can upload a PDF, so the treating doctor can be given access.</div>
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="text-danger" aria-hidden="true">*</span>{% else %} <span class="text-muted small">(optional)</span>{% endif %}</label>
+                        {{ field }}
+                        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                        {% if field.errors %}<div class="text-danger small mt-1" role="alert">{{ field.errors }}</div>{% endif %}
+                    </div>
+                    {% endfor %}
+                    <p class="small text-muted">Accepted files: PDF only. Maximum size: 10 MB per report.</p>
+                    <button type="submit" class="btn btn-primary-sc w-100" {% if not form.fields.consultation.queryset %}disabled{% endif %}><i class="bi bi-upload me-1"></i> Upload Report</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="{% if can_manage %}col-lg-8{% else %}col-12{% endif %}">
+            <div class="card card-custom p-4">
+                <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+                    <h5 class="fw-bold mb-0"><i class="bi bi-file-earmark-medical me-2"></i>Uploaded Reports</h5>
+                    <span class="badge bg-light text-dark border">{{ reports|length }} report{{ reports|length|pluralize }}</span>
+                </div>
+                {% for report in reports %}
+                <article class="border rounded-3 p-3 {% if not forloop.last %}mb-3{% endif %}">
+                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+                        <div class="flex-grow-1" style="min-width: 0;">
+                            <h6 class="fw-bold mb-1 text-break">{{ report.title }}</h6>
+                            {% if not patient %}<div class="small mb-1 fw-semibold">{{ report.patient.get_full_name|default:report.patient.username }} &bull; SC-{{ report.patient.id|stringformat:"05d" }}</div>{% endif %}
+                            {% if report.consultation %}<div class="small text-muted mb-1">{{ report.consultation.doctor.full_name }} &bull; {{ report.consultation.appointment_date|date:"M d, Y" }} &bull; Token #{{ report.consultation.token_number }}</div>{% endif %}
+                            {% if report.report_date %}<div class="small text-muted mb-1">Report date: {{ report.report_date|date:"M d, Y" }}</div>{% endif %}
+                            <div class="small text-muted text-break">{{ report.original_filename }}</div>
+                            <div class="small text-muted mt-2">Uploaded {{ report.created_at|date:"M d, Y, g:i A" }} by {% if report.uploaded_by %}{{ report.uploaded_by.profile.display_name|default:report.uploaded_by.username }}{% else %}Hospital staff{% endif %}</div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% if can_download %}
+                            <a href="{% url 'accounts:report_download' report.id %}?view=1" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary" aria-label="View {{ report.title }} as PDF">
+                                <i class="bi bi-eye me-1"></i> View PDF
+                            </a>
+                            <a href="{% url 'accounts:report_download' report.id %}" class="btn btn-sm btn-outline-sc" aria-label="Download {{ report.title }}">
+                                <i class="bi bi-download me-1"></i> Download PDF
+                            </a>
+                            {% endif %}
+                            {% if can_manage %}
+                            <form method="post" action="{% url 'accounts:report_delete' report.id %}" onsubmit="return confirm('Delete this report? It will no longer be available to the patient.');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" aria-label="Delete {{ report.title }}"><i class="bi bi-trash me-1"></i> Delete</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if report.notes %}<div class="small text-break border-top mt-3 pt-3">{{ report.notes|linebreaksbr }}</div>{% endif %}
+                </article>
+                {% empty %}
+                <div class="text-center text-muted py-5">
+                    <i class="bi bi-file-earmark-medical fs-1 d-block mb-3"></i>
+                    <h6 class="fw-semibold">No reports uploaded yet</h6>
+                    <p class="small mb-0">{% if can_manage %}Use the upload form to add this patient's first report.{% else %}Reports will appear here when your hospital uploads them.{% endif %}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

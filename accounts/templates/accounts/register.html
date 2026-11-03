@@ -12,7 +12,7 @@
                         <i class="bi bi-person-plus-fill"></i>
                     </div>
                     <h3 class="fw-bold">Create your account</h3>
-                    <p class="text-muted small">Tell us whether you are a patient, doctor, or receptionist to get started.</p>
+                    <p class="text-muted small">Choose a Patient, Doctor, Receptionist, or Hospital account to get started.</p>
                 </div>
 
                 <form method="post" id="registrationForm">
@@ -38,14 +38,46 @@
                             <span>Register As (Account Role) *</span>
                         </label>
                         {{ form.role }}
-                        <div class="form-text small">Select whether you are registering as a Patient, Doctor/Specialist, or Receptionist.</div>
+                        <div class="form-text small">Hospital accounts upload PDF reports for patients and their treating doctors.</div>
+                        <div id="staffApprovalHint" class="alert alert-info small mt-3 mb-0" {% if form.role.value == 'patient' %}hidden style="display: none;"{% endif %}>Doctor, Receptionist, and Hospital accounts require email verification and administrator approval before sign-in.</div>
                     </div>
 
-                    <!-- Personal Information -->
+                    <fieldset id="hospitalFieldsSection" class="p-3 mb-4 rounded-3 border" {% if form.role.value != 'hospital' %}hidden disabled style="display: none;"{% endif %}>
+                        <h6 class="fw-bold border-bottom pb-2 mb-3 text-secondary"><i class="bi bi-hospital me-1"></i> Hospital Details</h6>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold" for="{{ form.hospital_name.id_for_label }}">Hospital Name *</label>
+                            {{ form.hospital_name }}
+                            {{ form.hospital_name.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold" for="{{ form.registration_number.id_for_label }}">Hospital Registration Number *</label>
+                            {{ form.registration_number }}
+                            {{ form.registration_number.errors }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold" for="{{ form.hospital_address.id_for_label }}">Hospital Address *</label>
+                            {{ form.hospital_address }}
+                            {{ form.hospital_address.errors }}
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold" for="{{ form.contact_person.id_for_label }}">Contact Person (optional)</label>
+                                {{ form.contact_person }}
+                                {{ form.contact_person.errors }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold" for="{{ form.website.id_for_label }}">Website (optional)</label>
+                                {{ form.website }}
+                                {{ form.website.errors }}
+                            </div>
+                        </div>
+                    </fieldset>
+
                     <h6 class="fw-bold border-bottom pb-2 mb-3 text-secondary">
                         <i class="bi bi-person me-1"></i> Account Details
                     </h6>
 
+                    <fieldset id="personalFieldsSection" {% if form.role.value == 'hospital' %}hidden disabled style="display: none;"{% endif %}>
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-bold" for="{{ form.first_name.id_for_label }}">First Name *</label>
@@ -58,6 +90,7 @@
                             {{ form.last_name.errors }}
                         </div>
                     </div>
+                    </fieldset>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
@@ -66,7 +99,7 @@
                             {{ form.username.errors }}
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold" for="{{ form.email.id_for_label }}">Email Address *</label>
+                            <label id="registrationEmailLabel" class="form-label small fw-bold" for="{{ form.email.id_for_label }}">{% if form.role.value == 'hospital' %}Official Email{% else %}Email Address{% endif %} *</label>
                             {{ form.email }}
                             {{ form.email.errors }}
                         </div>
@@ -87,19 +120,19 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold" for="{{ form.phone.id_for_label }}">Phone Number *</label>
+                            <label id="registrationPhoneLabel" class="form-label small fw-bold" for="{{ form.phone.id_for_label }}">{% if form.role.value == 'hospital' %}Official Phone{% else %}Phone Number{% endif %} *</label>
                             {{ form.phone }}
                             {{ form.phone.errors }}
                         </div>
-                        <div class="col-md-6">
+                        <fieldset id="genderFieldsSection" class="col-md-6" {% if form.role.value == 'hospital' %}hidden disabled style="display: none;"{% endif %}>
                             <label class="form-label small fw-bold" for="{{ form.gender.id_for_label }}">Gender *</label>
                             {{ form.gender }}
                             {{ form.gender.errors }}
-                        </div>
+                        </fieldset>
                     </div>
 
                     <!-- Doctor Specific Fields (Visible only when role == 'doctor') -->
-                    <div id="doctorFieldsSection" class="p-3 mb-4 rounded-3 border" style="background-color: var(--sc-primary-light); border-color: var(--sc-accent-border) !important; display: none;">
+                    <fieldset id="doctorFieldsSection" class="p-3 mb-4 rounded-3 border" style="background-color: var(--sc-primary-light); border-color: var(--sc-accent-border) !important;{% if form.role.value != 'doctor' %} display: none;{% endif %}" {% if form.role.value != 'doctor' %}hidden disabled{% endif %}>
                         <h6 class="fw-bold text-teal mb-3" style="color: var(--sc-primary);">
                             <i class="bi bi-hospital me-1"></i> Doctor / Specialist Credentials
                         </h6>
@@ -142,10 +175,10 @@
                                 {{ form.room_number.errors }}
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
 
                     <!-- Patient Specific Fields (Visible when role == 'patient') -->
-                    <div id="patientFieldsSection">
+                    <fieldset id="patientFieldsSection" {% if form.role.value != 'patient' %}hidden disabled style="display: none;"{% endif %}>
                         <h6 class="fw-bold border-bottom pb-2 mt-3 mb-3 text-secondary">
                             <i class="bi bi-card-checklist me-1"></i> Patient Clinical Demographics
                         </h6>
@@ -168,16 +201,13 @@
                             {{ form.address }}
                             {{ form.address.errors }}
                         </div>
-                    </div>
+                    </fieldset>
 
                     <button type="submit" class="btn btn-primary-sc w-100 py-2 fw-bold">
                         <i class="bi bi-check2-circle me-1"></i> Complete Registration
                     </button>
                 </form>
 
-                <div class="text-center small mt-4">
-                    Already have an account? <a href="{% url 'login' %}" class="fw-semibold text-teal" style="color: var(--sc-primary);">Sign In here</a>
-                </div>
             </div>
         </div>
     </div>
@@ -186,23 +216,41 @@
 <script>
     function handleRoleChange() {
         const roleSelect = document.getElementById('id_role');
-        const doctorSection = document.getElementById('doctorFieldsSection');
-        const patientSection = document.getElementById('patientFieldsSection');
-
         if (!roleSelect) return;
 
         const role = roleSelect.value;
-        if (role === 'doctor') {
-            doctorSection.style.display = 'block';
-            patientSection.style.display = 'none';
-        } else if (role === 'patient') {
-            doctorSection.style.display = 'none';
-            patientSection.style.display = 'block';
-        } else {
-            // Admin
-            doctorSection.style.display = 'none';
-            patientSection.style.display = 'none';
-        }
+        const isHospital = role === 'hospital';
+        const setSectionState = (id, enabled) => {
+            const section = document.getElementById(id);
+            section.hidden = !enabled;
+            section.style.display = enabled ? '' : 'none';
+            section.disabled = !enabled;
+            section.querySelectorAll('input, select, textarea').forEach(field => {
+                field.disabled = !enabled;
+            });
+        };
+        const setRequired = (ids, required) => ids.forEach(id => {
+            const field = document.getElementById(id);
+            if (field) field.required = required;
+        });
+
+        setSectionState('hospitalFieldsSection', isHospital);
+        setSectionState('personalFieldsSection', !isHospital);
+        setSectionState('genderFieldsSection', !isHospital);
+        setSectionState('doctorFieldsSection', role === 'doctor');
+        setSectionState('patientFieldsSection', role === 'patient');
+        setRequired(['id_first_name', 'id_last_name', 'id_gender'], !isHospital);
+        setRequired(['id_hospital_name', 'id_registration_number', 'id_hospital_address'], isHospital);
+        setRequired(['id_department', 'id_qualification', 'id_specialization'], role === 'doctor');
+
+        const staffApprovalHint = document.getElementById('staffApprovalHint');
+        const needsApproval = ['doctor', 'receptionist', 'hospital'].includes(role);
+        staffApprovalHint.hidden = !needsApproval;
+        staffApprovalHint.style.display = needsApproval ? '' : 'none';
+        document.getElementById('registrationEmailLabel').textContent = isHospital ? 'Official Email *' : 'Email Address *';
+        document.getElementById('registrationPhoneLabel').textContent = isHospital ? 'Official Phone *' : 'Phone Number *';
+        document.getElementById('id_email').placeholder = isHospital ? 'Official hospital email' : 'Email Address';
+        document.getElementById('id_phone').placeholder = isHospital ? 'Official hospital phone' : 'Phone Number';
     }
 
     document.addEventListener('DOMContentLoaded', function() {

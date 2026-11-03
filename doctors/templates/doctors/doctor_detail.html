@@ -99,7 +99,7 @@
                 {% for feedback in feedbacks %}
                     <div class="border-bottom pb-3 mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <strong>{{ feedback.appointment.patient.first_name }} {{ feedback.appointment.patient.last_name|slice:":1" }}.</strong>
+                            <strong>Verified patient</strong>
                             <div class="text-warning small">
                                 {% for _ in "x"|rjust:feedback.rating %}<i class="bi bi-star-fill"></i>{% endfor %}
                             </div>
