@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-6">
             <form method="get" class="doctor-filters">
-                <input type="text" aria-label="Search doctors" name="q" value="{{ search_query }}" class="form-control filter-search" placeholder="Name, specialty, or qualification">
+                <input type="text" aria-label="Search doctors" name="q" value="{{ search_query }}" class="form-control filter-search" placeholder="Name, specialty, or qualification" data-suggest-type="doctors" data-suggest-url="{% url 'core:search_suggestions' %}">
                 <input type="text" aria-label="Specialization" name="specialization" value="{{ specialization }}" class="form-control" placeholder="Specialization">
                 <input type="number" aria-label="Minimum years of experience" name="min_experience" value="{{ min_experience }}" class="form-control" min="0" placeholder="Minimum experience">
                 <input type="number" aria-label="Maximum consultation fee" name="max_fee" value="{{ max_fee }}" class="form-control" min="0" placeholder="Maximum fee (৳)">

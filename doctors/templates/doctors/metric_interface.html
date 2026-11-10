@@ -38,7 +38,9 @@
             <div class="col-md-6">
                 <label for="metric-search" class="form-label small fw-semibold">Find a patient</label>
                 <input id="metric-search" type="search" name="q" value="{{ search_query }}"
-                       class="form-control" placeholder="Name, username, or token number">
+                       class="form-control" placeholder="Name, username, or token number"
+                       data-suggest-type="doctor-patients" data-suggest-metric="{{ metric }}"
+                       data-suggest-url="{% url 'core:search_suggestions' %}">
             </div>
             {% if metric == 'today' or metric == 'workload' %}
                 <div class="col-md-4">

@@ -67,6 +67,8 @@ Traditional healthcare appointment systems rely on static, fixed-duration slots 
 
 ## 4. Key Portals & Features
 
+- **Live search suggestions:** Doctor discovery and doctor, administrator, reception, and hospital search fields suggest matching records as you type. Patient suggestions are restricted to the records each signed-in role is allowed to search.
+
 ### Patient Portal
 - **Registration & Profile Management:** Demographic and medical details (gender, DOB, blood group, contact).
 - **Specialist Directory & Search:** Filter doctors by specialty, qualification, consultation fee, and rating.

@@ -203,12 +203,16 @@ def reception_patient_search_view(request):
     query = request.GET.get('q', '').strip()
     patients = UserProfile.objects.filter(role='patient').select_related('user')
     if query:
-        patients = patients.filter(
+        patient_filter = (
             Q(user__username__icontains=query) |
             Q(user__first_name__icontains=query) |
             Q(user__last_name__icontains=query) |
             Q(phone__icontains=query)
         )
+        patient_number = query.upper().removeprefix('SC-')
+        if patient_number.isascii() and patient_number.isdigit() and len(patient_number) <= 18:
+            patient_filter |= Q(user_id=int(patient_number))
+        patients = patients.filter(patient_filter)
     return render(request, 'appointments/reception_patients.html', {
         'patients': patients[:100],
         'query': query,

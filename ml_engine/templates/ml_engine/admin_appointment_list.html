@@ -20,7 +20,8 @@
             <div class="col-lg-4">
                 <label for="appointment-search" class="visually-hidden">Search appointments</label>
                 <input id="appointment-search" type="search" name="q" value="{{ search_query }}"
-                       class="form-control" placeholder="Search patient or doctor">
+                       class="form-control" placeholder="Search patient or doctor"
+                       data-suggest-type="admin-appointments" data-suggest-url="{% url 'core:search_suggestions' %}">
             </div>
             <div class="col-lg-3">
                 <label for="appointment-date" class="visually-hidden">Appointment date</label>

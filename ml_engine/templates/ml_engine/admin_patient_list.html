@@ -19,7 +19,8 @@
             <div class="col-md-10">
                 <label for="patient-search" class="visually-hidden">Search patients</label>
                 <input id="patient-search" type="search" name="q" value="{{ search_query }}"
-                       class="form-control" placeholder="Search by name, username, or phone">
+                       class="form-control" placeholder="Search by name, username, or phone"
+                       data-suggest-type="admin-patients" data-suggest-url="{% url 'core:search_suggestions' %}">
             </div>
             <div class="col-md-2 d-grid">
                 <button class="btn btn-primary-sc" type="submit">

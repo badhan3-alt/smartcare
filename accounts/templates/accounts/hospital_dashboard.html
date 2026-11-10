@@ -17,7 +17,7 @@
         <form method="get" class="row g-2 align-items-end">
             <div class="col-md-10">
                 <label for="hospital-patient-search" class="form-label fw-semibold">Find a patient</label>
-                <input id="hospital-patient-search" type="search" name="q" value="{{ query }}" class="form-control" placeholder="Search by patient ID, name, username, or phone">
+                <input id="hospital-patient-search" type="search" name="q" value="{{ query }}" class="form-control" placeholder="Search by patient ID, name, username, or phone" data-suggest-type="hospital-patients" data-suggest-url="{% url 'core:search_suggestions' %}">
             </div>
             <div class="col-md-2 d-grid">
                 <button type="submit" class="btn btn-primary-sc"><i class="bi bi-search me-1"></i>Search</button>
